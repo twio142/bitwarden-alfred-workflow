@@ -4,6 +4,25 @@ Simple yet powerful integration with the Bitwarden CLI so you can now get your p
 
 **Note**: Passwords with spaces at the beginning or end are _NOT_ supported
 
+## Version 1.2.5 update - Please Read - Last release with Alfred 3 support
+
+-----
+* Add filtering support for Bitwarden folders #12
+
+**Syntax:**
+
+`bw -f folder_name search_string`
+
+-- or --
+
+`bw search_string -f folder_name`
+
+-- or original syntax --
+
+`bw search_string`
+
+Thank you, @rustycamper, for your contribution!
+
 ## Version 1.2.4 update - Please Read
 
 -----
