@@ -1739,11 +1739,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string></string>
 		<key>SYNC_CACHE_AGE</key>
 		<string>10080</string>
-		<key>SYNC_CACHE_TIMEOUT</key>
-		<string>1440</string>
-		<key>TITLE_WITH_URLS</key>
-		<string>true</string>
 		<key>TITLE_WITH_USER</key>
+		<string>true</string>
+		<key>TITLE_WITH_URLS</key>
 		<string>true</string>
 		<key>bw_keyword</key>
 		<string>.bw</string>
