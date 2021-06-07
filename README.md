@@ -11,6 +11,8 @@
 * download attachments via this workflow
 * show favicons of the websites
 * auto update
+* auto Bitwarden sync in the background
+* auto lock on startup and after customizable idle time
 * uses the [awgo](https://pkg.go.dev/github.com/deanishe/awgo?tab=doc) framework/library
 * many customizations possible
 
@@ -49,6 +51,36 @@ Up to version < 2.1.0 the *Fuzzy filtering a la Sublime Text* was default. Start
 
 You can change the search-/filtermode yourself easily. This gif shows the 3 steps which need to be done for it:
 ![Change filter mode](./assets/change-filter-mode.gif)
+
+## Enable auto background sync
+
+In version 2.3.0 the background sync mechanism was added.<br>
+It is using the macOS user LaunchAgent.
+
+To install the sync configure the workflow variables:
+
+- `AUTOSYNC_TIMES`, this can be used to configure comma separated multiple sync times per day, e.g. `8:15,23:45`
+- alternatively you can use `AUTO_HOUR` together with `AUTO_MIN` for only one sync time
+
+Bitwarden needs to be unlocked for sync to work.
+
+Install via Alfred keyword: `.bwauto`
+
+## Enable auto lock
+
+In version 2.3.0 the background lock and lock on startup mechanism was added.<br>
+It is using the macOS user LaunchAgent.
+
+To install the sync configure the workflow variables:
+
+- `LOCK_TIMEOUT` set to a time in minutes after which the workflow should be locked if it hasn't been used in the meantime
+
+The LaunchAgent checks every 5 minutes if the lock timeout has been reached.
+
+The LaunchAgent checks also on load (e.g. startup of the system and login of the user),<br>
+if the startup happened within the last 5 minutes, if so then it locks the Bitwarden workflow.
+
+Install via Alfred keyword: `.bwautolock`
 
 ## Advanced Features / Configuration
 

@@ -127,14 +127,9 @@ esac
 
 # to lock bitwarden directly after start of the system we check the uptime
 # if the system has just started within the last 10 minutes then lock bitwarden
-uptime_string=$(uptime)
-days=$(echo "$uptime_string" | awk '{print $3}')
-hrs=$(echo "$uptime_string" | awk '{print $5}' | sed 's/[:,]/ /g' | awk '{print $1}')
-mins=$(echo "$uptime_string" | awk '{print $5}' | sed 's/[:,]/ /g' | awk '{print $2}')
-uptimesecs=$(($mins*60))
-uptimesecs=$(($hrs*3600+$uptimesecs))
-uptimesecs=$(($days*86400+$uptimesecs))
-if [ "$uptimesecs" -lt 600 ]; then
+uptime_string=$(/usr/sbin/sysctl -n kern.boottime | /usr/bin/awk '{print $4}' | /usr/bin/sed 's/,//')
+now=$(/bin/date +%s)
+if [ "$((now-uptime_string))" -lt 300 ]; then
   /usr/bin/xattr -d com.apple.quarantine "$wf_bin" 2>/dev/null
   "$wf_bin" -lock
 fi
