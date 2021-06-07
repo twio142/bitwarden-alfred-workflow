@@ -1691,6 +1691,8 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>0</string>
 		<key>AUTO_FETCH_ICON_CACHE_AGE</key>
 		<string>1440</string>
+		<key>AUTOSYNC_TIMES</key>
+		<string>8:15,23:45</string>
 		<key>AUTO_HOUR</key>
 		<string>10</string>
 		<key>AUTO_MIN</key>
@@ -1709,6 +1711,8 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>43200</string>
 		<key>ICON_CACHE_ENABLED</key>
 		<string>true</string>
+		<key>LOCK_TIMEOUT</key>
+		<string>1440</string>
 		<key>MAX_RESULTS</key>
 		<string>1000</string>
 		<key>MODIFIER_1</key>
