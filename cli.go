@@ -14,6 +14,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+    "time"
 )
 
 var (
@@ -569,7 +570,15 @@ func runSearch(folderSearch bool, itemId string) {
 		getIcon(wf)
 	}
 
-	if folderSearch && itemId == "" {
+    // set lastUsageCache after all the config and auth options and cache checks ran
+    // it's only set when a search  is successfully ready to be executed
+    timestamp := time.Now().Unix()
+    err := wf.Cache.Store(LAST_USAGE_CACHE, []byte(strconv.FormatInt(timestamp, 10)))
+    if err != nil {
+        log.Println(err)
+    }
+
+    if folderSearch && itemId == "" {
 		runSearchFolder(items, folders)
 	}
 
