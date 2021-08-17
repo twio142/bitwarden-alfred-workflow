@@ -437,7 +437,8 @@ func addItemDetails(item Item, autoFetchCache bool) {
 }
 
 func addItemsToWorkflow(item Item, autoFetchCache bool) {
-	if item.Type == 1 {
+    var itemModSet itemsModifierActionRelation
+    if item.Type == 1 {
 		icon := iconLink
 		if len(item.Login.Uris) > 0 && conf.IconCacheEnabled {
 			iconPath := fmt.Sprintf("%s/%s/%s.png", wf.DataDir(), "urlicon", item.Id)
@@ -468,19 +469,20 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		if len(item.Login.Uris) < 1 {
 			url = ""
 		}
-		itemModSet := getModifierActionRelations(item, "item1", icon, totp, url)
+
+        getModifierActionRelations(&itemModSet, item, "item1", icon, totp, url)
 		log.Printf("Item1:\n%+v", itemModSet.Item1)
 		addNewItem(itemModSet.Item1, item.Name)
 	} else if item.Type == 2 {
-		itemModSet := getModifierActionRelations(item, "item2", nil, "", "")
+		getModifierActionRelations(&itemModSet, item, "item2", nil, "", "")
 		log.Printf("Item2:\n%+v", itemModSet.Item2)
 		addNewItem(itemModSet.Item2, item.Name)
 	} else if item.Type == 3 {
-		itemModSet := getModifierActionRelations(item, "item3", nil, "", "")
+		getModifierActionRelations(&itemModSet, item, "item3", nil, "", "")
 		log.Printf("Item3:\n%+v", itemModSet.Item3)
 		addNewItem(itemModSet.Item3, item.Name)
 	} else if item.Type == 4 {
-		itemModSet := getModifierActionRelations(item, "item4", nil, "", "")
+		getModifierActionRelations(&itemModSet, item, "item4", nil, "", "")
 		log.Printf("Item4:\n%+v", itemModSet.Item3)
 		addNewItem(itemModSet.Item4, item.Name)
 	} else {
@@ -499,23 +501,23 @@ func addNewItem(item itemActions, name string) *aw.Item {
 		Var("action3", item.NoMod.Content.Action3).
 		Arg(item.NoMod.Content.Arg).
 		Icon(item.NoMod.Content.Icon)
-	if item.Mod1.ModKey != nil {
+	if item.Mod1.Keys != nil {
 		addNewModifierItem(it, item.Mod1)
 	}
-	if item.Mod2.ModKey != nil {
+	if item.Mod2.Keys != nil {
 		addNewModifierItem(it, item.Mod2)
 	}
-	if item.Mod3.ModKey != nil {
+	if item.Mod3.Keys != nil {
 		addNewModifierItem(it, item.Mod3)
 	}
-	if item.Mod4.ModKey != nil {
+	if item.Mod4.Keys != nil {
 		addNewModifierItem(it, item.Mod4)
 	}
 	return it
 }
 
 func addNewModifierItem(item *aw.Item, modifier modifierActionRelation) {
-	item.NewModifier(modifier.ModKey[0:]...).
+	item.NewModifier(modifier.Keys[0:]...).
 		Subtitle(modifier.Content.Subtitle).
 		Arg(modifier.Content.Arg).
 		Var("notification", modifier.Content.Notification).

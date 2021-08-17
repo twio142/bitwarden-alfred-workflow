@@ -18,24 +18,22 @@ import (
 )
 
 // Valid modifier keys used to specify alternate actions in Script Filters.
-const (
-	ModCmd   aw.ModKey = "cmd"   // Alternate action for ⌘↩
-	ModAlt   aw.ModKey = "alt"   // Alternate action for ⌥↩
-	ModOpt   aw.ModKey = "alt"   // Synonym for ModAlt
-	ModCtrl  aw.ModKey = "ctrl"  // Alternate action for ^↩
-	ModShift aw.ModKey = "shift" // Alternate action for ⇧↩
-	ModFn    aw.ModKey = "fn"    // Alternate action for fn↩
-)
-
 var (
+	//ModCmd   = aw.Modifier{Key: "cmd"}   // Alternate action for ⌘↩
+	//ModAlt   = aw.Modifier{Key: "alt"}   // Alternate action for ⌘↩
+	//ModOpt   = aw.Modifier{Key: "alt"}   // Synonym for ModAlt
+	//ModCtrl  = aw.Modifier{Key: "ctrl"}  // Alternate action for ^↩
+	//ModShift = aw.Modifier{Key: "shift"} // Alternate action for ⇧↩
+	//ModFn    = aw.Modifier{Key: "fn"}    // Alternate action for fn↩
+
 	conf      config
-	mod1      []aw.ModKey
+	mod1      []string
 	mod1Emoji string
-	mod2      []aw.ModKey
+	mod2      []string
 	mod2Emoji string
-	mod3      []aw.ModKey
+	mod3      []string
 	mod3Emoji string
-	mod4      []aw.ModKey
+	mod4      []string
 	mod4Emoji string
 	bwData    BwData
 )
@@ -53,7 +51,7 @@ type modifierActionContent struct {
 }
 
 type modifierActionRelation struct {
-	ModKey  []aw.ModKey
+	Keys    []string
 	Content modifierActionContent
 }
 
@@ -70,7 +68,6 @@ type itemsModifierActionRelation struct {
 	Item2 itemActions
 	Item3 itemActions
 	Item4 itemActions
-	More  modifierActionRelation
 }
 
 type config struct {
@@ -211,23 +208,23 @@ func initModifiers() {
 	mod4Emoji = getModifierEmoji(conf.Mod4)
 }
 
-func getModifierKey(keys string) []aw.ModKey {
+func getModifierKey(keys string) []string {
 	items := strings.Split(keys, ",")
-	var collectKeys []aw.ModKey
+	var collectKeys []string
 	for _, item := range items {
 		switch item {
 		case "cmd":
-			collectKeys = append(collectKeys, ModCmd)
+			collectKeys = append(collectKeys, "cmd")
 		case "alt":
-			collectKeys = append(collectKeys, ModAlt)
+			collectKeys = append(collectKeys, "alt")
 		case "fn":
-			collectKeys = append(collectKeys, ModFn)
+			collectKeys = append(collectKeys, "fn")
 		case "opt":
-			collectKeys = append(collectKeys, ModOpt)
+			collectKeys = append(collectKeys, "alt")
 		case "ctrl":
-			collectKeys = append(collectKeys, ModCtrl)
+			collectKeys = append(collectKeys, "ctrl")
 		case "shift":
-			collectKeys = append(collectKeys, ModShift)
+			collectKeys = append(collectKeys, "shift")
 		}
 	}
 	return collectKeys
@@ -277,14 +274,17 @@ func getTypeEmoji(itemType string) (string, error) {
 	return "", fmt.Errorf("no matching key found for type: %s", itemType)
 }
 
-func getModifierActionRelations(item Item, itemType string, icon *aw.Icon, totp string, url string) itemsModifierActionRelation {
-	var itemModConfig itemsModifierActionRelation
-	setModAction(&itemModConfig, item, itemType, "nomod", conf.NoModAction, icon, totp, url)
-	setModAction(&itemModConfig, item, itemType, "mod1", conf.Mod1Action, icon, totp, url)
-	setModAction(&itemModConfig, item, itemType, "mod2", conf.Mod2Action, icon, totp, url)
-	setModAction(&itemModConfig, item, itemType, "mod3", conf.Mod3Action, icon, totp, url)
-	setModAction(&itemModConfig, item, itemType, "mod4", conf.Mod4Action, icon, totp, url)
-	return itemModConfig
+func getModifierActionRelations(itemModConfig *itemsModifierActionRelation, item Item, itemType string, icon *aw.Icon, totp string, url string) {
+	modModes := map[string]string{
+		"nomod": conf.NoModAction,
+		"mod1":  conf.Mod1Action,
+		"mod2":  conf.Mod2Action,
+		"mod3":  conf.Mod3Action,
+		"mod4":  conf.Mod4Action,
+	}
+	for modMode, action := range modModes {
+		setModAction(itemModConfig, item, itemType, modMode, action, icon, totp, url)
+	}
 }
 
 func setModAction(itemConfig *itemsModifierActionRelation, item Item, itemType string, modMode string, actionString string, icon *aw.Icon, totp string, url string) {
@@ -516,54 +516,54 @@ func setItemMod(itemConfig *itemsModifierActionRelation, content modifierActionC
 	case "item1":
 		switch modMode {
 		case "nomod":
-			itemConfig.Item1.NoMod = modifierActionRelation{ModKey: nil, Content: content}
+			itemConfig.Item1.NoMod = modifierActionRelation{Keys: nil, Content: content}
 		case "mod1":
-			itemConfig.Item1.Mod1 = modifierActionRelation{ModKey: mod1, Content: content}
+			itemConfig.Item1.Mod1 = modifierActionRelation{Keys: mod1, Content: content}
 		case "mod2":
-			itemConfig.Item1.Mod2 = modifierActionRelation{ModKey: mod2, Content: content}
+			itemConfig.Item1.Mod2 = modifierActionRelation{Keys: mod2, Content: content}
 		case "mod3":
-			itemConfig.Item1.Mod3 = modifierActionRelation{ModKey: mod3, Content: content}
+			itemConfig.Item1.Mod3 = modifierActionRelation{Keys: mod3, Content: content}
 		case "mod4":
-			itemConfig.Item1.Mod4 = modifierActionRelation{ModKey: mod4, Content: content}
+			itemConfig.Item1.Mod4 = modifierActionRelation{Keys: mod4, Content: content}
 		}
 	case "item2":
 		switch modMode {
 		case "nomod":
-			itemConfig.Item2.NoMod = modifierActionRelation{ModKey: nil, Content: content}
+			itemConfig.Item2.NoMod = modifierActionRelation{Keys: nil, Content: content}
 		case "mod1":
-			itemConfig.Item2.Mod1 = modifierActionRelation{ModKey: mod1, Content: content}
+			itemConfig.Item2.Mod1 = modifierActionRelation{Keys: mod1, Content: content}
 		case "mod2":
-			itemConfig.Item2.Mod2 = modifierActionRelation{ModKey: mod2, Content: content}
+			itemConfig.Item2.Mod2 = modifierActionRelation{Keys: mod2, Content: content}
 		case "mod3":
-			itemConfig.Item2.Mod3 = modifierActionRelation{ModKey: mod3, Content: content}
+			itemConfig.Item2.Mod3 = modifierActionRelation{Keys: mod3, Content: content}
 		case "mod4":
-			itemConfig.Item2.Mod4 = modifierActionRelation{ModKey: mod4, Content: content}
+			itemConfig.Item2.Mod4 = modifierActionRelation{Keys: mod4, Content: content}
 		}
 	case "item3":
 		switch modMode {
 		case "nomod":
-			itemConfig.Item3.NoMod = modifierActionRelation{ModKey: nil, Content: content}
+			itemConfig.Item3.NoMod = modifierActionRelation{Keys: nil, Content: content}
 		case "mod1":
-			itemConfig.Item3.Mod1 = modifierActionRelation{ModKey: mod1, Content: content}
+			itemConfig.Item3.Mod1 = modifierActionRelation{Keys: mod1, Content: content}
 		case "mod2":
-			itemConfig.Item3.Mod2 = modifierActionRelation{ModKey: mod2, Content: content}
+			itemConfig.Item3.Mod2 = modifierActionRelation{Keys: mod2, Content: content}
 		case "mod3":
-			itemConfig.Item3.Mod3 = modifierActionRelation{ModKey: mod3, Content: content}
+			itemConfig.Item3.Mod3 = modifierActionRelation{Keys: mod3, Content: content}
 		case "mod4":
-			itemConfig.Item3.Mod4 = modifierActionRelation{ModKey: mod4, Content: content}
+			itemConfig.Item3.Mod4 = modifierActionRelation{Keys: mod4, Content: content}
 		}
 	case "item4":
 		switch modMode {
 		case "nomod":
-			itemConfig.Item4.NoMod = modifierActionRelation{ModKey: nil, Content: content}
+			itemConfig.Item4.NoMod = modifierActionRelation{Keys: nil, Content: content}
 		case "mod1":
-			itemConfig.Item4.Mod1 = modifierActionRelation{ModKey: mod1, Content: content}
+			itemConfig.Item4.Mod1 = modifierActionRelation{Keys: mod1, Content: content}
 		case "mod2":
-			itemConfig.Item4.Mod2 = modifierActionRelation{ModKey: mod2, Content: content}
+			itemConfig.Item4.Mod2 = modifierActionRelation{Keys: mod2, Content: content}
 		case "mod3":
-			itemConfig.Item4.Mod3 = modifierActionRelation{ModKey: mod3, Content: content}
+			itemConfig.Item4.Mod3 = modifierActionRelation{Keys: mod3, Content: content}
 		case "mod4":
-			itemConfig.Item4.Mod4 = modifierActionRelation{ModKey: mod4, Content: content}
+			itemConfig.Item4.Mod4 = modifierActionRelation{Keys: mod4, Content: content}
 		}
 	}
 }
