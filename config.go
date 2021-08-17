@@ -19,13 +19,6 @@ import (
 
 // Valid modifier keys used to specify alternate actions in Script Filters.
 var (
-	//ModCmd   = aw.Modifier{Key: "cmd"}   // Alternate action for ⌘↩
-	//ModAlt   = aw.Modifier{Key: "alt"}   // Alternate action for ⌘↩
-	//ModOpt   = aw.Modifier{Key: "alt"}   // Synonym for ModAlt
-	//ModCtrl  = aw.Modifier{Key: "ctrl"}  // Alternate action for ^↩
-	//ModShift = aw.Modifier{Key: "shift"} // Alternate action for ⇧↩
-	//ModFn    = aw.Modifier{Key: "fn"}    // Alternate action for fn↩
-
 	conf      config
 	mod1      []string
 	mod1Emoji string
