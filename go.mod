@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/davecgh/go-spew v1.1.1
-	github.com/deanishe/awgo v0.29.0
+	github.com/deanishe/awgo v0.29.1
 	github.com/go-cmd/cmd v1.3.0
 	github.com/jpillora/go-tld v1.1.1
 	github.com/jychri/tilde v0.1.0
