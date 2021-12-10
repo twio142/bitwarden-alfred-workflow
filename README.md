@@ -125,6 +125,7 @@ Install via Alfred keyword: `.bwautolock`
 | SYNC_CACHE_AGE            | This defines how old the sync cache can get, if expired the Workflow will trigger a new sync with Bitwarden (values lower than 30 will be ignored and set to 30)                                                                    | 10080 (0 means disabled; unit is minutes)                                           |
 | TITLE_WITH_USER           | If enabled the name of the login user item or the last 4 numbers of the card number will be appended (added) at the end of the name of the item                                                                                     | true                                                                                |
 | TITLE_WITH_URLS           | If enabled all the URLs for an login item will be appended (added) at the end of the name of the item                                                                                                                               | true                                                                                |
+| USE_APIKEY                | If enabled an API KEY can be used to login, this is helpful to prevent problems with captches which Bitwarden cloud introduced recently https://bitwarden.com/help/article/cli/#using-an-api-key                                    | false                                                                               |
 
 ## Modifier Actions Explained
 

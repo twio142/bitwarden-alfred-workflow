@@ -76,7 +76,7 @@ jobs:
     needs: [lint, test]
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-20.04]
+        os: [macos-10.15, macos-11, ubuntu-20.04]
     steps:
       - name: Granting private modules access
         run: |
