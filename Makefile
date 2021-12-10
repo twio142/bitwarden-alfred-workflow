@@ -43,7 +43,7 @@ install-hooks:
 copy-build-assets:
 	@chmod +x ./workflow/*.sh
 	@cp -r assets ./workflow
-	@go get -d github.com/pschlump/markdown-cli
+	@go get github.com/pschlump/markdown-cli
 	@markdown-cli -i README.md -o workflow/README.html
 
 package-alfred:
