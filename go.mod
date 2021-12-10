@@ -20,6 +20,10 @@ require (
 require (
 	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/magefile/mage v1.11.0 // indirect
+	github.com/pschlump/lexie v0.0.0-20171018140910-163c2415e433 // indirect
+	github.com/pschlump/markdown-cli v0.0.0-20190302144029-1852bd2b9884 // indirect
+	github.com/russross/blackfriday v2.0.0+incompatible // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/tidwall/match v1.0.3 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	go.deanishe.net/env v0.5.1 // indirect
