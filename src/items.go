@@ -13,15 +13,34 @@ import (
 	"time"
 )
 
-func addItemDetails(item Item, autoFetchCache bool) {
-	wf.Configure(aw.SuppressUIDs(true))
+func checkIconExistance(item Item, autoFetchCache bool) *aw.Icon {
+	icon := iconLink
+	if len(item.Login.Uris) > 0 && conf.IconCacheEnabled {
+		iconPath := fmt.Sprintf("%s/%s/%s.png", wf.DataDir(), "urlicon", item.Id)
+		if _, err := os.Stat(iconPath); err != nil {
+			log.Println("Couldn't load the cached icon, error: ", err)
+			if autoFetchCache {
+				log.Println("Getting icons.")
+				runGetIcons(item.Login.Uris[0].Uri, item.Id)
+			}
+		}
+		icon = &aw.Icon{Value: iconPath}
+	}
+	return icon
+}
+
+func addBackToNormalSearchItem() {
 	wf.NewItem("Back to normal search.").
 		Subtitle("Go back one level to the normal search").Valid(true).
 		Icon(iconLevelUp).
 		Var("action", "-search").
 		Arg(conf.BwKeyword).
 		Var("notification", "")
-	//item.Name
+}
+
+func addItemDetails(item Item, autoFetchCache bool) {
+	wf.Configure(aw.SuppressUIDs(true))
+	addBackToNormalSearchItem()
 	wf.NewItem(fmt.Sprintf("Detail view for: %s", item.Name)).
 		Subtitle("").Valid(false).
 		Icon(iconInfoCircle)
@@ -142,18 +161,7 @@ func addItemDetails(item Item, autoFetchCache bool) {
 	// item.Type 1
 	if item.Type == 1 {
 		// get icons from cache
-		icon := iconLink
-		if len(item.Login.Uris) > 0 && conf.IconCacheEnabled {
-			iconPath := fmt.Sprintf("%s/%s/%s.png", wf.DataDir(), "urlicon", item.Id)
-			if _, err := os.Stat(iconPath); err != nil {
-				log.Println("Couldn't load the cached icon, error: ", err)
-				if autoFetchCache {
-					log.Println("Getting icons.")
-					runGetIcons(item.Login.Uris[0].Uri, item.Id)
-				}
-			}
-			icon = &aw.Icon{Value: iconPath}
-		}
+		icon := checkIconExistance(item, autoFetchCache)
 
 		// item.Login.Username
 		if conf.EmptyDetailResults || item.Login.Username != "" {
@@ -445,20 +453,9 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 	}
 
 	if item.Type == 1 {
-		icon := iconLink
-		if len(item.Login.Uris) > 0 && conf.IconCacheEnabled {
-			iconPath := fmt.Sprintf("%s/%s/%s.png", wf.DataDir(), "urlicon", item.Id)
-			if _, err := os.Stat(iconPath); err != nil {
-				log.Println("Couldn't load the cached icon, error: ", err)
-				if autoFetchCache {
-					log.Println("Getting icons.")
-					runGetIcons(item.Login.Uris[0].Uri, item.Id)
-				}
-			} else {
-				icon = &aw.Icon{Value: iconPath}
-			}
-		}
-		// Get the emoji assigned to a modifier action
+		// get icons from cache
+		icon := checkIconExistance(item, autoFetchCache)
+
 		totpEmoji, err := getTypeEmoji("totp")
 		if err != nil {
 			log.Fatal(err.Error())
@@ -477,20 +474,23 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		}
 
 		getModifierActionRelations(itemModSet, item, "item1", icon, totp, url)
-		log.Printf("Item1:\n%+v", itemModSet["item1"])
+		//TODO add log levels and verbosity levels
+		//log.Printf("Item1:\n%+v", itemModSet["item1"])
 		addNewItem(itemModSet["item1"], item.Name)
-		//addNewItem(itemModSet.Item1, item.Name)
 	} else if item.Type == 2 {
 		getModifierActionRelations(itemModSet, item, "item2", nil, "", "")
-		log.Printf("Item2:\n%+v", itemModSet["item2"])
+		//TODO add log levels and verbosity levels
+		//log.Printf("Item2:\n%+v", itemModSet["item2"])
 		addNewItem(itemModSet["item2"], item.Name)
 	} else if item.Type == 3 {
 		getModifierActionRelations(itemModSet, item, "item3", nil, "", "")
-		log.Printf("Item3:\n%+v", itemModSet["item3"])
+		//TODO add log levels and verbosity levels
+		//log.Printf("Item3:\n%+v", itemModSet["item3"])
 		addNewItem(itemModSet["item3"], item.Name)
 	} else if item.Type == 4 {
 		getModifierActionRelations(itemModSet, item, "item4", nil, "", "")
-		log.Printf("Item4:\n%+v", itemModSet["item4"])
+		//TODO add log levels and verbosity levels
+		//log.Printf("Item4:\n%+v", itemModSet["item4"])
 		addNewItem(itemModSet["item4"], item.Name)
 	} else {
 		log.Printf("New item, needs to be implemented.")

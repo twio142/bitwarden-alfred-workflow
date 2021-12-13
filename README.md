@@ -57,7 +57,7 @@ The best is to append it to the existing string and separate it by a colon (:)
 ![Workflow PATH config](./assets/workflow-path-config.gif)
 
 ## Usage
-To use, activate Alfred and type `.bws` to trigger this workflow. From there:
+To use, activate Alfred and type `.bw` to trigger this workflow. From there:
 
 - type `.bwauth` for login/logout/unlock/lock
 - type `.bwconfig` for settings/sync/workflow update/help/issue reports
@@ -123,7 +123,7 @@ Install via Alfred keyword: `.bwautolock`
 | AUTO_FETCH_ICON_CACHE_AGE | This defines how often the Workflow should check for an icon if is missing, it doesn't need to do it on every run hence this cache                                                                                                  | 1440 (1 day)                                                                        |
 | BW_EXEC                   | defines the binary/executable for the Bitwarden CLI command                                                                                                                                                                         | bw                                                                                  |
 | BW_DATA_PATH              | sets the path to the Bitwarden Cli data.json                                                                                                                                                                                        | "~/Library/Application Support/Bitwarden CLI/data.json""                            |
-| bw_keyword                | defines the keyword which opens the Bitwarden Alfred Workflow                                                                                                                                                                       | .bws                                                                                 |
+| bw_keyword                | defines the keyword which opens the Bitwarden Alfred Workflow                                                                                                                                                                       | .bw                                                                                 |
 | bwf_keyword               | defines the keyword which opens the folder search of the Bitwarden Alfred Workflow                                                                                                                                                  | .bwf                                                                                |
 | bwauth_keyword            | defines the keyword which opens the Bitwarden authentications of the Alfred Workflow                                                                                                                                                | .bwauth                                                                             |
 | bwauto_keyword            | defines the keyword which opens the Bitwarden background sync agent                                                                                                                                                                 | .bwauto                                                                             |

@@ -253,12 +253,7 @@ func run() {
 		log.Print("Number of flags", cli.NArg())
 		var argString []string
 		for i := 0; i < cli.NArg(); i++ {
-			nextArg := cli.Arg(i)
-			if nextArg == "-folder" {
-				argString = append(argString, "-folder ")
-			} else {
-				argString = append(argString, cli.Arg(i))
-			}
+			argString = append(argString, cli.Arg(i))
 		}
 		log.Print(fmt.Sprintf("argstring is %q", strings.Join(argString, " ")))
 		searchAlfred(strings.Join(argString, " "))

@@ -72,6 +72,7 @@ type Identity struct {
 	LicenseNumber  string `json:"licenseNumber"`
 }
 
+// https://github.com/bitwarden/jslib/blob/master/common/src/enums/cipherType.ts
 // 1: Login
 // 2: SecureNote
 // 3: Card

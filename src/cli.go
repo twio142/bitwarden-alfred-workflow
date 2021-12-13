@@ -140,8 +140,7 @@ func BitwardenAuthChecks() (loginErr error, unlockErr error) {
 func runConfig() {
 
 	// prevent Alfred from re-ordering results
-	reordering := conf.ReorderingDisabled
-	if opts.Query == "" || reordering {
+	if opts.Query == "" || conf.ReorderingDisabled {
 		wf.Configure(aw.SuppressUIDs(true))
 	}
 
@@ -296,24 +295,14 @@ func runAuth() {
 		wf.Configure(aw.SuppressUIDs(true))
 	}
 	email := conf.Email
-	sfa := conf.Sfa
-	sfaMode := conf.SfaMode
-	if !sfa {
-		sfaMode = -1
+	sfaMode := -1
+	if conf.Sfa {
+		sfaMode = conf.SfaMode
 	}
 
 	log.Printf("filtering auth config %q ...", opts.Query)
 
-	wf.NewItem("Login to Bitwarden").
-		Subtitle("↩ or ⇥ to login now").
-		Valid(true).
-		UID("login").
-		Icon(iconOn).
-		Var("action", "-login").
-		Var("type", "login").
-		Var("email", email).
-		Var("sfamode", fmt.Sprintf("%d", sfaMode)).
-		Var("mapsfamode", map2faMode(sfaMode))
+	addLoginItem(email, sfaMode)
 
 	wf.NewItem("Logout").
 		Subtitle("Logout from Bitwarden").
@@ -322,14 +311,7 @@ func runAuth() {
 		Icon(iconOff).
 		Var("action", "-logout")
 
-	wf.NewItem("Unlock").
-		Subtitle("Unlock Bitwarden").
-		UID("unlock").
-		Valid(true).
-		Icon(iconOn).
-		Var("action", "-unlock").
-		Var("type", "unlock").
-		Var("email", email)
+	addUnlockItem(email)
 
 	wf.NewItem("Lock").
 		Subtitle("Lock Bitwarden").
@@ -344,6 +326,30 @@ func runAuth() {
 
 	wf.WarnEmpty("No Auth Config Found", "Try a different query?")
 	wf.SendFeedback()
+}
+
+func addLoginItem(email string, sfaMode int) {
+	wf.NewItem("Login to Bitwarden").
+		Subtitle("↩ or ⇥ to login now").
+		Valid(true).
+		UID("login").
+		Icon(iconOn).
+		Var("action", "-login").
+		Var("type", "login").
+		Var("email", email).
+		Var("sfamode", fmt.Sprintf("%d", sfaMode)).
+		Var("mapsfamode", map2faMode(sfaMode))
+}
+
+func addUnlockItem(email string) {
+	wf.NewItem("Unlock").
+		Subtitle("Unlock Bitwarden").
+		UID("unlock").
+		Valid(true).
+		Icon(iconOn).
+		Var("action", "-unlock").
+		Var("type", "unlock").
+		Var("email", email)
 }
 
 // Logout from Bitwarden
@@ -410,55 +416,61 @@ func runSfa() {
 	sfa := conf.Sfa
 
 	if opts.Id == "Use" {
-		wf.NewItem("Use U2F (untested)").
-			Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
-			UID("u2f").
-			Valid(true).
-			Icon(iconU2f).
-			Var("notification", "2FA set to U2F").
-			Var("action", "-setconfigs").
-			Var("action2", "2famode").
-			Arg("4")
-
-		wf.NewItem("Use Yubikey (untested)").
-			Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
-			UID("u2f").
-			Valid(true).
-			Icon(iconYubi).
-			Var("notification", "2FA set to Yubikey").
-			Var("action", "-setconfigs").
-			Var("action2", "2famode").
-			Arg("3")
-
-		wf.NewItem("Use Duo (untested)").
-			Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
-			UID("duo").
-			Valid(true).
-			Icon(iconDuo).
-			Var("notification", "2FA set to Duo").
-			Var("action", "-setconfigs").
-			Var("action2", "2famode").
-			Arg("2")
-
-		wf.NewItem("Use Email").
-			Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
-			UID("email").
-			Valid(true).
-			Icon(iconEmail).
-			Var("notification", "2FA set to Email").
-			Var("action", "-setconfigs").
-			Var("action2", "2famode").
-			Arg("1")
-
-		wf.NewItem("Use Authenticator app").
-			Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
-			UID("email").
-			Valid(true).
-			Icon(iconApp).
-			Var("notification", "2FA set to Authenticator app").
-			Var("action", "-setconfigs").
-			Var("action2", "2famode").
-			Arg("0")
+		// https://github.com/bitwarden/jslib/blob/master/common/src/enums/twoFactorProviderType.ts
+		factorMap := []struct {
+			title string
+			uid   string
+			icon  *aw.Icon
+			name  string
+			enum  string
+		}{
+			{
+				title: "Use U2F (untested)",
+				uid:   "u2f",
+				icon:  iconU2f,
+				name:  "U2F",
+				enum:  "4",
+			},
+			{
+				title: "Use Yubikey (untested)",
+				uid:   "yubikey",
+				icon:  iconYubi,
+				name:  "Yubikey",
+				enum:  "3",
+			},
+			{
+				title: "Use Duo (untested)",
+				uid:   "duo",
+				icon:  iconDuo,
+				name:  "Duo",
+				enum:  "2",
+			},
+			{
+				title: "Use Email",
+				uid:   "email",
+				icon:  iconEmail,
+				name:  "Email",
+				enum:  "1",
+			},
+			{
+				title: "Use Authenticator app",
+				uid:   "totp",
+				icon:  iconApp,
+				name:  "Authenticator app",
+				enum:  "0",
+			},
+		}
+		for _, item := range factorMap {
+			wf.NewItem(item.title).
+				Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
+				UID(item.uid).
+				Valid(true).
+				Icon(item.icon).
+				Var("notification", fmt.Sprintf("2FA set to %s", item.name)).
+				Var("action", "-setconfigs").
+				Var("action2", "2famode").
+				Arg(item.enum)
+		}
 	} else if opts.Id == "ON/OFF" {
 		wf.NewItem("ON/OFF: Enable 2FA for Bitwarden").
 			Subtitle(fmt.Sprintf("Currently set to: %t", sfa)).
@@ -491,10 +503,9 @@ func runSfa() {
 // Filter Bitwarden secrets in Alfred
 func runSearch(folderSearch bool, itemId string) {
 	email := conf.Email
-	sfa := conf.Sfa
-	sfaMode := conf.SfaMode
-	if !sfa {
-		sfaMode = -1
+	sfaMode := -1
+	if conf.Sfa {
+		sfaMode = conf.SfaMode
 	}
 
 	wf.Configure(aw.SuppressUIDs(true))
@@ -503,17 +514,20 @@ func runSearch(folderSearch bool, itemId string) {
 		if wf.Cache.Exists(CACHE_NAME) && wf.Cache.Exists(FOLDER_CACHE_NAME) {
 			message = "Need to login first to get secrets, reading cached items without the secret."
 		}
-		addLoginWarningItem(wf, email, sfaMode, message)
+		wf.NewWarningItem("Not logged in to Bitwarden.", message)
+		addLoginItem(email, sfaMode)
 	}
 
 	if bwData.UserId != "" && bwData.ProtectedKey == "" {
 		message := "Need to unlock first to get secrets, reading cached items without the secrets."
-		addUnlockWarningItem(wf, email, message)
+		wf.NewWarningItem("Bitwarden is locked.", message)
+		addUnlockItem(email)
 	}
 
-	reorderingDisabled := conf.ReorderingDisabled
-	if reorderingDisabled {
+	if conf.ReorderingDisabled {
 		wf.Configure(aw.SuppressUIDs(true))
+	} else {
+		wf.Configure(aw.SuppressUIDs(false))
 	}
 
 	wf.Configure(aw.MaxResults(conf.MaxResults))
@@ -531,11 +545,7 @@ func runSearch(folderSearch bool, itemId string) {
 		if err := json.Unmarshal(data, &items); err != nil {
 			log.Printf("Couldn't load the items cache, error: %s", err)
 		}
-		if err != nil {
-			log.Printf("Couldn't load the items cache, error: %s", err)
-		}
-		err = wf.Cache.LoadJSON(FOLDER_CACHE_NAME, &folders)
-		if err != nil {
+		if err := wf.Cache.LoadJSON(FOLDER_CACHE_NAME, &folders); err != nil {
 			log.Printf("Couldn't load the folders cache, error: %s", err)
 		}
 	}
@@ -549,12 +559,16 @@ func runSearch(folderSearch bool, itemId string) {
 	// running.
 	if conf.SyncCacheAge != 0 && (wf.Cache.Expired(SYNC_CACHE_NAME, conf.SyncMaxCacheAge) || (wf.Cache.Expired(CACHE_NAME, conf.SyncMaxCacheAge) || wf.Cache.Expired(FOLDER_CACHE_NAME, conf.SyncMaxCacheAge))) {
 		if !wf.IsRunning("sync") {
-			cmd := exec.Command(os.Args[0], "-sync", "-force")
-			log.Println("Sync cmd: ", cmd)
-			if err := wf.RunInBackground("sync", cmd); err != nil {
-				wf.FatalError(err)
-			}
-			searchAlfred(conf.BwKeyword)
+			wf.NewItem("Cache expired/not existing. Need to run a sync.").
+				Subtitle("Sync Bitwarden secrets with server.").
+				Valid(true).
+				UID("sync").
+				Icon(iconReload).
+				Var("action", "-sync").
+				Var("action2", "-force").
+				Var("notification", "Syncing Bitwarden secrets").
+				Arg("-background")
+			wf.SendFeedback()
 			return
 		} else {
 			log.Printf("Sync job already running.")
@@ -567,7 +581,17 @@ func runSearch(folderSearch bool, itemId string) {
 
 	// If iconcache enabled and the cache is expired (or doesn't exist)
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
-		getIcon(wf)
+		//getIcon(wf)
+		wf.NewItem("Cache expired/not existing. Need to download/update Favicon for URLs").
+			Subtitle("Downloads favicons for URLs").
+			Valid(true).
+			UID("icons").
+			Icon(iconReload).
+			Var("action", "-icons").
+			Var("notification", "Downloading Favicons for URLs").
+			Arg("-background")
+		wf.SendFeedback()
+		return
 	}
 
 	// set lastUsageCache after all the config and auth options and cache checks ran
@@ -620,7 +644,7 @@ func runSearch(folderSearch bool, itemId string) {
 			Icon(iconFolder).
 			Var("action", "-search").
 			Arg(conf.BwfKeyword)
-
+		addBackToNormalSearchItem()
 		for _, item := range items {
 			if item.FolderId == itemId {
 				addItemsToWorkflow(item, autoFetchCache)
@@ -662,39 +686,13 @@ func runSearch(folderSearch bool, itemId string) {
 	wf.SendFeedback()
 }
 
-func addLoginWarningItem(wf *aw.Workflow, email string, sfaMode int, message string) {
-	wf.NewWarningItem("Not logged in to Bitwarden.", message)
-	wf.NewItem("Login to Bitwarden").
-		Subtitle("↩ or ⇥ to login now").
-		Valid(true).
-		UID("login").
-		Icon(iconOn).
-		Var("action", "-login").
-		Arg("login", email, fmt.Sprintf("%d", sfaMode), map2faMode(sfaMode))
-}
-
-func addUnlockWarningItem(wf *aw.Workflow, email string, message string) {
-	wf.NewWarningItem("Bitwarden is locked.", message)
-	wf.NewItem("Unlock Bitwarden").
-		Subtitle("↩ or ⇥ to unlock now").
-		Valid(true).
-		UID("unlock").
-		Icon(iconOn).
-		Var("action", "-unlock").
-		Arg("unlock", email)
-}
-
 // Filter Bitwarden secrets in Alfred
 func runSearchFolder(items []Item, folders []Folder) {
 	if opts.Query != "" {
 		log.Printf(`searching for "%s" ...`, opts.Query)
 	}
 
-	wf.NewItem("Back to normal search.").
-		Subtitle("Go back one level to the normal search").Valid(true).
-		UID("back").
-		Icon(iconFolder).
-		Var("action", "-search").Arg(conf.BwKeyword)
+	addBackToNormalSearchItem()
 
 	log.Printf("Number of folders %d", len(folders))
 	for _, folder := range folders {
@@ -706,14 +704,14 @@ func runSearchFolder(items []Item, folders []Folder) {
 		if opts.Query != "" {
 			wf.NewItem(folder.Name).
 				Subtitle(fmt.Sprintf("Number of items: %d", itemCount)).Valid(true).
-				UID(folder.Id).
+				UID(id).
 				Icon(iconFolderOpen).
 				Var("action", "-folder").
 				Var("action2", fmt.Sprintf("-id %s ", id))
 		} else {
 			wf.NewItem(folder.Name).
 				Subtitle(fmt.Sprintf("Number of items: %d", itemCount)).Valid(true).
-				UID(folder.Id).
+				UID(id).
 				Icon(iconFolderOpen).
 				Var("action", "-folder").
 				Var("action2", fmt.Sprintf("-id %s ", id))
