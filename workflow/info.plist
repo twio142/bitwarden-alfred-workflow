@@ -2109,18 +2109,20 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>true</string>
 		<key>TITLE_WITH_USER</key>
 		<string>true</string>
+		<key>USE_APIKEY</key>
+		<string>false</string>
 		<key>bw_keyword</key>
 		<string>.bw</string>
 		<key>bwauth_keyword</key>
-		<string>.bitauth</string>
+		<string>.bwauth</string>
 		<key>bwauto_keyword</key>
-		<string>.bitauto</string>
+		<string>.bwauto</string>
 		<key>bwautolock_keyword</key>
-		<string>.bitautolock</string>
+		<string>.bwautolock</string>
 		<key>bwconf_keyword</key>
-		<string>.bitconfig</string>
+		<string>.bwconfig</string>
 		<key>bwf_keyword</key>
-		<string>.bitf</string>
+		<string>.bwf</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
@@ -2128,7 +2130,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>SERVER_URL</string>
 	</array>
 	<key>version</key>
-	<string>2.4.0</string>
+	<string>2.4.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/blacs30/bitwarden-alfred-workflow</string>
 </dict>

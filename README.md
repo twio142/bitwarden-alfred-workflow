@@ -2,6 +2,25 @@
 
 > Access your Bitwarden passwords, secrets, attachments and more via this powerful Alfred Workflow
 
+# Table of contents
+
+- [Bitwarden Alfred Workflow](#bitwarden-alfred-workflow)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [PATH configuration](#path-configuration)
+  - [Usage](#usage)
+  - [Login via APIKEY](#login-via-apikey)
+  - [Search- / Filtermode](#search---filtermode)
+  - [Enable auto background sync](#enable-auto-background-sync)
+  - [Enable auto lock](#enable-auto-lock)
+  - [Advanced Features / Configuration](#advanced-features--configuration)
+  - [Modifier Actions Explained](#modifier-actions-explained)
+- [Develop locally](#develop-locally)
+- [Licensing and Thanks](#licensing-and-thanks)
+  - [Contributors](#contributors)
+  - [Source that helped me to get started](#source-that-helped-me-to-get-started)
+- [Troubleshooting](#troubleshooting)
+
 ## Features
 
 * Completely rewritten in go
@@ -24,7 +43,7 @@
 ## Installation
 - [Download the latest release](https://github.com/blacs30/bitwarden-alfred-workflow/releases)
 - Open the downloaded file in Finder
-- Make sure that the [Bitwarden CLI](https://github.com/bitwarden/cli#downloadinstall) is installed
+- Make sure that the [Bitwarden CLI](https://github.com/bitwarden/cli#downloadinstall) version 1.19 or newer is installed
 - If running on macOS Catalina or later, you _**MUST**_ add Alfred to the list of security exceptions for running unsigned software. See [this guide](https://github.com/deanishe/awgo/wiki/Catalina) for instructions on how to do this.
   - <sub>Yes, this sucks and is annoying, but there is unfortunately is no easy way around this. macOS requires a paying Developer account for proper app notarization. I'm afraid I'm not willing to pay a yearly subscription fee to Apple just so that this (free and open source) project doesn't pester macOS Gatekeeper.</sub>
 
@@ -44,6 +63,14 @@ To use, activate Alfred and type `.bw` to trigger this workflow. From there:
 - type `.bwconfig` for settings/sync/workflow update/help/issue reports
 - type any search term to search for secrets/notes/identities/cards
 - modifier keys and actions are presented in the subtitle, different actions are available depending on the object type
+
+## Login via APIKEY
+Since version 2.4.1 the workflow supports login via the api key.<br>
+Get/create an api key via the web ui. See more information here [https://bitwarden.com/help/article/cli/#using-an-api-key](https://bitwarden.com/help/article/cli/#using-an-api-key)<br>
+To use the api key login flow in the workflow set the workflow variable `USE_APIKEY` to true.<br>
+The workflow will then ask you for the client_id and client secret to login.<br>
+Immediately afterwards it will also ask to unlock with the master password to get a session key. <br>
+That is a separate step and required with the api key as login method.
 
 ## Search- / Filtermode
 
@@ -97,11 +124,11 @@ Install via Alfred keyword: `.bwautolock`
 | BW_EXEC                   | defines the binary/executable for the Bitwarden CLI command                                                                                                                                                                         | bw                                                                                  |
 | BW_DATA_PATH              | sets the path to the Bitwarden Cli data.json                                                                                                                                                                                        | "~/Library/Application Support/Bitwarden CLI/data.json""                            |
 | bw_keyword                | defines the keyword which opens the Bitwarden Alfred Workflow                                                                                                                                                                       | .bw                                                                                 |
-| bwf_keyword               | defines the keyword which opens the folder search of the Bitwarden Alfred Workflow                                                                                                                                                  | .bitf                                                                                |
-| bwauth_keyword            | defines the keyword which opens the Bitwarden authentications of the Alfred Workflow                                                                                                                                                | .bitauth                                                                             |
-| bwauto_keyword            | defines the keyword which opens the Bitwarden background sync agent                                                                                                                                                                 | .bitauto                                                                             |
-| bwautolock_keyword        | defines the keyword which opens the Bitwarden background lock agent                                                                                                                                                                 | .bitautolock                                                                         |
-| bwconf_keyword            | defines the keyword which opens the Bitwarden configuration/settings of the Alfred Workflow                                                                                                                                         | .bitconfig                                                                           |
+| bwf_keyword               | defines the keyword which opens the folder search of the Bitwarden Alfred Workflow                                                                                                                                                  | .bwf                                                                                |
+| bwauth_keyword            | defines the keyword which opens the Bitwarden authentications of the Alfred Workflow                                                                                                                                                | .bwauth                                                                             |
+| bwauto_keyword            | defines the keyword which opens the Bitwarden background sync agent                                                                                                                                                                 | .bwauto                                                                             |
+| bwautolock_keyword        | defines the keyword which opens the Bitwarden background lock agent                                                                                                                                                                 | .bwautolock                                                                         |
+| bwconf_keyword            | defines the keyword which opens the Bitwarden configuration/settings of the Alfred Workflow                                                                                                                                         | .bwconfig                                                                           |
 | DEBUG                     | If enabled print additional debug information, specially about for the decryption process                                                                                                                                           | false                                                                               |
 | EMAIL                     | the email which to use for the login via the Bitwarden CLI, will be read from the data.json of the Bitwarden CLI if present                                                                                                         | ""                                                                                  |
 | EMPTY_DETAIL_RESULTS      | Show all information in the detail view, also if the content is empty                                                                                                                                                               | false                                                                               |
@@ -125,6 +152,7 @@ Install via Alfred keyword: `.bwautolock`
 | SYNC_CACHE_AGE            | This defines how old the sync cache can get, if expired the Workflow will trigger a new sync with Bitwarden (values lower than 30 will be ignored and set to 30)                                                                    | 10080 (0 means disabled; unit is minutes)                                           |
 | TITLE_WITH_USER           | If enabled the name of the login user item or the last 4 numbers of the card number will be appended (added) at the end of the name of the item                                                                                     | true                                                                                |
 | TITLE_WITH_URLS           | If enabled all the URLs for an login item will be appended (added) at the end of the name of the item                                                                                                                               | true                                                                                |
+| USE_APIKEY                | If enabled an API KEY can be used to login, this is helpful to prevent problems with captches which Bitwarden cloud introduced recently https://bitwarden.com/help/article/cli/#using-an-api-key                                    | false                                                                               |
 
 ## Modifier Actions Explained
 
@@ -205,7 +233,7 @@ A big thanks to all code contributors but also to everyone who creates issues an
 - [awgo package](https://pkg.go.dev/github.com/deanishe/awgo?tab=doc)
 
 
-## Troubleshooting
+# Troubleshooting
 
 - "I'm seeing the following dialog when running the workflow"
 

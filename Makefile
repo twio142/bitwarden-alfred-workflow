@@ -13,18 +13,18 @@ lint: ## Lint Golang files
 	@golangci-lint run --timeout 3m
 
 vet: ## Run go vet
-	@go vet
+	@go vet ./src
 
 test: ## Run unittests
-	@go test -short
+	@go test -short ./src
 
 test-coverage: ## Run tests with coverage
-	@go test -short -coverprofile cover.out -covermode=atomic
+	@go test -short -coverprofile cover.out -covermode=atomic ./src
 	@cat cover.out >> coverage.txt
 
 build: dep ## Build the binary file
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o workflow/$(PROJECT_NAME)-amd64
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME)-arm64
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o workflow/$(PROJECT_NAME)-amd64 ./src
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME)-arm64 ./src
 
 universal-binary:
 	@lipo -create -output workflow/bitwarden-alfred-workflow workflow/bitwarden-alfred-workflow-amd64 workflow/bitwarden-alfred-workflow-arm64
