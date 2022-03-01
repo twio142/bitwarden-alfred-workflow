@@ -21,9 +21,9 @@ func Test_getItemTypeByName(t *testing.T) {
 			want: 1,
 		},
 		{
-			name: "node type",
+			name: "note type",
 			args: args{
-				name: "node",
+				name: "note",
 			},
 			want: 2,
 		},
