@@ -169,9 +169,9 @@ func runGetItems(token string) []Item {
 	// unmarshall json
 	singleString := strings.Join(result, " ")
 	var items []Item
-	err = transformToItem(singleString, &items)
+	err = json.Unmarshal([]byte(singleString), &items)
 	if err != nil {
-		log.Println(err)
+		log.Printf("Failed to unmarshall body. Err: %s\n", err)
 	}
 	if wf.Debug() {
 		log.Printf("Bitwarden number of lines of returned data are: %d\n", len(result))
@@ -252,9 +252,17 @@ func runGetItem() {
 			if totp {
 				jsonPath = "login.totp"
 			}
-			value := gjson.Get(string(data), fmt.Sprintf("ciphers_%s.%s.%s", bwData.UserId, id, jsonPath))
+
+			var value gjson.Result
+			if bwData.ActiveUserId != "" {
+				// different location for version 1.21.1 and above
+				value = gjson.Get(string(data), fmt.Sprintf("%s.data.ciphers.encrypted.%s.%s", bwData.UserId, id, jsonPath))
+			} else {
+				value = gjson.Get(string(data), fmt.Sprintf("ciphers_%s.%s.%s", bwData.UserId, id, jsonPath))
+			}
 			if value.Exists() {
 				encryptedSecret = value.String()
+				debugLog(fmt.Sprintf("encryptedSecret value is: %v [truncated]", encryptedSecret[:5]))
 			} else {
 				log.Print("Error, value for gjson not found.")
 				isDecryptSecretFromJsonFailed = true
@@ -345,9 +353,9 @@ func runGetFolders(token string) []Folder {
 	// unmarshall json
 	singleString := strings.Join(result, " ")
 	var folders []Folder
-	err = transformToItem(singleString, &folders)
+	err = json.Unmarshal([]byte(singleString), &folders)
 	if err != nil {
-		log.Println(err)
+		log.Printf("Failed to unmarshall body. Err: %s", err)
 	}
 	if wf.Debug() {
 		log.Printf("Bitwarden number of lines of returned data are: %d\n", len(result))

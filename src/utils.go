@@ -4,7 +4,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	aw "github.com/deanishe/awgo"
 	"github.com/go-cmd/cmd"
@@ -13,14 +12,6 @@ import (
 	"os/exec"
 	"strings"
 )
-
-func transformToItem(input string, target interface{}) error {
-	err := json.Unmarshal([]byte(input), &target)
-	if err != nil {
-		return fmt.Errorf("Failed to unmarshall body. Err: %s", err)
-	}
-	return nil
-}
 
 func checkReturn(status cmd.Status, message string) ([]string, error) {
 	exitCode := status.Exit

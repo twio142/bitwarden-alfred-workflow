@@ -15,9 +15,36 @@ import (
 	"github.com/jychri/tilde"
 )
 
+var itemTypes = map[string]int{
+	"login":    1,
+	"note":     2,
+	"card":     3,
+	"identity": 4,
+}
+
+func getItemTypeByName(name string) int {
+	itemTypeId := itemTypes[name]
+	return itemTypeId
+
+}
+
+func isItemIdFound(itemId []string, item Item) bool {
+	for _, id := range itemId {
+		if item.Type == getItemTypeByName(id) {
+			return true
+		}
+	}
+	return false
+}
+
 func popuplateCacheItems(items []Item) {
 	var cacheItems []Item
+	skipItems := strings.Split(conf.SkipTypes, ",")
+
 	for _, item := range items {
+		if isItemIdFound(skipItems, item) {
+			continue
+		}
 		var tempItem Item
 		tempItem.Object = item.Object
 		tempItem.Id = item.Id
