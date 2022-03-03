@@ -8,7 +8,9 @@ import (
 	"fmt"
 	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
 	"github.com/kelseyhightower/envconfig"
+	"io/ioutil"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -31,82 +33,6 @@ var (
 	bwData    BwData
 )
 
-type modifierActionContent struct {
-	Title        string
-	Subtitle     string
-	Notification string
-	Action       string
-	Action2      string
-	Action3      string
-	Arg          string
-	Icon         *aw.Icon
-	ActionName   string
-}
-
-type modifierActionRelation struct {
-	Keys    []string
-	Content modifierActionContent
-}
-
-type itemsModifierActionRelationMap = map[string]map[string]modifierActionRelation
-
-type config struct {
-	// From workflow environment variables
-	AutoFetchIconCacheAge    int `default:"1440" split_words:"true"`
-	AutoFetchIconMaxCacheAge time.Duration
-	BwconfKeyword            string
-	BwauthKeyword            string
-	BwKeyword                string
-	BwfKeyword               string
-	BwExec                   string `split_words:"true"`
-	// BwDataPath default is set in loadBitwardenJSON()
-	BwDataPath         string `envconfig:"BW_DATA_PATH"`
-	Debug              bool   `envconfig:"DEBUG" default:"false"`
-	Email              string
-	EmptyDetailResults bool `default:"false" split_words:"true"`
-	IconCacheAge       int  `default:"43200" split_words:"true"`
-	IconCacheEnabled   bool `default:"true" split_words:"true"`
-	IconMaxCacheAge    time.Duration
-	MaxResults         int    `default:"1000" split_words:"true"`
-	Mod1               string `envconfig:"MODIFIER_1" default:"alt"`
-	Mod1Action         string `envconfig:"MODIFIER_1_ACTION" default:"username,code"`
-	Mod2               string `envconfig:"MODIFIER_2" default:"shift"`
-	Mod2Action         string `envconfig:"MODIFIER_2_ACTION" default:"url"`
-	Mod3               string `envconfig:"MODIFIER_3" default:"cmd"`
-	Mod3Action         string `envconfig:"MODIFIER_3_ACTION" default:"totp"`
-	Mod4               string `envconfig:"MODIFIER_4" default:"cmd,alt,ctrl"`
-	Mod4Action         string `envconfig:"MODIFIER_4_ACTION" default:"more"`
-	NoModAction        string `envconfig:"NO_MODIFIER_ACTION" default:"password,card"`
-	OutputFolder       string `default:"" split_words:"true"`
-	Path               string
-	ReorderingDisabled bool   `default:"true" split_words:"true"`
-	Server             string `envconfig:"SERVER_URL" default:"https://bitwarden.com"`
-	Sfa                bool   `envconfig:"2FA_ENABLED" default:"true"`
-	SfaMode            int    `envconfig:"2FA_MODE" default:"0"`
-	SyncCacheAge       int    `default:"1440" split_words:"true"`
-	SyncMaxCacheAge    time.Duration
-	TitleWithUser      bool `envconfig:"TITLE_WITH_USER" default:"true"`
-	TitleWithUrls      bool `envconfig:"TITLE_WITH_URLS" default:"true"`
-}
-
-type BwData struct {
-	path             string
-	InstalledVersion string                 `json:"installedVersion"`
-	UserEmail        string                 `json:"userEmail"`
-	UserId           string                 `json:"userId"`
-	AccessToken      string                 `json:"accessToken"`
-	RefreshToken     string                 `json:"refreshToken"`
-	ProtectedKey     string                 `json:"__PROTECTED__key"`
-	KeyHash          string                 `json:"keyHash"`
-	EncKey           string                 `json:"encKey"`
-	EncPrivateKey    string                 `json:"encPrivateKey"`
-	SecurityStamp    string                 `json:"securityStamp"`
-	EncOrgKeys       map[string]interface{} `json:"encOrgKeys"`
-	Kdf              int                    `json:"kdf"`
-	KdfIterations    int                    `json:"kdfIterations"`
-	Unused           map[string]interface{} `json:"-"`
-}
-
 func loadBitwardenJSON() error {
 	bwDataPath := conf.BwDataPath
 	if bwDataPath == "" {
@@ -124,7 +50,6 @@ func loadBitwardenJSON() error {
 }
 
 func loadDataFile(path string) error {
-	bwData.path = path
 	f, err := os.Open(path)
 	if os.IsNotExist(err) {
 		return nil
@@ -132,10 +57,122 @@ func loadDataFile(path string) error {
 		return err
 	}
 	defer f.Close()
-	if err := json.NewDecoder(f).Decode(&bwData); err != nil {
+	byteData, err := ioutil.ReadAll(f)
+	if err != nil {
 		return err
 	}
+	bwConfigData, err := decodeBitwardenDataJson(byteData)
+	if err != nil {
+		return err
+	}
+	bwData = bwConfigData
+	bwData.path = path
 	return nil
+}
+
+func decodeBitwardenDataJson(byteData []byte) (BwData, error) {
+	// unmarshal and decode towards an interface
+	newBwData := BwData{}
+
+	var parsed interface{}
+	err := json.Unmarshal(byteData, &parsed)
+	if err != nil {
+		return newBwData, err
+	}
+
+	switch parsed.(type) {
+	case map[string]interface{}:
+		table := parsed.(map[string]interface{})
+
+		if val, ok := table["userId"]; ok {
+			newBwData.UserId = fmt.Sprintf("%s", val)
+		}
+		if val, ok := table["activeUserId"]; ok {
+			newBwData.ActiveUserId = fmt.Sprintf("%s", val)
+		}
+
+		if newBwData.ActiveUserId != "" && newBwData.UserId == "" {
+			// version 1.21.1 and newer
+			newBwData.UserId = newBwData.ActiveUserId
+			if val, ok := table[fmt.Sprintf("__PROTECTED__%s_masterkey_auto", newBwData.UserId)]; ok {
+				newBwData.ProtectedKey = fmt.Sprintf("%s", val)
+			}
+			if val, ok := table["global"]; ok {
+				globalTable := val.(map[string]interface{})
+				if globalVal, ok := globalTable["installedVersion"]; ok {
+					newBwData.InstalledVersion = fmt.Sprintf("%s", globalVal)
+					newBwData.Global.InstalledVersion = fmt.Sprintf("%s", globalVal)
+				}
+			}
+			if val, ok := table[newBwData.UserId]; ok {
+				userTable := val.(map[string]interface{})
+				if keyVal, ok := userTable["keys"]; ok {
+					if apiKeyVal, ok := keyVal.(map[string]interface{})["apiKeyClientSecret"]; ok {
+						newBwData.Keys.ApiKeyClientSecret = fmt.Sprintf("%s", apiKeyVal)
+					}
+					if cryptSymKeyVal, ok := keyVal.(map[string]interface{})["cryptoSymmetricKey"]; ok {
+						if val, ok := cryptSymKeyVal.(map[string]interface{})["encrypted"]; ok {
+							newBwData.Keys.CryptoSymmetricKey.Encrypted = fmt.Sprintf("%s", val)
+							newBwData.EncKey = newBwData.Keys.CryptoSymmetricKey.Encrypted
+						}
+					}
+					if privateKeyVal, ok := keyVal.(map[string]interface{})["privateKey"]; ok {
+						if val, ok := privateKeyVal.(map[string]interface{})["encrypted"]; ok {
+							newBwData.Keys.PrivateKey.Encrypted = fmt.Sprintf("%s", val)
+						}
+					}
+				}
+				if tokensVal, ok := userTable["tokens"]; ok {
+					if val, ok := tokensVal.(map[string]interface{})["accessToken"]; ok {
+						newBwData.Tokens.AccessToken = fmt.Sprintf("%s", val)
+					}
+				}
+				if profileVal, ok := userTable["profile"]; ok {
+					if val, ok := profileVal.(map[string]interface{})["everBeenUnlocked"]; ok {
+						newBwData.Profile.EverBeenUnlocked, _ = strconv.ParseBool(fmt.Sprintf("%t", val))
+					}
+					if val, ok := profileVal.(map[string]interface{})["lastSync"]; ok {
+						newBwData.Profile.LastSync = fmt.Sprintf("%s", val)
+					}
+					if val, ok := profileVal.(map[string]interface{})["email"]; ok {
+						newBwData.Profile.Email = fmt.Sprintf("%s", val)
+						newBwData.UserEmail = newBwData.Profile.Email
+					}
+					if val, ok := profileVal.(map[string]interface{})["userId"]; ok {
+						newBwData.Profile.UserId = fmt.Sprintf("%s", val)
+					}
+					if val, ok := profileVal.(map[string]interface{})["kdfIterations"]; ok {
+						kdfIteractionsFloat64, _ := strconv.ParseFloat(fmt.Sprintf("%f", val), 64)
+						newBwData.KdfIterations = int64(kdfIteractionsFloat64)
+						newBwData.Profile.KdfIterations = newBwData.KdfIterations
+					}
+					if val, ok := profileVal.(map[string]interface{})["kdfType"]; ok {
+						kdfFloat64, _ := strconv.ParseFloat(fmt.Sprintf("%f", val), 64)
+						newBwData.Kdf = int64(kdfFloat64)
+						newBwData.Profile.KdfType = newBwData.Kdf
+					}
+				}
+			}
+
+		} else {
+			// version 1.21.0 and earlier
+			newBwData.InstalledVersion = fmt.Sprintf("%s", table["installedVersion"])
+			newBwData.UserEmail = fmt.Sprintf("%s", table["userEmail"])
+			newBwData.ProtectedKey = fmt.Sprintf("%s", table["__PROTECTED__key"])
+			newBwData.EncKey = fmt.Sprintf("%s", table["encKey"])
+
+			// kdfIterations is the only int/float value
+			kdfIteractionsFloat64, _ := strconv.ParseFloat(fmt.Sprintf("%f", table["kdfIterations"]), 64)
+			newBwData.KdfIterations = int64(kdfIteractionsFloat64)
+			kdfFloat64, _ := strconv.ParseFloat(fmt.Sprintf("%f", table["kdf"]), 64)
+			newBwData.Kdf = int64(kdfFloat64)
+		}
+
+	default:
+		return newBwData, fmt.Errorf("type %T unexpected", parsed)
+	}
+
+	return newBwData, nil
 }
 
 func loadConfig() {
@@ -150,6 +187,8 @@ func loadConfig() {
 	if err != nil {
 		log.Print(err.Error())
 	}
+
+	debugLog(fmt.Sprintf("BwData config is: %+v", bwData))
 
 	conf.Email = alfred.GetEmail(wf, conf.Email, bwData.UserEmail)
 	conf.OutputFolder = alfred.GetOutputFolder(wf, conf.OutputFolder)

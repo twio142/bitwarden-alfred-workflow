@@ -2057,10 +2057,6 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string></string>
 		<key>BW_EXEC</key>
 		<string>bw</string>
-		<key>CACHE_AGE</key>
-		<string>7200</string>
-		<key>CACHE_TIMEOUT</key>
-		<string>1440</string>
 		<key>DEBUG</key>
 		<string>false</string>
 		<key>EMAIL</key>
@@ -2101,10 +2097,10 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>true</string>
 		<key>SERVER_URL</key>
 		<string></string>
+		<key>SKIP_TYPES</key>
+		<string></string>
 		<key>SYNC_CACHE_AGE</key>
 		<string>10080</string>
-		<key>SYNC_CACHE_TIMEOUT</key>
-		<string>1440</string>
 		<key>TITLE_WITH_URLS</key>
 		<string>true</string>
 		<key>TITLE_WITH_USER</key>
@@ -2130,7 +2126,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>SERVER_URL</string>
 	</array>
 	<key>version</key>
-	<string>2.4.1</string>
+	<string>2.4.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/blacs30/bitwarden-alfred-workflow</string>
 </dict>

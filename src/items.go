@@ -474,23 +474,19 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		}
 
 		getModifierActionRelations(itemModSet, item, "item1", icon, totp, url)
-		//TODO add log levels and verbosity levels
-		//log.Printf("Item1:\n%+v", itemModSet["item1"])
+		debugLog(fmt.Sprintf("Item1:\n%+v", itemModSet["item1"]))
 		addNewItem(itemModSet["item1"], item.Name)
 	} else if item.Type == 2 {
 		getModifierActionRelations(itemModSet, item, "item2", nil, "", "")
-		//TODO add log levels and verbosity levels
-		//log.Printf("Item2:\n%+v", itemModSet["item2"])
+		debugLog(fmt.Sprintf("Item2:\n%+v", itemModSet["item2"]))
 		addNewItem(itemModSet["item2"], item.Name)
 	} else if item.Type == 3 {
 		getModifierActionRelations(itemModSet, item, "item3", nil, "", "")
-		//TODO add log levels and verbosity levels
-		//log.Printf("Item3:\n%+v", itemModSet["item3"])
+		debugLog(fmt.Sprintf("Item3:\n%+v", itemModSet["item3"]))
 		addNewItem(itemModSet["item3"], item.Name)
 	} else if item.Type == 4 {
 		getModifierActionRelations(itemModSet, item, "item4", nil, "", "")
-		//TODO add log levels and verbosity levels
-		//log.Printf("Item4:\n%+v", itemModSet["item4"])
+		debugLog(fmt.Sprintf("Item4:\n%+v", itemModSet["item4"]))
 		addNewItem(itemModSet["item4"], item.Name)
 	} else {
 		log.Printf("New item, needs to be implemented.")

@@ -37,7 +37,26 @@ var (
 )
 
 func init() {
-	wf = aw.New(update.GitHub(repo), aw.HelpURL(issueTrackerURL))
+	if len(os.Getenv("alfred_workflow_bundleid")) == 0 {
+		if err := os.Setenv("alfred_workflow_bundleid", "com.lisowski-development.alfred.bitwarden"); err != nil {
+			fmt.Println(err)
+		}
+	}
+	if len(os.Getenv("alfred_workflow_data")) == 0 {
+		if err := os.Setenv("alfred_workflow_data", "./tmp/data"); err != nil {
+			fmt.Println(err)
+		}
+	}
+	if len(os.Getenv("alfred_workflow_cache")) == 0 {
+		if err := os.Setenv("alfred_workflow_cache", "./tmp/cache"); err != nil {
+			fmt.Println(err)
+		}
+	}
+	if len(os.Getenv("alfred_workflow_version")) == 0 {
+		wf = aw.New()
+	} else {
+		wf = aw.New(update.GitHub(repo), aw.HelpURL(issueTrackerURL))
+	}
 	loadConfig()
 }
 
