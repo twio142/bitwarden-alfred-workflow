@@ -388,7 +388,14 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					continue
 				}
 				assignedIcon := iconLink
-				subtitle := "Copy URL"
+				subtitle := "Open URL"
+				loginUrlAction := "-open"
+				notification := " "
+				if !conf.OpenLoginUrl {
+					subtitle = "Copy URL"
+					loginUrlAction = "output"
+					notification = fmt.Sprintf("Copy url for user:\n%s", item.Login.Username)
+				}
 				if modMode == "nomod" {
 					assignedIcon = icon
 					subtitle = fmt.Sprintf("↩ or ⇥ copy URL, %s Password, %s Username %s %s Show more", passEmoji, userEmoji, totp, moreEmoji)
@@ -396,8 +403,8 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: " ",
-					Action:       "-open",
+					Notification: notification,
+					Action:       loginUrlAction,
 					Action2:      " ",
 					Action3:      " ",
 					Arg:          item.Login.Uris[0].Uri,

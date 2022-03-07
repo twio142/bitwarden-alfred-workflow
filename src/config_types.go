@@ -67,6 +67,7 @@ type config struct {
 	SyncMaxCacheAge    time.Duration
 	TitleWithUser      bool `envconfig:"TITLE_WITH_USER" default:"true"`
 	TitleWithUrls      bool `envconfig:"TITLE_WITH_URLS" default:"true"`
+	OpenLoginUrl       bool `envconfig:"OPEN_LOGIN_URL" default:"true"`
 }
 
 type BwData struct {
