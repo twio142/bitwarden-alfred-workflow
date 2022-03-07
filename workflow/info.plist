@@ -2091,6 +2091,8 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>password,card</string>
 		<key>OUTPUT_FOLDER</key>
 		<string></string>
+		<key>OPEN_LOGIN_URL</key>
+		<string>true</string>
 		<key>PATH</key>
 		<string>/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/bin:/usr/sbin</string>
 		<key>REORDERING_DISABLED</key>
@@ -2126,7 +2128,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>SERVER_URL</string>
 	</array>
 	<key>version</key>
-	<string>2.4.2</string>
+	<string>2.4.3</string>
 	<key>webaddress</key>
 	<string>https://github.com/blacs30/bitwarden-alfred-workflow</string>
 </dict>
