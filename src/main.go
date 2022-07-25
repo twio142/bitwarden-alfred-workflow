@@ -7,16 +7,17 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
-	"github.com/deanishe/awgo"
-	"github.com/deanishe/awgo/update"
-	ps "github.com/mitchellh/go-ps"
-	"github.com/soellman/pidfile"
 	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/davecgh/go-spew/spew"
+	aw "github.com/deanishe/awgo"
+	"github.com/deanishe/awgo/update"
+	ps "github.com/mitchellh/go-ps"
+	"github.com/soellman/pidfile"
 )
 
 const (
@@ -274,7 +275,7 @@ func run() {
 		for i := 0; i < cli.NArg(); i++ {
 			argString = append(argString, cli.Arg(i))
 		}
-		log.Print(fmt.Sprintf("argstring is %q", strings.Join(argString, " ")))
+		log.Printf("argstring is %q", strings.Join(argString, " "))
 		searchAlfred(strings.Join(argString, " "))
 		return
 	}

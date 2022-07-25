@@ -6,16 +6,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
-	aw "github.com/deanishe/awgo"
-	"github.com/oliveagle/jsonpath"
-	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
+	aw "github.com/deanishe/awgo"
+	"github.com/oliveagle/jsonpath"
+	"github.com/tidwall/gjson"
 )
 
 const (
@@ -326,7 +327,7 @@ func runGetItem() {
 			}
 			receivedItem = fmt.Sprintf("%v", res)
 			if wf.Debug() {
-				log.Println(fmt.Sprintf("Received key is: %s*", receivedItem[0:2]))
+				log.Printf("Received key is: %s*", receivedItem[0:2])
 			}
 		} else {
 			receivedItem = strings.Join(result, " ")
@@ -479,7 +480,7 @@ func runLogin() {
 		password = passwordReturn[0]
 	}
 
-	log.Println(fmt.Sprintf("first few chars of the password is %s", password[0:2]))
+	log.Printf("first few chars of the password is %s", password[0:2])
 	password = strings.TrimRight(password, "\r\n")
 
 	args := fmt.Sprintf("%s login %s %s", conf.BwExec, email, password)
