@@ -14,9 +14,10 @@ jobs:
     name: lint
     runs-on: ubuntu-20.04
     steps:
-      - name: Granting private modules access
-        run: |
-          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
+# Not needed since it's a public repo
+#      - name: Granting private modules access
+#        run: |
+#          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -39,9 +40,10 @@ jobs:
     name: test
     runs-on: ubuntu-20.04
     steps:
-      - name: Granting private modules access
-        run: |
-          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
+# Not needed since it's a public repo
+#     - name: Granting private modules access
+#       run: |
+#         git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -73,9 +75,10 @@ jobs:
       matrix:
         os: [macos-10.15, macos-11, macos-12, ubuntu-20.04]
     steps:
-      - name: Granting private modules access
-        run: |
-          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
+# Not needed since it's a public repo    
+#      - name: Granting private modules access
+#        run: |
+#          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
 
       - name: Set up Go
         uses: actions/setup-go@v2

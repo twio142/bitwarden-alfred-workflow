@@ -8,11 +8,12 @@ on:
 
 jobs:
   build-release:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
-      - name: Granting private modules access
-        run: |
-          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
+ # Not needed since it's a public repo
+ #     - name: Granting private modules access
+ #       run: |
+ #         git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -20,7 +21,7 @@ jobs:
           go-version: ~1.18
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Unshallow
         run: git fetch --prune --unshallow
@@ -48,9 +49,10 @@ jobs:
     needs: build-release
     runs-on: ubuntu-20.04
     steps:
-      - name: Granting private modules access
-        run: |
-          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
+ # Not needed since it's a public repo
+#      - name: Granting private modules access
+#        run: |
+#          git config --global url."https://${{ secrets.GO_MODULES_TOKEN }}:x-oauth-basic@github.com/blacs30".insteadOf "https://github.com/blacs30"
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -58,7 +60,7 @@ jobs:
           go-version: ~1.18
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Dowload artifacts
         uses: actions/download-artifact@v2
