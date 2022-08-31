@@ -6,13 +6,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
-	"github.com/kelseyhightower/envconfig"
 	"io/ioutil"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
+	"github.com/kelseyhightower/envconfig"
 
 	"log"
 
@@ -86,9 +87,19 @@ func decodeBitwardenDataJson(byteData []byte) (BwData, error) {
 
 		if val, ok := table["userId"]; ok {
 			newBwData.UserId = fmt.Sprintf("%s", val)
+			if val == nil {
+				newBwData.UserId = ""
+			}
+		} else if val == nil {
+			newBwData.UserId = ""
 		}
 		if val, ok := table["activeUserId"]; ok {
 			newBwData.ActiveUserId = fmt.Sprintf("%s", val)
+			if val == nil {
+				newBwData.ActiveUserId = ""
+			}
+		} else if val == nil {
+			newBwData.ActiveUserId = ""
 		}
 
 		if newBwData.ActiveUserId != "" && newBwData.UserId == "" {
