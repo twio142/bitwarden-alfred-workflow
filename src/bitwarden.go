@@ -6,17 +6,18 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
+	aw "github.com/deanishe/awgo"
+	"github.com/ncruces/zenity"
+	"github.com/oliveagle/jsonpath"
+	"github.com/tidwall/gjson"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
+	"sync"
 	"time"
-
-	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
-	aw "github.com/deanishe/awgo"
-	"github.com/oliveagle/jsonpath"
-	"github.com/tidwall/gjson"
 )
 
 const (
@@ -143,12 +144,26 @@ func getItems() {
 		wf.Fatal("Get Token error")
 	}
 
-	items := runGetItems(token)
-	folders := runGetFolders(token)
+  items := runGetItems(token)
+  folders := runGetFolders(token)
 
 	// prepare cached struct which excludes all secret data
-	popuplateCacheItems(items)
-	popuplateCacheFolders(folders)
+  populateCacheItems(items)
+  populateCacheFolders(folders)
+	// var wg sync.WaitGroup
+	// // prepare cached struct which excludes all secret data
+	// wg.Add(1)
+	// go func() {
+	// 	items := runGetItems(token)
+	// 	populateCacheItems(items, &wg)
+
+	// }()
+	// wg.Add(1)
+	// go func() {
+	// 	folders := runGetFolders(token)
+	// 	populateCacheFolders(folders, &wg)
+	// }()
+	// wg.Wait()
 }
 
 // runGetItems uses the Bitwarden CLI to get all items and returns them to the calling function
@@ -377,38 +392,25 @@ func runUnlock() {
 		wf.Fatal("No email configured.")
 	}
 
-	// first check if Bitwarden is logged in and locked
-	loginErr, unlockErr := BitwardenAuthChecks()
-	if loginErr != nil {
-		searchAlfred(fmt.Sprintf("%s login", conf.BwauthKeyword))
-		wf.Fatal(NOT_LOGGED_IN_MSG)
-		return
+	_, pw, _ := zenity.Password(
+		zenity.Title(fmt.Sprintf("Unlock account %s", email)),
+	)
 
-	}
-	if unlockErr == nil {
-		searchAlfred(conf.BwKeyword)
-		wf.Fatal("Already unlocked")
-		return
-
-	}
-
-	inputScriptPassword := fmt.Sprintf("/usr/bin/osascript bitwarden-js-pw-promot.js Unlock %s password true", email)
 	message := "Failed to get Password to Unlock."
-	// user needs to input pasword
-	passwordReturn, err := runCmd(inputScriptPassword, message)
-	if err != nil {
-		wf.FatalError(err)
-	}
+
 	// set the password from the returned slice
 	password := ""
-	if len(passwordReturn) > 0 {
-		password = passwordReturn[0]
+	if len(pw) > 0 {
+		password = pw
 	} else {
 		wf.Fatal("No Password returned.")
 	}
+
 	// remove newline characters
 	password = strings.TrimRight(password, "\r\n")
-	log.Println("[ERROR] ==> first few chars of the password is ", password[0:2])
+	if wf.Debug() {
+		log.Println("[DEBUG] ==> first few chars of the password is ", password[0:2])
+	}
 
 	// Unlock Bitwarden now
 	message = "Unlocking Bitwarden failed."
@@ -429,8 +431,18 @@ func runUnlock() {
 		log.Println(err)
 	}
 	if wf.Debug() {
-		log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
+		log.Println("[DEBUG] ==> first few chars of the token is ", token[0:2])
 	}
+
+	// Writing the sync-cache
+	err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Creating the items cache
+	runCache()
+
 	searchAlfred(conf.BwKeyword)
 	fmt.Println("Unlocked")
 }
@@ -449,56 +461,72 @@ func runLogin() {
 		wf.Fatal("No email configured.")
 	}
 
-	loginErr, unlockErr := BitwardenAuthChecks()
-	if loginErr == nil {
-		if unlockErr != nil {
-			searchAlfred(fmt.Sprintf("%s unlock", conf.BwauthKeyword))
-			if wf.Debug() {
-				log.Println("[ERROR] ==> Already logged in but locked.")
-			}
-			wf.Fatal("Already logged in but locked")
-			return
+	message := "Failed to get Password to Login."
+	// set the password from the returned slice
+	password := ""
 
+	if !conf.UseApikey {
+		_, pw, _ := zenity.Password(
+			zenity.Title(fmt.Sprintf("Login account %s", email)),
+		)
+		if len(pw) > 0 {
+			password = pw
 		} else {
-			searchAlfred(conf.BwKeyword)
-			if wf.Debug() {
-				log.Println("[ERROR] ==> Already logged in and unlocked.")
-			}
-			wf.Fatal("Already logged in and unlocked.")
+			return
+		}
+		password = strings.TrimRight(password, "\r\n")
+		if wf.Debug() {
+			log.Println("[DEBUG] ==> first few chars of the password is ", password[0:2])
 		}
 	}
 
-	inputScriptPassword := fmt.Sprintf("/usr/bin/osascript bitwarden-js-pw-promot.js Login %s password true", email)
-	message := "Failed to get Password to Login."
-	passwordReturn, err := runCmd(inputScriptPassword, message)
-	if err != nil {
-		wf.FatalError(err)
-	}
-	// set the password from the returned slice
-	password := ""
-	if len(passwordReturn) > 0 {
-		password = passwordReturn[0]
-	}
-
-	log.Printf("first few chars of the password is %s", password[0:2])
-	password = strings.TrimRight(password, "\r\n")
-
 	args := fmt.Sprintf("%s login %s %s", conf.BwExec, email, password)
-	if sfa {
+
+	log.Println("Use apikey", conf.UseApikey)
+	if conf.UseApikey {
+		client_id, _ := zenity.Entry("Enter API Key client_id:",
+			zenity.Title(fmt.Sprintf("Login account %s", email)))
+		client_secret, _ := zenity.Entry("Enter API Key client_secret:",
+			zenity.Title(fmt.Sprintf("Login account %s", email)))
+		os.Setenv("BW_CLIENTID", client_id)
+		os.Setenv("BW_CLIENTSECRET", client_secret)
+		args = fmt.Sprintf("%s login --apikey", conf.BwExec)
+
+	} else if sfa {
 		display2faMode := map2faMode(sfaMode)
-		inputScript2faCode := fmt.Sprintf("/usr/bin/osascript bitwarden-js-pw-promot.js Login %s %s false", email, display2faMode)
-		message := "Failed to get 2FA code to Login."
-		sfacodeReturn, err := runCmd(inputScript2faCode, message)
+		sfacodeReturn := ""
+		if sfaMode == 0 {
+			sfacodeReturn, _ = zenity.Entry("Enter Authentictor code:",
+				zenity.Title(fmt.Sprintf("Login account %s", email)))
+		} else if sfaMode == 1 {
+
+			emailMessage := "Failed to request Bitwarden email token."
+			emailArgs := fmt.Sprintf("%s login %s %s --raw --method %d", conf.BwExec, email, password, sfaMode)
+			emailReturn, err := runCmdWithContext(conf.EmailMaxWait, emailArgs, emailMessage)
+			if err != nil {
+				wf.FatalError(err)
+			}
+			if emailReturn[0] != "Two-step login code" {
+				log.Println("[DEBUG] ==> unexpected email code response.")
+			}
+
+			sfacodeReturn, _ = zenity.Entry("Enter Email authentication code that was sent to you:",
+				zenity.Title(fmt.Sprintf("Login account %s", email)))
+		} else if sfaMode == 3 {
+			sfacodeReturn, _ = zenity.Entry("Enter Yubicey OTP code:",
+				zenity.Title(fmt.Sprintf("Login account %s", email)))
+		} else {
+			fmt.Printf("Unsupported 2fa mode %q.\n", display2faMode)
+			return
+		}
+
 		sfaCode := ""
 		if len(sfacodeReturn) > 0 {
-			sfaCode = sfacodeReturn[0]
+			sfaCode = sfacodeReturn
 		} else {
 			wf.Fatal("No 2FA code returned.")
 		}
 
-		if err != nil {
-			wf.Fatalf("Error reading password, %s", err)
-		}
 		args = fmt.Sprintf("%s login %s %s --raw --method %d --code %s", conf.BwExec, email, password, sfaMode, sfaCode)
 	}
 
@@ -507,28 +535,52 @@ func runLogin() {
 	if err != nil {
 		wf.FatalError(err)
 	}
-	// set the token from the returned result
-	token := ""
-	if len(tokenReturn) > 0 {
-		token = tokenReturn[0]
+
+	// If we use the api key no token is returned, we first need to run unlock
+
+	if conf.UseApikey {
+    // reset sync-cache
+		err = wf.Cache.StoreJSON(CACHE_NAME, nil)
+		if err != nil {
+			fmt.Println("Error cleaning cache..")
+		}
+
+    fmt.Println("APIKEY.")
+    return
 	} else {
-		wf.Fatal("No token returned after unlocking.")
+		// set the token from the returned result
+		token := ""
+		if len(tokenReturn) > 0 {
+			token = tokenReturn[0]
+		} else {
+			wf.Fatal("No token returned after unlocking.")
+		}
+		err = alfred.SetToken(wf, token)
+		if err != nil {
+			log.Println(err)
+		}
+		if wf.Debug() {
+			log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
+		}
+
+		// reset sync-cache
+		err = wf.Cache.StoreJSON(CACHE_NAME, nil)
+		if err != nil {
+			fmt.Println("Error cleaning cache..")
+		}
+
+		// Writing the sync-cache
+		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+		if err != nil {
+			log.Println(err)
+		}
+
+		// Creating the items cache
+		runCache()
 	}
-	err = alfred.SetToken(wf, token)
-	if err != nil {
-		log.Println(err)
-	}
-	if wf.Debug() {
-		log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
-	}
+
 	searchAlfred(conf.BwKeyword)
 	fmt.Println("Logged In.")
-
-	// reset sync-cache
-	err = wf.Cache.StoreJSON(CACHE_NAME, nil)
-	if err != nil {
-		fmt.Println("Error cleaning cache..")
-	}
 }
 
 // Logout from Bitwarden

@@ -8,7 +8,11 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"sort"
 	"strings"
+	"sync"
+	"unicode"
+	"unicode/utf8"
 
 	aw "github.com/deanishe/awgo"
 	"github.com/jpillora/go-tld"
@@ -37,14 +41,15 @@ func isItemIdFound(itemId []string, item Item) bool {
 	return false
 }
 
-func popuplateCacheItems(items []Item) {
+// func populateCacheItems(items []Item, wg *sync.WaitGroup) {
+func populateCacheItems(items []Item) {
+	// defer wg.Done()
 	var cacheItems []Item
 	skipItems := strings.Split(conf.SkipTypes, ",")
+	var itemWg sync.WaitGroup
 
-	for _, item := range items {
-		if isItemIdFound(skipItems, item) {
-			continue
-		}
+	runPopulateCacheItems := func(item Item, wg *sync.WaitGroup) {
+		defer wg.Done()
 		var tempItem Item
 		tempItem.Object = item.Object
 		tempItem.Id = item.Id
@@ -152,10 +157,21 @@ func popuplateCacheItems(items []Item) {
 			})
 		}
 		tempItem.Attachments = tempAttachments
-
-		// last step: appending cached items
 		cacheItems = append(cacheItems, tempItem)
 	}
+
+	for _, item := range items {
+		if isItemIdFound(skipItems, item) {
+			continue
+		}
+
+		itemWg.Add(1)
+		// last step: appending cached items
+		go runPopulateCacheItems(item, &itemWg)
+	}
+	itemWg.Wait()
+
+	sort.Slice(cacheItems, func(i, j int) bool { return lessCaseInsensitive(cacheItems[i].Name, cacheItems[j].Name) })
 
 	data, err := json.Marshal(cacheItems)
 	if err != nil {
@@ -165,6 +181,33 @@ func popuplateCacheItems(items []Item) {
 
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
 		getIcon(wf)
+	}
+}
+
+// From here https://programming-idioms.org/idiom/297/sort-a-list-of-strings-case-insensitively/5458/go
+func lessCaseInsensitive(s, t string) bool {
+	for {
+		if len(t) == 0 {
+			return false
+		}
+		if len(s) == 0 {
+			return true
+		}
+		c, sizec := utf8.DecodeRuneInString(s)
+		d, sized := utf8.DecodeRuneInString(t)
+
+		lowerc := unicode.ToLower(c)
+		lowerd := unicode.ToLower(d)
+
+		if lowerc < lowerd {
+			return true
+		}
+		if lowerc > lowerd {
+			return false
+		}
+
+		s = s[sizec:]
+		t = t[sized:]
 	}
 }
 
@@ -184,15 +227,27 @@ func getIcon(workflow *aw.Workflow) {
 	}
 }
 
-func popuplateCacheFolders(folders []Folder) {
+// func populateCacheFolders(folders []Folder, wg *sync.WaitGroup) {
+func populateCacheFolders(folders []Folder) {
+	// defer wg.Done()
 	var cacheFolders []Folder
-	for _, folder := range folders {
+	var folderWg sync.WaitGroup
+
+	parallelFolderCache := func(folder Folder, wg *sync.WaitGroup) {
+		defer wg.Done()
 		var tempFolder Folder
 		tempFolder.Name = folder.Name
 		tempFolder.Object = folder.Object
 		tempFolder.Id = folder.Id
 		cacheFolders = append(cacheFolders, tempFolder)
 	}
+
+	for _, folder := range folders {
+		folderWg.Add(1)
+		go parallelFolderCache(folder, &folderWg)
+	}
+
+	folderWg.Wait()
 
 	err := wf.Cache.StoreJSON(FOLDER_CACHE_NAME, cacheFolders)
 	if err != nil {

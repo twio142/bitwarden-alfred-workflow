@@ -40,7 +40,7 @@ func Encrypt(message []byte) (string, bool) {
 	}
 	enHex := fmt.Sprintf("%x:%x", nonce[:], encrypted)
 	if wf.Debug() {
-		fmt.Println("ENCRYPTED:", enHex)
+		log.Println("ENCRYPTED:", enHex)
 	}
 	err = wf.Cache.Store(CACHE_NAME, []byte(enHex))
 	if err != nil {

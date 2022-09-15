@@ -428,25 +428,11 @@ func runSfa() {
 			enum  string
 		}{
 			{
-				title: "Use U2F (untested)",
-				uid:   "u2f",
-				icon:  iconU2f,
-				name:  "U2F",
-				enum:  "4",
-			},
-			{
-				title: "Use Yubikey (untested)",
-				uid:   "yubikey",
-				icon:  iconYubi,
-				name:  "Yubikey",
-				enum:  "3",
-			},
-			{
-				title: "Use Duo (untested)",
-				uid:   "duo",
-				icon:  iconDuo,
-				name:  "Duo",
-				enum:  "2",
+				title: "Use Authenticator app",
+				uid:   "totp",
+				icon:  iconApp,
+				name:  "Authenticator app",
+				enum:  "0",
 			},
 			{
 				title: "Use Email",
@@ -456,11 +442,11 @@ func runSfa() {
 				enum:  "1",
 			},
 			{
-				title: "Use Authenticator app",
-				uid:   "totp",
-				icon:  iconApp,
-				name:  "Authenticator app",
-				enum:  "0",
+				title: "Use Yubikey OTP",
+				uid:   "yubikey",
+				icon:  iconYubi,
+				name:  "Yubikey",
+				enum:  "3",
 			},
 		}
 		for _, item := range factorMap {

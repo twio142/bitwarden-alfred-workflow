@@ -42,6 +42,7 @@ type config struct {
 	BwDataPath         string `envconfig:"BW_DATA_PATH"`
 	Debug              bool   `envconfig:"DEBUG" default:"false"`
 	Email              string
+	EmailMaxWait       int  `envconfig:"EMAIL_MAX_WAIT" default:"15"`
 	EmptyDetailResults bool `default:"false" split_words:"true"`
 	IconCacheAge       int  `default:"43200" split_words:"true"`
 	IconCacheEnabled   bool `default:"true" split_words:"true"`
@@ -56,6 +57,7 @@ type config struct {
 	Mod4               string `envconfig:"MODIFIER_4" default:"cmd,alt,ctrl"`
 	Mod4Action         string `envconfig:"MODIFIER_4_ACTION" default:"more"`
 	NoModAction        string `envconfig:"NO_MODIFIER_ACTION" default:"password,card"`
+	OpenLoginUrl       bool   `envconfig:"OPEN_LOGIN_URL" default:"true"`
 	OutputFolder       string `default:"" split_words:"true"`
 	Path               string
 	ReorderingDisabled bool   `default:"true" split_words:"true"`
@@ -67,7 +69,7 @@ type config struct {
 	SyncMaxCacheAge    time.Duration
 	TitleWithUser      bool `envconfig:"TITLE_WITH_USER" default:"true"`
 	TitleWithUrls      bool `envconfig:"TITLE_WITH_URLS" default:"true"`
-	OpenLoginUrl       bool `envconfig:"OPEN_LOGIN_URL" default:"true"`
+	UseApikey          bool `envconfig:"USE_APIKEY" default:"false"`
 }
 
 type BwData struct {

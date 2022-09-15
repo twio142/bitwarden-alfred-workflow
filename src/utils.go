@@ -4,6 +4,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	aw "github.com/deanishe/awgo"
 	"github.com/go-cmd/cmd"
@@ -11,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 func checkReturn(status cmd.Status, message string) ([]string, error) {
@@ -58,6 +60,9 @@ func checkReturn(status cmd.Status, message string) ([]string, error) {
 		errMessage := ""
 		for _, line := range status.Stderr {
 			errMessage += fmt.Sprintf(" %s", line)
+			if exitCode == -1 && strings.Contains(errMessage, "Two-step login code") {
+				return []string{"Two-step login code"}, nil
+			}
 		}
 		return []string{}, fmt.Errorf("Unexpected error. Exit code %d. Has the session key changed?\n[ERROR] %s", exitCode, errMessage)
 	}
@@ -70,6 +75,24 @@ func runCmd(args string, message string) ([]string, error) {
 	status := <-runCmd.Start()
 
 	return checkReturn(status, message)
+}
+
+func runCmdWithContext(emailMaxWait int, args string, message string) ([]string, error) {
+	// Start a long-running process, capture stdout and stderr
+	c, cancel := context.WithTimeout(context.Background(), time.Duration(emailMaxWait)*time.Second)
+	defer cancel()
+
+	argSet := strings.Fields(args)
+	runCmd := cmd.NewCmd(argSet[0], argSet[1:]...)
+
+	select {
+	case status := <-runCmd.Start():
+		return checkReturn(status, message)
+	case <-c.Done():
+		log.Print(c.Err())
+		// return runCmd.Status().Stderr, nil
+		return checkReturn(runCmd.Status(), message)
+	}
 }
 
 func searchAlfred(search string) {
