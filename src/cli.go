@@ -539,14 +539,8 @@ func runSearch(folderSearch bool, itemId string) {
 		}
 	}
 
-	// Check the sync cache, if it expired.
-	// don't sync if age is set to 0
-	// this cache is just a control to automatically trigger the sync, the data itself is stored in the data  cache (CACHE_NAME and FOLDER_CACHE_NAME)
-
-	// If the cache has expired, set Rerun (which tells Alfred to re-run the
-	// workflow), and start the background update process if it isn't already
-	// running.
-	if conf.SyncCacheAge != 0 && (wf.Cache.Expired(SYNC_CACHE_NAME, conf.SyncMaxCacheAge) || (wf.Cache.Expired(CACHE_NAME, conf.SyncMaxCacheAge) || wf.Cache.Expired(FOLDER_CACHE_NAME, conf.SyncMaxCacheAge))) {
+	// Check if the sync cache exists
+	if !wf.Cache.Exists(SYNC_CACHE_NAME) && !wf.Cache.Exists(CACHE_NAME) {
 		if !wf.IsRunning("sync") {
 			wf.NewItem("Cache expired/not existing. Need to run a sync.").
 				Subtitle("Sync Bitwarden secrets with server.").

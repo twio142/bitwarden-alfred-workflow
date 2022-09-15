@@ -16,7 +16,6 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -67,7 +66,7 @@ func runSync(force bool, last bool) {
 			wf.Fatal("Get Token error")
 		}
 
-		args := ""
+		args := fmt.Sprintf("%s sync --session %s", conf.BwExec, token)
 		message := "Syncing Bitwarden failed."
 		output := "Synced."
 
@@ -76,15 +75,11 @@ func runSync(force bool, last bool) {
 		} else if last {
 			args = fmt.Sprintf("%s sync --last --session %s", conf.BwExec, token)
 			message = "Get last sync date failed."
-		} else {
-			args = fmt.Sprintf("%s sync --session %s", conf.BwExec, token)
-		}
+			result, err := runCmd(args, message)
+			if err != nil {
+				wf.FatalError(err)
+			}
 
-		result, err := runCmd(args, message)
-		if err != nil {
-			wf.FatalError(err)
-		}
-		if last {
 			formattedTime := "No received date"
 			retDate := strings.Join(result[:], "")
 			if retDate != "" {
@@ -92,24 +87,26 @@ func runSync(force bool, last bool) {
 				formattedTime = t.Format(time.RFC822)
 			}
 			output = fmt.Sprintf("Last sync date:\n%s", formattedTime)
+			fmt.Println(output)
+			return
+		}
+
+		_, err = runCmd(args, message)
+		if err != nil {
+			wf.FatalError(err)
 		}
 		// Printing the "Last sync date" or the message "synced"
 		fmt.Println(output)
 
-		// run these steps only if not getting just the last sync date
-		if !last {
-			getItems()
-
-			// Writing the sync-cache
-			err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
-			if err != nil {
-				log.Println(err)
-			}
-
-			// Creating the items cache
-			runCache()
+		// Writing the sync-cache to ensure that the sync completed
+		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+		if err != nil {
+			log.Println(err)
 		}
-		return
+
+		// Creating the items cache
+		runCache()
+		searchAlfred(conf.BwKeyword)
 	}
 }
 
@@ -144,12 +141,12 @@ func getItems() {
 		wf.Fatal("Get Token error")
 	}
 
-  items := runGetItems(token)
-  folders := runGetFolders(token)
+	items := runGetItems(token)
+	folders := runGetFolders(token)
 
 	// prepare cached struct which excludes all secret data
-  populateCacheItems(items)
-  populateCacheFolders(folders)
+	populateCacheItems(items)
+	populateCacheFolders(folders)
 	// var wg sync.WaitGroup
 	// // prepare cached struct which excludes all secret data
 	// wg.Add(1)
@@ -178,7 +175,7 @@ func runGetItems(token string) []Item {
 		wf.FatalError(err)
 	}
 	// block here and return if no items (secrets) are found
-	if len(result) <= 0 {
+	if len(result) < 1 {
 		log.Println("No items found.")
 		return nil
 	}
@@ -434,16 +431,11 @@ func runUnlock() {
 		log.Println("[DEBUG] ==> first few chars of the token is ", token[0:2])
 	}
 
-	// Writing the sync-cache
-	err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
-	if err != nil {
-		log.Println(err)
-	}
-
 	// Creating the items cache
-	runCache()
-
-	searchAlfred(conf.BwKeyword)
+	if wf.Cache.Exists(SYNC_CACHE_NAME) {
+		runCache()
+		searchAlfred(conf.BwKeyword)
+	}
 	fmt.Println("Unlocked")
 }
 
@@ -486,8 +478,23 @@ func runLogin() {
 	if conf.UseApikey {
 		client_id, _ := zenity.Entry("Enter API Key client_id:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
+    if len(client_id) < 1 {
+      if wf.Debug() {
+        log.Println("[DEBUG] ==> client_id is empty")
+      }
+      fmt.Println("Empty client_id received")
+      return
+    }
 		client_secret, _ := zenity.Entry("Enter API Key client_secret:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
+    if len(client_secret) < 1 {
+      if wf.Debug() {
+        log.Println("[DEBUG] ==> client_secret is empty")
+      }
+      fmt.Println("Empty client_secret received")
+      return
+    }
+
 		os.Setenv("BW_CLIENTID", client_id)
 		os.Setenv("BW_CLIENTSECRET", client_secret)
 		args = fmt.Sprintf("%s login --apikey", conf.BwExec)
@@ -539,14 +546,8 @@ func runLogin() {
 	// If we use the api key no token is returned, we first need to run unlock
 
 	if conf.UseApikey {
-    // reset sync-cache
-		err = wf.Cache.StoreJSON(CACHE_NAME, nil)
-		if err != nil {
-			fmt.Println("Error cleaning cache..")
-		}
-
-    fmt.Println("APIKEY.")
-    return
+		fmt.Println("APIKEY.")
+		return
 	} else {
 		// set the token from the returned result
 		token := ""
@@ -561,18 +562,6 @@ func runLogin() {
 		}
 		if wf.Debug() {
 			log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
-		}
-
-		// reset sync-cache
-		err = wf.Cache.StoreJSON(CACHE_NAME, nil)
-		if err != nil {
-			fmt.Println("Error cleaning cache..")
-		}
-
-		// Writing the sync-cache
-		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
-		if err != nil {
-			log.Println(err)
 		}
 
 		// Creating the items cache
@@ -605,12 +594,6 @@ func runLogout() {
 		wf.FatalError(err)
 	}
 	fmt.Println("Logged Out")
-
-	// reset sync-cache
-	err = wf.Cache.StoreJSON(CACHE_NAME, nil)
-	if err != nil {
-		fmt.Println("Error cleaning cache..")
-	}
 }
 
 func runCache() {

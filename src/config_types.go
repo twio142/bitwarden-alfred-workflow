@@ -65,11 +65,9 @@ type config struct {
 	Sfa                bool   `envconfig:"2FA_ENABLED" default:"true"`
 	SfaMode            int    `envconfig:"2FA_MODE" default:"0"`
 	SkipTypes          string `envconfig:"SKIP_TYPES" default:""`
-	SyncCacheAge       int    `default:"1440" split_words:"true"`
-	SyncMaxCacheAge    time.Duration
-	TitleWithUser      bool `envconfig:"TITLE_WITH_USER" default:"true"`
-	TitleWithUrls      bool `envconfig:"TITLE_WITH_URLS" default:"true"`
-	UseApikey          bool `envconfig:"USE_APIKEY" default:"false"`
+	TitleWithUser      bool   `envconfig:"TITLE_WITH_USER" default:"true"`
+	TitleWithUrls      bool   `envconfig:"TITLE_WITH_URLS" default:"true"`
+	UseApikey          bool   `envconfig:"USE_APIKEY" default:"false"`
 }
 
 type BwData struct {

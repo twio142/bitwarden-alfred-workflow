@@ -1151,7 +1151,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock</string>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock; ./bitwarden-alfred-workflow -sync</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1176,7 +1176,7 @@
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>Login Successful. Unlocing now</string>
+				<string>Login Successful. Unlocking now</string>
 				<key>title</key>
 				<string>Bitwarden v2</string>
 			</dict>

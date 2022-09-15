@@ -160,12 +160,13 @@ func populateCacheItems(items []Item) {
 		cacheItems = append(cacheItems, tempItem)
 	}
 
+	itemWg.Add(len(items))
 	for _, item := range items {
 		if isItemIdFound(skipItems, item) {
+			itemWg.Done()
 			continue
 		}
 
-		itemWg.Add(1)
 		// last step: appending cached items
 		go runPopulateCacheItems(item, &itemWg)
 	}

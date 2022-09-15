@@ -211,14 +211,6 @@ func loadConfig() {
 	autoFetchIconCacheAgeDuration := time.Duration(conf.AutoFetchIconCacheAge)
 	conf.AutoFetchIconMaxCacheAge = autoFetchIconCacheAgeDuration * time.Minute
 
-	// if SYNC_CACHE_AGE is lower than 30 but not 0 set to 30
-	setSyncCacheAge := conf.SyncCacheAge
-	if conf.SyncCacheAge < 30 && conf.SyncCacheAge != 0 {
-		setSyncCacheAge = 30
-	}
-	syncCacheAgeDuration := time.Duration(setSyncCacheAge)
-	conf.SyncMaxCacheAge = syncCacheAgeDuration * time.Minute
-
 	conf.BwauthKeyword = os.Getenv("bwauth_keyword")
 	conf.BwconfKeyword = os.Getenv("bwconf_keyword")
 	conf.BwKeyword = os.Getenv("bw_keyword")
