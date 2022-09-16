@@ -8,9 +8,8 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-	"sort"
 	"strings"
-	"sync"
+	// "sync"
 	"unicode"
 	"unicode/utf8"
 
@@ -41,15 +40,14 @@ func isItemIdFound(itemId []string, item Item) bool {
 	return false
 }
 
-// func populateCacheItems(items []Item, wg *sync.WaitGroup) {
 func populateCacheItems(items []Item) {
-	// defer wg.Done()
 	var cacheItems []Item
 	skipItems := strings.Split(conf.SkipTypes, ",")
-	var itemWg sync.WaitGroup
 
-	runPopulateCacheItems := func(item Item, wg *sync.WaitGroup) {
-		defer wg.Done()
+	for _, item := range items {
+		if isItemIdFound(skipItems, item) {
+			continue
+		}
 		var tempItem Item
 		tempItem.Object = item.Object
 		tempItem.Id = item.Id
@@ -157,22 +155,10 @@ func populateCacheItems(items []Item) {
 			})
 		}
 		tempItem.Attachments = tempAttachments
-		cacheItems = append(cacheItems, tempItem)
-	}
-
-	itemWg.Add(len(items))
-	for _, item := range items {
-		if isItemIdFound(skipItems, item) {
-			itemWg.Done()
-			continue
-		}
 
 		// last step: appending cached items
-		go runPopulateCacheItems(item, &itemWg)
+		cacheItems = append(cacheItems, tempItem)
 	}
-	itemWg.Wait()
-
-	sort.Slice(cacheItems, func(i, j int) bool { return lessCaseInsensitive(cacheItems[i].Name, cacheItems[j].Name) })
 
 	data, err := json.Marshal(cacheItems)
 	if err != nil {
@@ -228,27 +214,15 @@ func getIcon(workflow *aw.Workflow) {
 	}
 }
 
-// func populateCacheFolders(folders []Folder, wg *sync.WaitGroup) {
 func populateCacheFolders(folders []Folder) {
-	// defer wg.Done()
 	var cacheFolders []Folder
-	var folderWg sync.WaitGroup
-
-	parallelFolderCache := func(folder Folder, wg *sync.WaitGroup) {
-		defer wg.Done()
+	for _, folder := range folders {
 		var tempFolder Folder
 		tempFolder.Name = folder.Name
 		tempFolder.Object = folder.Object
 		tempFolder.Id = folder.Id
 		cacheFolders = append(cacheFolders, tempFolder)
 	}
-
-	for _, folder := range folders {
-		folderWg.Add(1)
-		go parallelFolderCache(folder, &folderWg)
-	}
-
-	folderWg.Wait()
 
 	err := wf.Cache.StoreJSON(FOLDER_CACHE_NAME, cacheFolders)
 	if err != nil {

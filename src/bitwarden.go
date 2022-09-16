@@ -119,14 +119,14 @@ func runLock() {
 		log.Println(err)
 	}
 
-	args := fmt.Sprintf("%s lock", conf.BwExec)
-
 	message := "Locking Bitwarden failed."
 	log.Println("Clearing items cache.")
-	err = wf.ClearCache()
+	err = clearCache()
 	if err != nil {
 		log.Println(err)
 	}
+
+	args := fmt.Sprintf("%s lock", conf.BwExec)
 	_, err = runCmd(args, message)
 	if err != nil {
 		wf.FatalError(err)
@@ -431,6 +431,15 @@ func runUnlock() {
 		log.Println("[DEBUG] ==> first few chars of the token is ", token[0:2])
 	}
 
+  if conf.UseApikey {
+		// Writing the sync-cache because we have unlocked the vault in apikey mode
+    // Items should be present
+		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+		if err != nil {
+			log.Println(err)
+		}
+  }
+
 	// Creating the items cache
 	if wf.Cache.Exists(SYNC_CACHE_NAME) {
 		runCache()
@@ -562,6 +571,13 @@ func runLogin() {
 		}
 		if wf.Debug() {
 			log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
+		}
+
+    // Writing the sync-cache because data is synced for Yubikey and Authenticator login
+    // Just the APIKEY login needs a separate unlock and therefore sync
+		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+		if err != nil {
+			log.Println(err)
 		}
 
 		// Creating the items cache
