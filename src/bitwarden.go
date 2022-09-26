@@ -147,20 +147,6 @@ func getItems() {
 	// prepare cached struct which excludes all secret data
 	populateCacheItems(items)
 	populateCacheFolders(folders)
-	// var wg sync.WaitGroup
-	// // prepare cached struct which excludes all secret data
-	// wg.Add(1)
-	// go func() {
-	// 	items := runGetItems(token)
-	// 	populateCacheItems(items, &wg)
-
-	// }()
-	// wg.Add(1)
-	// go func() {
-	// 	folders := runGetFolders(token)
-	// 	populateCacheFolders(folders, &wg)
-	// }()
-	// wg.Wait()
 }
 
 // runGetItems uses the Bitwarden CLI to get all items and returns them to the calling function
@@ -186,12 +172,10 @@ func runGetItems(token string) []Item {
 	if err != nil {
 		log.Printf("Failed to unmarshall body. Err: %s\n", err)
 	}
-	if wf.Debug() {
-		log.Printf("Bitwarden number of lines of returned data are: %d\n", len(result))
-		log.Println("Found ", len(items), " items.")
-		for _, item := range items {
-			log.Println("Name: ", item.Name, ", Id: ", item.Id)
-		}
+	debugLog(fmt.Sprintf("Bitwarden number of lines of returned data are: %d\n", len(result)))
+	debugLog(fmt.Sprintf("Found %d items.", len(items)))
+	for _, item := range items {
+		debugLog(fmt.Sprintf("Name: %s Id: %s", item.Name, item.Id))
 	}
 	return items
 }
@@ -431,14 +415,14 @@ func runUnlock() {
 		log.Println("[DEBUG] ==> first few chars of the token is ", token[0:2])
 	}
 
-  if conf.UseApikey {
+	if conf.UseApikey {
 		// Writing the sync-cache because we have unlocked the vault in apikey mode
-    // Items should be present
+		// Items should be present
 		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
 		if err != nil {
 			log.Println(err)
 		}
-  }
+	}
 
 	// Creating the items cache
 	if wf.Cache.Exists(SYNC_CACHE_NAME) {
@@ -487,22 +471,22 @@ func runLogin() {
 	if conf.UseApikey {
 		client_id, _ := zenity.Entry("Enter API Key client_id:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
-    if len(client_id) < 1 {
-      if wf.Debug() {
-        log.Println("[DEBUG] ==> client_id is empty")
-      }
-      fmt.Println("Empty client_id received")
-      return
-    }
+		if len(client_id) < 1 {
+			if wf.Debug() {
+				log.Println("[DEBUG] ==> client_id is empty")
+			}
+			fmt.Println("Empty client_id received")
+			return
+		}
 		client_secret, _ := zenity.Entry("Enter API Key client_secret:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
-    if len(client_secret) < 1 {
-      if wf.Debug() {
-        log.Println("[DEBUG] ==> client_secret is empty")
-      }
-      fmt.Println("Empty client_secret received")
-      return
-    }
+		if len(client_secret) < 1 {
+			if wf.Debug() {
+				log.Println("[DEBUG] ==> client_secret is empty")
+			}
+			fmt.Println("Empty client_secret received")
+			return
+		}
 
 		os.Setenv("BW_CLIENTID", client_id)
 		os.Setenv("BW_CLIENTSECRET", client_secret)
@@ -573,8 +557,8 @@ func runLogin() {
 			log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
 		}
 
-    // Writing the sync-cache because data is synced for Yubikey and Authenticator login
-    // Just the APIKEY login needs a separate unlock and therefore sync
+		// Writing the sync-cache because data is synced for Yubikey and Authenticator login
+		// Just the APIKEY login needs a separate unlock and therefore sync
 		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
 		if err != nil {
 			log.Println(err)

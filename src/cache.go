@@ -9,7 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	// "sync"
+	"time"
 	"unicode"
 	"unicode/utf8"
 
@@ -41,12 +41,18 @@ func isItemIdFound(itemId []string, item Item) bool {
 }
 
 func populateCacheItems(items []Item) {
+	start := time.Now()
+
 	var cacheItems []Item
+
 	skipItems := strings.Split(conf.SkipTypes, ",")
 
-	for _, item := range items {
+	debugLog(fmt.Sprintf("Total Items # %d", len(items)))
+
+	for k, item := range items {
+		debugLog(fmt.Sprintf("Item # %d item.Name %s\n", k, item.Name))
 		if isItemIdFound(skipItems, item) {
-			continue
+			return
 		}
 		var tempItem Item
 		tempItem.Object = item.Object
@@ -160,15 +166,22 @@ func populateCacheItems(items []Item) {
 		cacheItems = append(cacheItems, tempItem)
 	}
 
+	debugLog(fmt.Sprintf("Total cacheItems # %d", len(cacheItems)))
+
 	data, err := json.Marshal(cacheItems)
 	if err != nil {
 		log.Println(err)
 	}
+
 	Encrypt(data)
 
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
 		getIcon(wf)
 	}
+
+	// calculate to exe time
+	elapsed := time.Since(start)
+	debugLog(fmt.Sprintf("Sum function took %s", elapsed))
 }
 
 // From here https://programming-idioms.org/idiom/297/sort-a-list-of-strings-case-insensitively/5458/go

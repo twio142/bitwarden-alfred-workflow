@@ -3,7 +3,10 @@
 
 package main
 
-import "time"
+import (
+	"sync"
+	"time"
+)
 
 type Folder struct {
 	Object string `json:"object"`
@@ -70,6 +73,11 @@ type Identity struct {
 	Username       string `json:"username"`
 	PassportNumber string `json:"passportNumber"`
 	LicenseNumber  string `json:"licenseNumber"`
+}
+
+type CacheItem struct {
+	mu    sync.Mutex
+	items []Item
 }
 
 // https://github.com/bitwarden/jslib/blob/master/common/src/enums/cipherType.ts
