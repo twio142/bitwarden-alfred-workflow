@@ -2208,6 +2208,8 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>true</string>
 		<key>USE_APIKEY</key>
 		<string>false</string>
+    <key>WEBUI_URL</key>
+		<string></string>
 		<key>bw_keyword</key>
 		<string>.bw</string>
 		<key>bwauth_keyword</key>
