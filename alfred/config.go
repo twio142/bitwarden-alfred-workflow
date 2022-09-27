@@ -2,11 +2,12 @@ package alfred
 
 import (
 	"fmt"
-	aw "github.com/deanishe/awgo"
-	"github.com/jychri/tilde"
 	"log"
 	"os"
 	"strings"
+
+	aw "github.com/deanishe/awgo"
+	"github.com/jychri/tilde"
 )
 
 func GetOutputFolder(wf *aw.Workflow, folder string) string {
@@ -37,7 +38,7 @@ func GetEmail(wf *aw.Workflow, configEmail string, bwEmail string) string {
 	return configEmail
 }
 
-//Set keys
+// Set keys
 func SetServer(wf *aw.Workflow, url string) error {
 	return wf.Config.Set("SERVER_URL", url, false).Do()
 }
@@ -52,4 +53,8 @@ func SetSfa(wf *aw.Workflow, enabled string) error {
 
 func SetSfaMode(wf *aw.Workflow, id string) error {
 	return wf.Config.Set("2FA_MODE", id, true).Do()
+}
+
+func SetApikey(wf *aw.Workflow, enabled string) error {
+	return wf.Config.Set("USE_APIKEY", enabled, false).Do()
 }

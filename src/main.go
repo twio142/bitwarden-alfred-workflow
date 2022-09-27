@@ -223,8 +223,8 @@ func run() {
 		return
 	}
 
-	if opts.Sfa {
-		runSfa()
+	if opts.AuthConfig {
+		runAuthConfig()
 		return
 	}
 
