@@ -43,6 +43,10 @@ func SetServer(wf *aw.Workflow, url string) error {
 	return wf.Config.Set("SERVER_URL", url, false).Do()
 }
 
+func SetWebUiUrl(wf *aw.Workflow, url string) error {
+	return wf.Config.Set("WEBUI_URL", url, false).Do()
+}
+
 func SetEmail(wf *aw.Workflow, address string) error {
 	return wf.Config.Set("EMAIL", address, false).Do()
 }
