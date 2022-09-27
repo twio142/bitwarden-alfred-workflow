@@ -2186,6 +2186,10 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>cmd,opt</string>
 		<key>MODIFIER_4_ACTION</key>
 		<string>more</string>
+    <key>MODIFIER_5</key>
+		<string>cmd,ctrl</string>
+		<key>MODIFIER_5_ACTION</key>
+		<string>webui</string>
 		<key>NO_MODIFIER_ACTION</key>
 		<string>password,card</string>
 		<key>OPEN_LOGIN_URL</key>
