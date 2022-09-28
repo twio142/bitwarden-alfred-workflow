@@ -10,8 +10,6 @@ import (
 	"os/exec"
 	"strings"
 	"time"
-	"unicode"
-	"unicode/utf8"
 
 	aw "github.com/deanishe/awgo"
 	"github.com/jpillora/go-tld"
@@ -179,36 +177,9 @@ func populateCacheItems(items []Item) {
 		getIcon(wf)
 	}
 
-	// calculate to exe time
+	// calculate to duration
 	elapsed := time.Since(start)
-	debugLog(fmt.Sprintf("Sum function took %s", elapsed))
-}
-
-// From here https://programming-idioms.org/idiom/297/sort-a-list-of-strings-case-insensitively/5458/go
-func lessCaseInsensitive(s, t string) bool {
-	for {
-		if len(t) == 0 {
-			return false
-		}
-		if len(s) == 0 {
-			return true
-		}
-		c, sizec := utf8.DecodeRuneInString(s)
-		d, sized := utf8.DecodeRuneInString(t)
-
-		lowerc := unicode.ToLower(c)
-		lowerd := unicode.ToLower(d)
-
-		if lowerc < lowerd {
-			return true
-		}
-		if lowerc > lowerd {
-			return false
-		}
-
-		s = s[sizec:]
-		t = t[sized:]
-	}
+	debugLog(fmt.Sprintf("Function exec time took %s", elapsed))
 }
 
 func getIcon(workflow *aw.Workflow) {
