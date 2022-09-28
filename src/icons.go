@@ -12,21 +12,21 @@ import (
 
 // Workflow icons
 var (
-	iconHelp              = &aw.Icon{Value: "icons/help.png"}
-	iconIssue             = &aw.Icon{Value: "icons/issue.png"}
-	iconLoading           = &aw.Icon{Value: "icons/loading.png"}
-	iconReload            = &aw.Icon{Value: "icons/reload.png"}
-	iconServer            = &aw.Icon{Value: "icons/server-solid.png"}
-	iconUpdateAvailable   = &aw.Icon{Value: "icons/update-available.png"}
-	iconUpdateOK          = &aw.Icon{Value: "icons/update-ok.png"}
-	iconWarning           = &aw.Icon{Value: "icons/warning.png"}
-	iconOn                = &aw.Icon{Value: "icons/on.png"}
-	iconOff               = &aw.Icon{Value: "icons/off.png"}
-	iconU2f               = &aw.Icon{Value: "icons/u2f.png"}
-	iconApp               = &aw.Icon{Value: "icons/app.png"}
-	iconEmail             = &aw.Icon{Value: "icons/email.png"}
-	iconEmailAt           = &aw.Icon{Value: "icons/at-solid.png"}
-	iconDuo               = &aw.Icon{Value: "icons/duo.png"}
+	iconHelp            = &aw.Icon{Value: "icons/help.png"}
+	iconIssue           = &aw.Icon{Value: "icons/issue.png"}
+	iconLoading         = &aw.Icon{Value: "icons/loading.png"}
+	iconReload          = &aw.Icon{Value: "icons/reload.png"}
+	iconServer          = &aw.Icon{Value: "icons/server-solid.png"}
+	iconUpdateAvailable = &aw.Icon{Value: "icons/update-available.png"}
+	iconUpdateOK        = &aw.Icon{Value: "icons/update-ok.png"}
+	iconWarning         = &aw.Icon{Value: "icons/warning.png"}
+	iconOn              = &aw.Icon{Value: "icons/on.png"}
+	iconOff             = &aw.Icon{Value: "icons/off.png"}
+	// iconU2f               = &aw.Icon{Value: "icons/u2f.png"}
+	iconApp     = &aw.Icon{Value: "icons/app.png"}
+	iconEmail   = &aw.Icon{Value: "icons/email.png"}
+	iconEmailAt = &aw.Icon{Value: "icons/at-solid.png"}
+	// iconDuo               = &aw.Icon{Value: "icons/duo.png"}
 	iconYubi              = &aw.Icon{Value: "icons/yubico.png"}
 	iconCreditCard        = &aw.Icon{Value: "icons/credit-card-solid.png"}
 	iconCreditCardRegular = &aw.Icon{Value: "icons/credit-card-regular.png"}

@@ -6,17 +6,17 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
-	aw "github.com/deanishe/awgo"
-	"github.com/ncruces/zenity"
-	"github.com/oliveagle/jsonpath"
-	"github.com/tidwall/gjson"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
+
+	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
+	aw "github.com/deanishe/awgo"
+	"github.com/ncruces/zenity"
+	"github.com/oliveagle/jsonpath"
+	"github.com/tidwall/gjson"
 )
 
 const (
@@ -238,7 +238,7 @@ func runGetItem() {
 
 		encryptedSecret := ""
 		if bwData.path != "" {
-			data, err := ioutil.ReadFile(bwData.path)
+			data, err := os.ReadFile(bwData.path)
 			if err != nil {
 				log.Print("Error reading file ", bwData.path)
 				isDecryptSecretFromJsonFailed = true
@@ -377,8 +377,6 @@ func runUnlock() {
 		zenity.Title(fmt.Sprintf("Unlock account %s", email)),
 	)
 
-	message := "Failed to get Password to Unlock."
-
 	// set the password from the returned slice
 	password := ""
 	if len(pw) > 0 {
@@ -394,7 +392,7 @@ func runUnlock() {
 	}
 
 	// Unlock Bitwarden now
-	message = "Unlocking Bitwarden failed."
+	message := "Unlocking Bitwarden failed."
 	args := fmt.Sprintf("%s unlock --raw %s", conf.BwExec, password)
 	tokenReturn, err := runCmd(args, message)
 	if err != nil {
@@ -446,7 +444,6 @@ func runLogin() {
 		wf.Fatal("No email configured.")
 	}
 
-	message := "Failed to get Password to Login."
 	// set the password from the returned slice
 	password := ""
 
@@ -530,7 +527,7 @@ func runLogin() {
 		args = fmt.Sprintf("%s login %s %s --raw --method %d --code %s", conf.BwExec, email, password, sfaMode, sfaCode)
 	}
 
-	message = "Login to Bitwarden failed."
+	message := "Login to Bitwarden failed."
 	tokenReturn, err := runCmd(args, message)
 	if err != nil {
 		wf.FatalError(err)

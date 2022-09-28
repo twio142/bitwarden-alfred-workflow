@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -122,7 +121,7 @@ func pidHandler(pidfilePath string) {
 
 func pidfileContents(filename string) (int, error) {
 	ErrFileInvalid := errors.New("pidfile has invalid contents")
-	contents, err := ioutil.ReadFile(filename)
+	contents, err := os.ReadFile(filename)
 	if err != nil {
 		return 0, err
 	}

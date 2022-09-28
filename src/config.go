@@ -6,7 +6,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -60,7 +60,7 @@ func loadDataFile(path string) error {
 		return err
 	}
 	defer f.Close()
-	byteData, err := ioutil.ReadAll(f)
+	byteData, err := io.ReadAll(f)
 	if err != nil {
 		return err
 	}
