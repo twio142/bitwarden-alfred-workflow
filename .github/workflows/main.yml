@@ -59,13 +59,14 @@ jobs:
       - name: Run Unit tests.
         run: make test-coverage
 
-      - name: Upload Coverage report to CodeCov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          file: ./coverage.txt
-          flags: unittests
-          fail_ci_if_error: true
+      # Disable for now, failing again
+      #- name: Upload Coverage report to CodeCov
+      #  uses: codecov/codecov-action@v1
+      #  with:
+      #    token: ${{secrets.CODECOV_TOKEN}}
+      #    file: ./coverage.txt
+      #    flags: unittests
+      #    fail_ci_if_error: true
 
   build:
     name: Build on ${{ matrix.os }}
