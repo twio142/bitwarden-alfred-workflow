@@ -7,14 +7,15 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
-	aw "github.com/deanishe/awgo"
-	"github.com/deanishe/awgo/util"
 	"log"
 	"os"
 	"os/exec"
 	"strconv"
 	"time"
+
+	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
+	aw "github.com/deanishe/awgo"
+	"github.com/deanishe/awgo/util"
 )
 
 var (
@@ -25,20 +26,21 @@ var (
 // CLI flags
 type options struct {
 	// Commands
-	Search     bool
-	Config     bool
-	SetConfigs bool
-	Auth       bool
-	Sfa        bool
-	Lock       bool
-	Icons      bool
-	Folder     bool
-	Unlock     bool
-	Login      bool
-	Logout     bool
-	Sync       bool
-	Open       bool
-	GetItem    bool
+	Search       bool
+	Config       bool
+	SetConfigs   bool
+	Auth         bool
+	OnOffConfigs bool
+	AuthConfig   bool
+	Lock         bool
+	Icons        bool
+	Folder       bool
+	Unlock       bool
+	Login        bool
+	Logout       bool
+	Sync         bool
+	Open         bool
+	GetItem      bool
 
 	// Options
 	Force      bool
@@ -58,7 +60,7 @@ func init() {
 	cli.BoolVar(&opts.Config, "conf", false, "show/filter configuration")
 	cli.BoolVar(&opts.SetConfigs, "setconfigs", false, "set configs")
 	cli.BoolVar(&opts.Auth, "auth", false, "show/filter auth configuration")
-	cli.BoolVar(&opts.Sfa, "sfa", false, "Display 2FA options")
+	cli.BoolVar(&opts.AuthConfig, "authconfig", false, "Display Auth config options")
 	cli.BoolVar(&opts.Open, "open", false, "open specified file in default app")
 	cli.BoolVar(&opts.Lock, "lock", false, "lock Bitwarden")
 	cli.BoolVar(&opts.Unlock, "unlock", false, "unlock Bitwarden")
@@ -94,7 +96,7 @@ Usage:
     bitwarden-alfred-workflow -output <query>
     bitwarden-alfred-workflow -search <query>
     bitwarden-alfred-workflow -setsfaconfig [<setting>]
-    bitwarden-alfred-workflow -sfa [<query>]
+    bitwarden-alfred-workflow -authconfig [<query>]
     bitwarden-alfred-workflow -sync [-force|-last] [-background]
     bitwarden-alfred-workflow -unlock
     bitwarden-alfred-workflow -h|-help
@@ -178,20 +180,40 @@ func runConfig() {
 		Var("subtitle", fmt.Sprintf("Currently set to: %q", server)).
 		Arg(opts.Query)
 
+	wf.NewItem("Set WebUI URL").
+		Subtitle("Configure your Bitwarden WebUI URL (Only for selfhosted Bitwarden needed)").
+		UID("webui").
+		Valid(true).
+		Icon(iconBw).
+		Var("action", "-setconfigs").
+		Var("action2", "webui").
+		Var("notification", fmt.Sprintf("Set WebUI URL to: \n%s", opts.Query)).
+		Var("title", "Set WebUI URL").
+		Var("subtitle", fmt.Sprintf("Currently set to: %q", conf.WebUiURL)).
+		Arg(opts.Query)
+
 	wf.NewItem("Enable or disable 2FA").
 		Subtitle("Configure Bitwarden to use or not use 2 Factor Authentication").
 		UID("sfa").
 		Valid(true).
 		Icon(iconUserClock).
-		Var("action", "-sfa").
-		Var("action2", "-id ON/OFF")
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-sfa")
+
+	wf.NewItem("Enable or disable API Key login").
+		Subtitle("Configure Bitwarden to use API keys to login").
+		UID("apikeyauth").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-apikey")
 
 	wf.NewItem("Set the 2FA method").
 		Subtitle("Configure which 2 Factor Authentication Method you use").
 		UID("sfamode").
 		Valid(true).
 		Icon(iconUserClock).
-		Var("action", "-sfa").
+		Var("action", "-authconfig").
 		Var("action2", "-id Use")
 
 	if wf.UpdateAvailable() {
@@ -387,6 +409,20 @@ func runSetConfigs() {
 			if err != nil {
 				wf.FatalError(err)
 			}
+		case "webui":
+			if value == "" {
+				value = "https://vault.bitwarden.com"
+			}
+			if cli.NArg() > 2 {
+				value = cli.Arg(1)
+				for i := 2; i < cli.NArg(); i++ {
+					value = fmt.Sprintf("%s %s", value, cli.Arg(i))
+				}
+			}
+			err = alfred.SetWebUiUrl(wf, value)
+			if err != nil {
+				wf.FatalError(err)
+			}
 		case "2fa":
 			err = alfred.SetSfa(wf, value)
 		case "2famode":
@@ -402,6 +438,8 @@ func runSetConfigs() {
 			fmt.Printf("DONE: Set %s to \n%s", mode, sfamode)
 			searchAlfred(conf.BwconfKeyword)
 			return
+		case "apikey":
+			err = alfred.SetApikey(wf, value)
 		}
 		if err != nil {
 			wf.FatalError(err)
@@ -412,11 +450,8 @@ func runSetConfigs() {
 }
 
 // Logout from Bitwarden
-func runSfa() {
+func runAuthConfig() {
 	wf.Configure(aw.TextErrors(true))
-
-	sfamode := map2faMode(conf.SfaMode)
-	sfa := conf.Sfa
 
 	if opts.Id == "Use" {
 		// https://github.com/bitwarden/jslib/blob/master/common/src/enums/twoFactorProviderType.ts
@@ -428,25 +463,11 @@ func runSfa() {
 			enum  string
 		}{
 			{
-				title: "Use U2F (untested)",
-				uid:   "u2f",
-				icon:  iconU2f,
-				name:  "U2F",
-				enum:  "4",
-			},
-			{
-				title: "Use Yubikey (untested)",
-				uid:   "yubikey",
-				icon:  iconYubi,
-				name:  "Yubikey",
-				enum:  "3",
-			},
-			{
-				title: "Use Duo (untested)",
-				uid:   "duo",
-				icon:  iconDuo,
-				name:  "Duo",
-				enum:  "2",
+				title: "Use Authenticator app",
+				uid:   "totp",
+				icon:  iconApp,
+				name:  "Authenticator app",
+				enum:  "0",
 			},
 			{
 				title: "Use Email",
@@ -456,16 +477,16 @@ func runSfa() {
 				enum:  "1",
 			},
 			{
-				title: "Use Authenticator app",
-				uid:   "totp",
-				icon:  iconApp,
-				name:  "Authenticator app",
-				enum:  "0",
+				title: "Use Yubikey OTP",
+				uid:   "yubikey",
+				icon:  iconYubi,
+				name:  "Yubikey",
+				enum:  "3",
 			},
 		}
 		for _, item := range factorMap {
 			wf.NewItem(item.title).
-				Subtitle(fmt.Sprintf("Currently set to: %q", sfamode)).
+				Subtitle(fmt.Sprintf("Currently set to: %q", map2faMode(conf.SfaMode))).
 				UID(item.uid).
 				Valid(true).
 				Icon(item.icon).
@@ -474,9 +495,9 @@ func runSfa() {
 				Var("action2", "2famode").
 				Arg(item.enum)
 		}
-	} else if opts.Id == "ON/OFF" {
+	} else if opts.Id == "on-off-sfa" {
 		wf.NewItem("ON/OFF: Enable 2FA for Bitwarden").
-			Subtitle(fmt.Sprintf("Currently set to: %t", sfa)).
+			Subtitle(fmt.Sprintf("Currently set to: %t", conf.Sfa)).
 			UID("sfaon").
 			Valid(true).
 			Icon(iconOn).
@@ -486,13 +507,33 @@ func runSfa() {
 			Arg("true")
 
 		wf.NewItem("ON/OFF: Disable 2FA for Bitwarden").
-			Subtitle(fmt.Sprintf("Currently set to: %t", sfa)).
+			Subtitle(fmt.Sprintf("Currently set to: %t", conf.Sfa)).
 			UID("sfaoff").
 			Valid(true).
 			Icon(iconOff).
 			Var("notification", "Disabled 2FA").
 			Var("action", "-setconfigs").
 			Var("action2", "2fa").
+			Arg("false")
+	} else if opts.Id == "on-off-apikey" {
+		wf.NewItem("ON/OFF: Enable APIKEY login for Bitwarden").
+			Subtitle(fmt.Sprintf("Currently set to: %t", conf.UseApikey)).
+			UID("apikeyon").
+			Valid(true).
+			Icon(iconOn).
+			Var("notification", "Enabled APIKEY login").
+			Var("action", "-setconfigs").
+			Var("action2", "apikey").
+			Arg("true")
+
+		wf.NewItem("ON/OFF: Disable APIKEY login for Bitwarden").
+			Subtitle(fmt.Sprintf("Currently set to: %t", conf.UseApikey)).
+			UID("sfaoff").
+			Valid(true).
+			Icon(iconOff).
+			Var("notification", "Disabled APIKEY login").
+			Var("action", "-setconfigs").
+			Var("action2", "apikey").
 			Arg("false")
 	}
 
@@ -553,14 +594,8 @@ func runSearch(folderSearch bool, itemId string) {
 		}
 	}
 
-	// Check the sync cache, if it expired.
-	// don't sync if age is set to 0
-	// this cache is just a control to automatically trigger the sync, the data itself is stored in the data  cache (CACHE_NAME and FOLDER_CACHE_NAME)
-
-	// If the cache has expired, set Rerun (which tells Alfred to re-run the
-	// workflow), and start the background update process if it isn't already
-	// running.
-	if conf.SyncCacheAge != 0 && (wf.Cache.Expired(SYNC_CACHE_NAME, conf.SyncMaxCacheAge) || (wf.Cache.Expired(CACHE_NAME, conf.SyncMaxCacheAge) || wf.Cache.Expired(FOLDER_CACHE_NAME, conf.SyncMaxCacheAge))) {
+	// Check if the sync cache exists
+	if !wf.Cache.Exists(SYNC_CACHE_NAME) && !wf.Cache.Exists(CACHE_NAME) {
 		if !wf.IsRunning("sync") {
 			wf.NewItem("Cache expired/not existing. Need to run a sync.").
 				Subtitle("Sync Bitwarden secrets with server.").

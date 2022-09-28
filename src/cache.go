@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	aw "github.com/deanishe/awgo"
 	"github.com/jpillora/go-tld"
@@ -37,13 +38,19 @@ func isItemIdFound(itemId []string, item Item) bool {
 	return false
 }
 
-func popuplateCacheItems(items []Item) {
+func populateCacheItems(items []Item) {
+	start := time.Now()
+
 	var cacheItems []Item
+
 	skipItems := strings.Split(conf.SkipTypes, ",")
 
-	for _, item := range items {
+	debugLog(fmt.Sprintf("Total Items # %d", len(items)))
+
+	for k, item := range items {
+		debugLog(fmt.Sprintf("Item # %d item.Name %s\n", k, item.Name))
 		if isItemIdFound(skipItems, item) {
-			continue
+			return
 		}
 		var tempItem Item
 		tempItem.Object = item.Object
@@ -157,15 +164,22 @@ func popuplateCacheItems(items []Item) {
 		cacheItems = append(cacheItems, tempItem)
 	}
 
+	debugLog(fmt.Sprintf("Total cacheItems # %d", len(cacheItems)))
+
 	data, err := json.Marshal(cacheItems)
 	if err != nil {
 		log.Println(err)
 	}
+
 	Encrypt(data)
 
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
 		getIcon(wf)
 	}
+
+	// calculate to duration
+	elapsed := time.Since(start)
+	debugLog(fmt.Sprintf("Function exec time took %s", elapsed))
 }
 
 func getIcon(workflow *aw.Workflow) {
@@ -184,7 +198,7 @@ func getIcon(workflow *aw.Workflow) {
 	}
 }
 
-func popuplateCacheFolders(folders []Folder) {
+func populateCacheFolders(folders []Folder) {
 	var cacheFolders []Folder
 	for _, folder := range folders {
 		var tempFolder Folder

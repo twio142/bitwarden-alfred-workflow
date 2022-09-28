@@ -5,27 +5,28 @@ package main
 
 import (
 	"fmt"
-	aw "github.com/deanishe/awgo"
 	"log"
+
+	aw "github.com/deanishe/awgo"
 )
 
 // Workflow icons
 var (
-	iconHelp              = &aw.Icon{Value: "icons/help.png"}
-	iconIssue             = &aw.Icon{Value: "icons/issue.png"}
-	iconLoading           = &aw.Icon{Value: "icons/loading.png"}
-	iconReload            = &aw.Icon{Value: "icons/reload.png"}
-	iconServer            = &aw.Icon{Value: "icons/server-solid.png"}
-	iconUpdateAvailable   = &aw.Icon{Value: "icons/update-available.png"}
-	iconUpdateOK          = &aw.Icon{Value: "icons/update-ok.png"}
-	iconWarning           = &aw.Icon{Value: "icons/warning.png"}
-	iconOn                = &aw.Icon{Value: "icons/on.png"}
-	iconOff               = &aw.Icon{Value: "icons/off.png"}
-	iconU2f               = &aw.Icon{Value: "icons/u2f.png"}
-	iconApp               = &aw.Icon{Value: "icons/app.png"}
-	iconEmail             = &aw.Icon{Value: "icons/email.png"}
-	iconEmailAt           = &aw.Icon{Value: "icons/at-solid.png"}
-	iconDuo               = &aw.Icon{Value: "icons/duo.png"}
+	iconHelp            = &aw.Icon{Value: "icons/help.png"}
+	iconIssue           = &aw.Icon{Value: "icons/issue.png"}
+	iconLoading         = &aw.Icon{Value: "icons/loading.png"}
+	iconReload          = &aw.Icon{Value: "icons/reload.png"}
+	iconServer          = &aw.Icon{Value: "icons/server-solid.png"}
+	iconUpdateAvailable = &aw.Icon{Value: "icons/update-available.png"}
+	iconUpdateOK        = &aw.Icon{Value: "icons/update-ok.png"}
+	iconWarning         = &aw.Icon{Value: "icons/warning.png"}
+	iconOn              = &aw.Icon{Value: "icons/on.png"}
+	iconOff             = &aw.Icon{Value: "icons/off.png"}
+	// iconU2f               = &aw.Icon{Value: "icons/u2f.png"}
+	iconApp     = &aw.Icon{Value: "icons/app.png"}
+	iconEmail   = &aw.Icon{Value: "icons/email.png"}
+	iconEmailAt = &aw.Icon{Value: "icons/at-solid.png"}
+	// iconDuo               = &aw.Icon{Value: "icons/duo.png"}
 	iconYubi              = &aw.Icon{Value: "icons/yubico.png"}
 	iconCreditCard        = &aw.Icon{Value: "icons/credit-card-solid.png"}
 	iconCreditCardRegular = &aw.Icon{Value: "icons/credit-card-regular.png"}
@@ -52,6 +53,7 @@ var (
 	iconDate              = &aw.Icon{Value: "icons/calendar-alt-solid.png"}
 	iconIdCard            = &aw.Icon{Value: "icons/id-card-solid.png"}
 	iconIdBatch           = &aw.Icon{Value: "icons/id-badge-solid.png"}
+	iconBw                = &aw.Icon{Value: "icon.png"}
 	//iconSettings          = &aw.Icon{Value: "icons/settings.png"}
 	//iconURL               = &aw.Icon{Value: "icons/url.png"}
 	//iconBitwarden         = &aw.Icon{Value: "icons/bitwarden.png"}

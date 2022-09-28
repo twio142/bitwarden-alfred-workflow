@@ -6,7 +6,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -31,6 +31,8 @@ var (
 	mod3Emoji string
 	mod4      []string
 	mod4Emoji string
+	mod5      []string
+	mod5Emoji string
 	bwData    BwData
 )
 
@@ -58,7 +60,7 @@ func loadDataFile(path string) error {
 		return err
 	}
 	defer f.Close()
-	byteData, err := ioutil.ReadAll(f)
+	byteData, err := io.ReadAll(f)
 	if err != nil {
 		return err
 	}
@@ -211,14 +213,6 @@ func loadConfig() {
 	autoFetchIconCacheAgeDuration := time.Duration(conf.AutoFetchIconCacheAge)
 	conf.AutoFetchIconMaxCacheAge = autoFetchIconCacheAgeDuration * time.Minute
 
-	// if SYNC_CACHE_AGE is lower than 30 but not 0 set to 30
-	setSyncCacheAge := conf.SyncCacheAge
-	if conf.SyncCacheAge < 30 && conf.SyncCacheAge != 0 {
-		setSyncCacheAge = 30
-	}
-	syncCacheAgeDuration := time.Duration(setSyncCacheAge)
-	conf.SyncMaxCacheAge = syncCacheAgeDuration * time.Minute
-
 	conf.BwauthKeyword = os.Getenv("bwauth_keyword")
 	conf.BwconfKeyword = os.Getenv("bwconf_keyword")
 	conf.BwKeyword = os.Getenv("bw_keyword")
@@ -236,6 +230,8 @@ func initModifiers() {
 	mod3Emoji = getModifierEmoji(conf.Mod3)
 	mod4 = getModifierKey(conf.Mod4)
 	mod4Emoji = getModifierEmoji(conf.Mod4)
+	mod5 = getModifierKey(conf.Mod5)
+	mod5Emoji = getModifierEmoji(conf.Mod5)
 }
 
 func getModifierKey(keys string) []string {
@@ -291,6 +287,7 @@ func getTypeEmoji(itemType string) (string, error) {
 		conf.Mod2Action:  mod2Emoji,
 		conf.Mod3Action:  mod3Emoji,
 		conf.Mod4Action:  mod4Emoji,
+		conf.Mod5Action:  mod5Emoji,
 	}
 	for keys, emoji := range modKeysMap {
 		splitKeys := strings.Split(keys, ",")
@@ -311,6 +308,7 @@ func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, it
 		"mod2":  conf.Mod2Action,
 		"mod3":  conf.Mod3Action,
 		"mod4":  conf.Mod4Action,
+		"mod5":  conf.Mod5Action,
 	}
 	for modMode, action := range modModes {
 		setModAction(itemModConfig, item, itemType, modMode, action, icon, totp, url)
@@ -339,6 +337,15 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	webUiEmoji, err := getTypeEmoji("webui")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	// urlEmoji, err := getTypeEmoji("url")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
+
 	splitActions := strings.Split(actionString, ",")
 	for _, action := range splitActions {
 		action = strings.TrimSpace(action)
@@ -359,7 +366,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			if action == "password" {
 				subtitle := "Copy password"
 				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("↩ or ⇥ copy Password, %s %s, %s %s %s Show more", userEmoji, item.Login.Username, totp, url, moreEmoji)
+					subtitle = fmt.Sprintf("↩ or ⇥ copy Password, %s %s, %s %s %s Show more, %s open in WebUI", userEmoji, item.Login.Username, totp, url, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
@@ -379,7 +386,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				subtitle := "Copy Username"
 				if modMode == "nomod" {
 					assignedIcon = icon
-					subtitle = fmt.Sprintf("↩ or ⇥ copy Username, %s Password, %s %s %s Show more", passEmoji, totp, url, moreEmoji)
+					subtitle = fmt.Sprintf("↩ or ⇥ copy Username, %s Password, %s %s %s Show more, %s open in WebUI", passEmoji, totp, url, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
@@ -409,7 +416,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				}
 				if modMode == "nomod" {
 					assignedIcon = icon
-					subtitle = fmt.Sprintf("↩ or ⇥ copy URL, %s Password, %s Username %s %s Show more", passEmoji, userEmoji, totp, moreEmoji)
+					subtitle = fmt.Sprintf("↩ or ⇥ copy URL, %s Password, %s Username %s %s Show more, %s open in WebUI", passEmoji, userEmoji, totp, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
@@ -479,7 +486,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			if action == "card" {
 				subtitle := "Copy Card Number"
 				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Card Number, %s copy Security Code, %s show more", item.Card.Brand, item.Card.Number, codeEmoji, moreEmoji)
+					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Card Number, %s copy Security Code, %s show more, %s open in WebUI", item.Card.Brand, item.Card.Number, codeEmoji, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
@@ -497,7 +504,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			if action == "code" {
 				subtitle := "Copy card security code"
 				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Security Code, %s copy Card Number, %s show more", item.Card.Brand, item.Card.Number, cardEmoji, moreEmoji)
+					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Security Code, %s copy Card Number, %s show more, %s open in WebUI", item.Card.Brand, item.Card.Number, cardEmoji, moreEmoji, webUiEmoji)
 				}
 				assignedIcon := iconPassword
 				if modMode == "nomod" {
@@ -545,6 +552,28 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			}
 			setItemMod(itemConfig, modItem, itemType, modMode)
 		}
+		if action == "webui" {
+			webUi := "https://vault.bitwarden.com"
+			if len(conf.WebUiURL) > 0 {
+				webUi = conf.WebUiURL
+			}
+			subtitle := "Open Bitwarden WebUI"
+			if modMode == "nomod" {
+				subtitle = fmt.Sprintf("↩ or ⇥ open in Web UI, %s Password, %s Username %s %s Show more", passEmoji, userEmoji, totp, moreEmoji)
+			}
+			modItem := modifierActionContent{
+				Title:        item.Name,
+				Subtitle:     subtitle,
+				Notification: " ",
+				Action:       "-open",
+				Action2:      " ",
+				Action3:      " ",
+				Arg:          fmt.Sprintf("%s/#/vault?itemId=%s", webUi, item.Id),
+				Icon:         iconBw,
+				ActionName:   action,
+			}
+			setItemMod(itemConfig, modItem, itemType, modMode)
+		}
 	}
 }
 
@@ -560,5 +589,7 @@ func setItemMod(itemConfig itemsModifierActionRelationMap, content modifierActio
 		itemConfig[itemType][modMode] = modifierActionRelation{Keys: mod3, Content: content}
 	case "mod4":
 		itemConfig[itemType][modMode] = modifierActionRelation{Keys: mod4, Content: content}
+	case "mod5":
+		itemConfig[itemType][modMode] = modifierActionRelation{Keys: mod5, Content: content}
 	}
 }

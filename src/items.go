@@ -5,12 +5,13 @@ package main
 
 import (
 	"fmt"
-	aw "github.com/deanishe/awgo"
 	"log"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	aw "github.com/deanishe/awgo"
 )
 
 func checkIconExistance(item Item, autoFetchCache bool) *aw.Icon {
@@ -515,6 +516,9 @@ func addNewItem(item map[string]modifierActionRelation, name string) *aw.Item {
 	}
 	if item["mod4"].Keys != nil {
 		addNewModifierItem(it, item["mod4"])
+	}
+	if item["mod5"].Keys != nil {
+		addNewModifierItem(it, item["mod5"])
 	}
 	return it
 }

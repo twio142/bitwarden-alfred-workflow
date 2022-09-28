@@ -3,7 +3,9 @@
 
 package main
 
-import "time"
+import (
+	"time"
+)
 
 type Folder struct {
 	Object string `json:"object"`

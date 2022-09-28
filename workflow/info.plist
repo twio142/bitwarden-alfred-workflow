@@ -19,6 +19,31 @@
 				<false/>
 			</dict>
 		</array>
+		<key>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
 		<array>
 			<dict>
@@ -114,19 +139,6 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>3E2F1180-58FF-4BE9-94B8-97CADE398C33</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -390,6 +402,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BE7A9FBE-78EE-4864-BF0B-F746A183164D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>AE9B3682-A2BD-466F-88A9-E31CC5F2299F</key>
 		<array>
 			<dict>
@@ -490,18 +515,6 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>B083B37D-7F08-4B68-B087-100C361FAAD9</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -514,13 +527,26 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>3E2F1180-58FF-4BE9-94B8-97CADE398C33</string>
+				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>sourceoutputuid</key>
-				<string>00DA71F8-A629-45CA-B5BB-67AFE7C5B746</string>
+				<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BE7A9FBE-78EE-4864-BF0B-F746A183164D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -568,7 +594,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+				<string>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -809,7 +835,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>(-sfa|-folder|-id)</string>
+						<string>(-authconfig|-folder|-id)</string>
 						<key>outputlabel</key>
 						<string>script filter</string>
 						<key>uid</key>
@@ -865,29 +891,17 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>-setconfigs.*(email|server)</string>
+						<string>-setconfigs.*(email|server|webui)</string>
 						<key>outputlabel</key>
 						<string>server and mail to keyword</string>
 						<key>uid</key>
 						<string>C7AE31D9-0033-44A4-889F-1030672647C0</string>
 					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>(-unlock|-login)</string>
-						<key>outputlabel</key>
-						<string>login and unlock</string>
-						<key>uid</key>
-						<string>00DA71F8-A629-45CA-B5BB-67AFE7C5B746</string>
-					</dict>
 				</array>
 				<key>elselabel</key>
 				<string>other action ie. open help</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -960,8 +974,6 @@
 				<integer>0</integer>
 				<key>hotmod</key>
 				<integer>0</integer>
-				<key>hotstring</key>
-				<string></string>
 				<key>leftcursor</key>
 				<false/>
 				<key>modsmode</key>
@@ -990,14 +1002,6 @@
 			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
 			<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.hidealfred</string>
-			<key>uid</key>
-			<string>C47F5274-3432-464F-AE3C-667513154747</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1053,6 +1057,35 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Bitwarden v2</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.hidealfred</string>
+			<key>uid</key>
+			<string>C47F5274-3432-464F-AE3C-667513154747</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>conditions</key>
 				<array>
 					<dict>
@@ -1100,6 +1133,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>other action ie. open help</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -1111,21 +1146,44 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>BE7A9FBE-78EE-4864-BF0B-F746A183164D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
-				<true/>
+				<false/>
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>{query}</string>
+				<string>Login Successful. Unlocking now</string>
 				<key>title</key>
 				<string>Bitwarden v2</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+			<string>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1223,25 +1281,34 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<true/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>APIKEY</string>
+						<key>outputlabel</key>
+						<string>Unlock</string>
+						<key>uid</key>
+						<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>finalize</string>
+				<key>hideelse</key>
 				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>/usr/bin/osascript bitwarden-auth-flow.js $type $email $sfamode $mapsfamode</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>3E2F1180-58FF-4BE9-94B8-97CADE398C33</string>
+			<string>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1326,6 +1393,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>other actions ie. open help, urls</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -1414,6 +1483,8 @@
 				<string>[{"imagefile":"9febae04e9b11418d8c716fa6a295abfcdf2c95b.png","title":"Install","arg":"--install","subtitle":"Install automatic sync service (hour: {var:AUTO_HOUR} min: {var:AUTO_MIN})"},{"imagefile":"21dcb3fb3a76f001daa8d67a857cfb9573060b9a.png","title":"Remove","arg":"--remove","subtitle":"Remove automatic sync service"},{"imagefile":"adde5abb26a131f20cc3417c4206bd81e5341c81.png","title":"Create symlink","arg":"--link","subtitle":"Create symlink to make it easier to trigger a manual sync ({var:AUTOSYNC_SCRIPT_DIR})"}]</string>
 				<key>keyword</key>
 				<string>{var:bwauto_keyword}</string>
+				<key>matchmode</key>
+				<integer>0</integer>
 				<key>runningsubtext</key>
 				<string></string>
 				<key>subtext</key>
@@ -1486,6 +1557,8 @@
 				</array>
 				<key>elselabel</key>
 				<string></string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -1499,6 +1572,8 @@
 			<dict>
 				<key>delimiter</key>
 				<string>|</string>
+				<key>outputas</key>
+				<integer>0</integer>
 				<key>trimarguments</key>
 				<true/>
 				<key>variableprefix</key>
@@ -1544,6 +1619,8 @@
 				<string>[{"imagefile":"9febae04e9b11418d8c716fa6a295abfcdf2c95b.png","title":"Install","arg":"--install","subtitle":"Install automatic lock service (lock after: {var:LOCK_TIMEOUT} minutes and on startup)"},{"imagefile":"21dcb3fb3a76f001daa8d67a857cfb9573060b9a.png","title":"Remove","arg":"--remove","subtitle":"Remove automatic sync service"}]</string>
 				<key>keyword</key>
 				<string>{var:bwautolock_keyword}</string>
+				<key>matchmode</key>
+				<integer>0</integer>
 				<key>runningsubtext</key>
 				<string></string>
 				<key>subtext</key>
@@ -1683,6 +1760,8 @@
 				</array>
 				<key>elselabel</key>
 				<string></string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -1696,6 +1775,8 @@
 			<dict>
 				<key>delimiter</key>
 				<string>|</string>
+				<key>outputas</key>
+				<integer>0</integer>
 				<key>trimarguments</key>
 				<true/>
 				<key>variableprefix</key>
@@ -1746,48 +1827,55 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Gets the item detail view from within the folder view</string>
 			<key>xpos</key>
-			<integer>505</integer>
+			<real>505</real>
 			<key>ypos</key>
-			<integer>515</integer>
+			<real>515</real>
+		</dict>
+		<key>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</key>
+		<dict>
+			<key>xpos</key>
+			<real>1300</real>
+			<key>ypos</key>
+			<real>500</real>
 		</dict>
 		<key>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</key>
 		<dict>
 			<key>xpos</key>
-			<integer>1460</integer>
+			<real>1835</real>
 			<key>ypos</key>
-			<integer>310</integer>
+			<real>250</real>
 		</dict>
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
 		<dict>
 			<key>xpos</key>
-			<integer>175</integer>
+			<real>175</real>
 			<key>ypos</key>
-			<integer>125</integer>
+			<real>125</real>
 		</dict>
 		<key>29368892-614B-4A2B-92F3-FC433F748404</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>470</integer>
+			<real>470</real>
 			<key>ypos</key>
-			<integer>870</integer>
+			<real>870</real>
 		</dict>
 		<key>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</key>
 		<dict>
 			<key>xpos</key>
-			<integer>575</integer>
+			<real>575</real>
 			<key>ypos</key>
-			<integer>20</integer>
+			<real>20</real>
 		</dict>
 		<key>2B3376F5-F01D-4684-B705-A4779542318F</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>335</integer>
+			<real>335</real>
 			<key>ypos</key>
-			<integer>740</integer>
+			<real>740</real>
 		</dict>
 		<key>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</key>
 		<dict>
@@ -1796,184 +1884,191 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Copies Username and other insecure items to the Clipboard</string>
 			<key>xpos</key>
-			<integer>915</integer>
+			<real>915</real>
 			<key>ypos</key>
-			<integer>20</integer>
+			<real>20</real>
 		</dict>
 		<key>3D8E65EE-BD6E-4D7D-B22E-109157394D40</key>
 		<dict>
 			<key>xpos</key>
-			<integer>800</integer>
+			<real>800</real>
 			<key>ypos</key>
-			<integer>515</integer>
-		</dict>
-		<key>3E2F1180-58FF-4BE9-94B8-97CADE398C33</key>
-		<dict>
-			<key>xpos</key>
-			<integer>175</integer>
-			<key>ypos</key>
-			<integer>515</integer>
+			<real>515</real>
 		</dict>
 		<key>3FBE8D58-EE54-45E1-B8BF-DF69480FC771</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>615</integer>
+			<real>615</real>
 			<key>ypos</key>
-			<integer>900</integer>
+			<real>900</real>
 		</dict>
 		<key>46CBBEBF-67D9-4400-89D4-F84C281287BA</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>680</integer>
+			<real>680</real>
 			<key>ypos</key>
-			<integer>875</integer>
+			<real>875</real>
 		</dict>
 		<key>4BC115D2-2F84-4652-892B-3250887C4597</key>
 		<dict>
 			<key>xpos</key>
-			<integer>175</integer>
+			<real>175</real>
 			<key>ypos</key>
-			<integer>350</integer>
+			<real>350</real>
 		</dict>
 		<key>52000E80-E577-4C80-A905-75701E24D746</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>615</integer>
+			<real>615</real>
 			<key>ypos</key>
-			<integer>770</integer>
+			<real>770</real>
 		</dict>
 		<key>63C7EF82-4C28-406B-BB62-0184833056D8</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>840</integer>
+			<real>840</real>
 			<key>ypos</key>
-			<integer>740</integer>
+			<real>740</real>
 		</dict>
 		<key>6DF04CC1-78FE-421F-A096-1CAA55997739</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>840</integer>
+			<real>840</real>
 			<key>ypos</key>
-			<integer>870</integer>
+			<real>870</real>
 		</dict>
 		<key>70F9DDEF-3875-47B0-B56F-7AE23F6E9289</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>770</integer>
+			<real>770</real>
 			<key>ypos</key>
-			<integer>745</integer>
+			<real>745</real>
 		</dict>
 		<key>7553A30F-6A08-4DBF-807F-D32425A7A977</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>335</integer>
+			<real>335</real>
 			<key>ypos</key>
-			<integer>870</integer>
+			<real>870</real>
 		</dict>
 		<key>79A41248-A52A-4DBC-A56D-57DB85867909</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>770</integer>
+			<real>770</real>
 			<key>ypos</key>
-			<integer>875</integer>
+			<real>875</real>
 		</dict>
 		<key>7D173957-152E-4A0E-938C-BAE42484EEF0</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>680</integer>
+			<real>680</real>
 			<key>ypos</key>
-			<integer>745</integer>
+			<real>745</real>
 		</dict>
 		<key>7FF0E186-915A-4D98-A18B-7AEAE78C6B21</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>770</integer>
+			<real>770</real>
 			<key>ypos</key>
-			<integer>925</integer>
+			<real>925</real>
 		</dict>
 		<key>939EDEA7-B670-4496-BBCA-79A47F820A06</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>2</integer>
 			<key>xpos</key>
-			<integer>175</integer>
+			<real>175</real>
 			<key>ypos</key>
-			<integer>870</integer>
+			<real>870</real>
 		</dict>
 		<key>9820C2CA-1F87-4023-917E-BF7E6E98E47D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>690</integer>
+			<real>690</real>
 			<key>ypos</key>
-			<integer>280</integer>
+			<real>280</real>
 		</dict>
 		<key>A182FE34-37FE-4986-BF02-DE53693940AE</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>175</integer>
+			<real>175</real>
 			<key>ypos</key>
-			<integer>740</integer>
+			<real>740</real>
 		</dict>
 		<key>AA7C4B28-E91C-422C-8272-714C572EA0D1</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>470</integer>
+			<real>470</real>
 			<key>ypos</key>
-			<integer>740</integer>
+			<real>740</real>
+		</dict>
+		<key>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</key>
+		<dict>
+			<key>xpos</key>
+			<real>1360</real>
+			<key>ypos</key>
+			<real>325</real>
 		</dict>
 		<key>AE9B3682-A2BD-466F-88A9-E31CC5F2299F</key>
 		<dict>
 			<key>colorindex</key>
 			<integer>3</integer>
 			<key>xpos</key>
-			<integer>770</integer>
+			<real>770</real>
 			<key>ypos</key>
-			<integer>795</integer>
+			<real>795</real>
 		</dict>
 		<key>B083B37D-7F08-4B68-B087-100C361FAAD9</key>
 		<dict>
 			<key>xpos</key>
-			<integer>490</integer>
+			<real>490</real>
 			<key>ypos</key>
-			<integer>365</integer>
+			<real>365</real>
 		</dict>
 		<key>BB87567B-757A-4DE2-8022-DA48FD22663D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>335</integer>
+			<real>335</real>
 			<key>ypos</key>
-			<integer>90</integer>
+			<real>90</real>
+		</dict>
+		<key>BE7A9FBE-78EE-4864-BF0B-F746A183164D</key>
+		<dict>
+			<key>xpos</key>
+			<real>1555</real>
+			<key>ypos</key>
+			<real>285</real>
 		</dict>
 		<key>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</key>
 		<dict>
 			<key>xpos</key>
-			<integer>1360</integer>
+			<real>1360</real>
 			<key>ypos</key>
-			<integer>215</integer>
+			<real>215</real>
 		</dict>
 		<key>C47F5274-3432-464F-AE3C-667513154747</key>
 		<dict>
@@ -1982,30 +2077,30 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>This hides Alfred and opens files and urls.</string>
 			<key>xpos</key>
-			<integer>580</integer>
+			<real>580</real>
 			<key>ypos</key>
-			<integer>215</integer>
+			<real>250</real>
 		</dict>
 		<key>D24237CD-F51F-441E-B3DF-DD3AF9D4EB77</key>
 		<dict>
 			<key>xpos</key>
-			<integer>170</integer>
+			<real>170</real>
 			<key>ypos</key>
-			<integer>15</integer>
+			<real>15</real>
 		</dict>
 		<key>D65172E3-F69B-4607-95C1-A247FF400E84</key>
 		<dict>
 			<key>xpos</key>
-			<integer>1250</integer>
+			<real>1115</real>
 			<key>ypos</key>
-			<integer>365</integer>
+			<real>470</real>
 		</dict>
 		<key>D78812B0-AEB1-4A2C-BBC3-77ED891B40F4</key>
 		<dict>
 			<key>xpos</key>
-			<integer>175</integer>
+			<real>175</real>
 			<key>ypos</key>
-			<integer>240</integer>
+			<real>240</real>
 		</dict>
 		<key>D9165B59-BF7D-44B4-8602-431F41C8CFD5</key>
 		<dict>
@@ -2014,9 +2109,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Outputs passwords etc to the Clipboard in a transient mode.</string>
 			<key>xpos</key>
-			<integer>1295</integer>
+			<real>1295</real>
 			<key>ypos</key>
-			<integer>30</integer>
+			<real>30</real>
 		</dict>
 		<key>E16A1D44-5D3B-423E-AB99-1D189318EEE1</key>
 		<dict>
@@ -2025,18 +2120,20 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Receives queries to get passwords etc.</string>
 			<key>xpos</key>
-			<integer>1110</integer>
+			<real>1110</real>
 			<key>ypos</key>
-			<integer>25</integer>
+			<real>25</real>
 		</dict>
 		<key>E7B34A5D-981E-45C7-ABF5-45EF761FD350</key>
 		<dict>
 			<key>xpos</key>
-			<integer>10</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>125</integer>
+			<real>125</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variables</key>
 	<dict>
 		<key>2FA_ENABLED</key>
@@ -2061,6 +2158,8 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>false</string>
 		<key>EMAIL</key>
 		<string></string>
+		<key>EMAIL_MAX_WAIT</key>
+		<string>15</string>
 		<key>EMPTY_DETAIL_RESULTS</key>
 		<string>false</string>
 		<key>ICON_CACHE_AGE</key>
@@ -2087,12 +2186,16 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<string>cmd,opt</string>
 		<key>MODIFIER_4_ACTION</key>
 		<string>more</string>
+    <key>MODIFIER_5</key>
+		<string>cmd,shift</string>
+		<key>MODIFIER_5_ACTION</key>
+		<string>webui</string>
 		<key>NO_MODIFIER_ACTION</key>
 		<string>password,card</string>
-		<key>OUTPUT_FOLDER</key>
-		<string></string>
 		<key>OPEN_LOGIN_URL</key>
 		<string>true</string>
+		<key>OUTPUT_FOLDER</key>
+		<string></string>
 		<key>PATH</key>
 		<string>/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/bin:/usr/sbin</string>
 		<key>REORDERING_DISABLED</key>
@@ -2104,11 +2207,13 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>SYNC_CACHE_AGE</key>
 		<string>10080</string>
 		<key>TITLE_WITH_URLS</key>
-		<string>true</string>
+		<string>false</string>
 		<key>TITLE_WITH_USER</key>
 		<string>true</string>
 		<key>USE_APIKEY</key>
 		<string>false</string>
+    <key>WEBUI_URL</key>
+		<string>https://vault.bitwarden.com</string>
 		<key>bw_keyword</key>
 		<string>.bw</string>
 		<key>bwauth_keyword</key>
@@ -2126,9 +2231,10 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 	<array>
 		<string>EMAIL</string>
 		<string>SERVER_URL</string>
+		<string>WEBUI_URL</string>
 	</array>
 	<key>version</key>
-	<string>2.4.4</string>
+	<string>2.4.5</string>
 	<key>webaddress</key>
 	<string>https://github.com/blacs30/bitwarden-alfred-workflow</string>
 </dict>
