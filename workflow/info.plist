@@ -2213,7 +2213,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>USE_APIKEY</key>
 		<string>false</string>
     <key>WEBUI_URL</key>
-		<string></string>
+		<string>https://vault.bitwarden.com</string>
 		<key>bw_keyword</key>
 		<string>.bw</string>
 		<key>bwauth_keyword</key>
@@ -2231,6 +2231,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 	<array>
 		<string>EMAIL</string>
 		<string>SERVER_URL</string>
+		<string>WEBUI_URL</string>
 	</array>
 	<key>version</key>
 	<string>2.4.5</string>

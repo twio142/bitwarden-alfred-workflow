@@ -554,7 +554,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		}
 		if action == "webui" {
 			webUi := "https://vault.bitwarden.com"
-			if len(conf.WebUiURL) < 1 {
+			if len(conf.WebUiURL) > 0 {
 				webUi = conf.WebUiURL
 			}
 			subtitle := "Open Bitwarden WebUI"
