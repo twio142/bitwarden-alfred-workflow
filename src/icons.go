@@ -5,8 +5,9 @@ package main
 
 import (
 	"fmt"
-	aw "github.com/deanishe/awgo"
 	"log"
+
+	aw "github.com/deanishe/awgo"
 )
 
 // Workflow icons
@@ -52,6 +53,7 @@ var (
 	iconDate              = &aw.Icon{Value: "icons/calendar-alt-solid.png"}
 	iconIdCard            = &aw.Icon{Value: "icons/id-card-solid.png"}
 	iconIdBatch           = &aw.Icon{Value: "icons/id-badge-solid.png"}
+	iconBw                = &aw.Icon{Value: "icon.png"}
 	//iconSettings          = &aw.Icon{Value: "icons/settings.png"}
 	//iconURL               = &aw.Icon{Value: "icons/url.png"}
 	//iconBitwarden         = &aw.Icon{Value: "icons/bitwarden.png"}

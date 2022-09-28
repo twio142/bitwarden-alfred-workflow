@@ -180,6 +180,18 @@ func runConfig() {
 		Var("subtitle", fmt.Sprintf("Currently set to: %q", server)).
 		Arg(opts.Query)
 
+	wf.NewItem("Set WebUI URL").
+		Subtitle("Configure your Bitwarden WebUI URL (Only for selfhosted Bitwarden needed)").
+		UID("webui").
+		Valid(true).
+		Icon(iconBw).
+		Var("action", "-setconfigs").
+		Var("action2", "webui").
+		Var("notification", fmt.Sprintf("Set WebUI URL to: \n%s", opts.Query)).
+		Var("title", "Set WebUI URL").
+		Var("subtitle", fmt.Sprintf("Currently set to: %q", conf.WebUiURL)).
+		Arg(opts.Query)
+
 	wf.NewItem("Enable or disable 2FA").
 		Subtitle("Configure Bitwarden to use or not use 2 Factor Authentication").
 		UID("sfa").
@@ -394,6 +406,20 @@ func runSetConfigs() {
 				wf.FatalError(err)
 			}
 			err = alfred.SetServer(wf, value)
+			if err != nil {
+				wf.FatalError(err)
+			}
+		case "webui":
+			if value == "" {
+				value = "https://vault.bitwarden.com"
+			}
+			if cli.NArg() > 2 {
+				value = cli.Arg(1)
+				for i := 2; i < cli.NArg(); i++ {
+					value = fmt.Sprintf("%s %s", value, cli.Arg(i))
+				}
+			}
+			err = alfred.SetWebUiUrl(wf, value)
 			if err != nil {
 				wf.FatalError(err)
 			}

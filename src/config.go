@@ -569,7 +569,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				Action2:      " ",
 				Action3:      " ",
 				Arg:          fmt.Sprintf("%s/#/vault?itemId=%s", webUi, item.Id),
-				Icon:         iconApp,
+				Icon:         iconBw,
 				ActionName:   action,
 			}
 			setItemMod(itemConfig, modItem, itemType, modMode)

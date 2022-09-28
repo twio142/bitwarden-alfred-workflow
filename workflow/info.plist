@@ -891,7 +891,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>-setconfigs.*(email|server)</string>
+						<string>-setconfigs.*(email|server|webui)</string>
 						<key>outputlabel</key>
 						<string>server and mail to keyword</string>
 						<key>uid</key>
