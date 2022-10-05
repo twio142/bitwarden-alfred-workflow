@@ -176,6 +176,8 @@ _setEnvVars() {
   export PATH=${WF_PATH}
   export BW_EXEC
   export DEBUG
+  # the sync function will not open the Alfred Search window if this is set to true
+  export BACKGROUND_SYNC_DAEMON=true
 }
 
 case $1 in

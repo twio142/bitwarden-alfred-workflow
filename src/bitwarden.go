@@ -106,6 +106,13 @@ func runSync(force bool, last bool) {
 
 		// Creating the items cache
 		runCache()
+
+		// If we ran the sync via the daemon
+		// don't open the search
+		backgroundSyncDaemon := os.Getenv("BACKGROUND_SYNC_DAEMON")
+		if backgroundSyncDaemon == "true" {
+			return
+		}
 		searchAlfred(conf.BwKeyword)
 	}
 }
