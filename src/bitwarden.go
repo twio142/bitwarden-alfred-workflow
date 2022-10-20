@@ -385,26 +385,22 @@ func runUnlock() {
 	)
 
 	// set the password from the returned slice
-	password := ""
-	if len(pw) > 0 {
-		password = pw
-	} else {
+	if len(pw) < 1 {
 		wf.Fatal("No Password returned.")
 	}
 
-	// remove newline characters
-	password = strings.TrimRight(password, "\r\n")
-	if wf.Debug() {
-		log.Println("[DEBUG] ==> first few chars of the password is ", password[0:2])
-	}
+	os.Setenv("PASS", pw)
 
 	// Unlock Bitwarden now
 	message := "Unlocking Bitwarden failed."
-	args := fmt.Sprintf("%s unlock --raw %s", conf.BwExec, password)
+	args := fmt.Sprintf("%s unlock --raw --passwordenv PASS", conf.BwExec)
+	debugLog(fmt.Sprintf("bw unlock command is %s", args))
 	tokenReturn, err := runCmd(args, message)
+	os.Unsetenv("PASS")
 	if err != nil {
 		wf.FatalError(err)
 	}
+
 	// set the password from the returned slice
 	token := ""
 	if len(tokenReturn) > 0 {
@@ -416,9 +412,7 @@ func runUnlock() {
 	if err != nil {
 		log.Println(err)
 	}
-	if wf.Debug() {
-		log.Println("[DEBUG] ==> first few chars of the token is ", token[0:2])
-	}
+	debugLog(fmt.Sprintf("first few chars of the token is %s", token[0:2]))
 
 	if conf.UseApikey {
 		// Writing the sync-cache because we have unlocked the vault in apikey mode
@@ -451,28 +445,21 @@ func runLogin() {
 		wf.Fatal("No email configured.")
 	}
 
-	// set the password from the returned slice
-	password := ""
-
 	if !conf.UseApikey {
 		_, pw, _ := zenity.Password(
 			zenity.Title(fmt.Sprintf("Login account %s", email)),
 		)
-		if len(pw) > 0 {
-			password = pw
-		} else {
+		if len(pw) < 1 {
 			return
 		}
-		password = strings.TrimRight(password, "\r\n")
-		if wf.Debug() {
-			log.Println("[DEBUG] ==> first few chars of the password is ", password[0:2])
-		}
+		os.Setenv("PASS", pw)
 	}
 
-	args := fmt.Sprintf("%s login %s %s", conf.BwExec, email, password)
+	args := fmt.Sprintf("%s login %s --passwordenv PASS", conf.BwExec, email)
+	debugLog(fmt.Sprintf("bw login command is %s", args))
 
-	log.Println("Use apikey", conf.UseApikey)
 	if conf.UseApikey {
+		log.Println("Use apikey", conf.UseApikey)
 		client_id, _ := zenity.Entry("Enter API Key client_id:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
 		if len(client_id) < 1 {
@@ -505,7 +492,7 @@ func runLogin() {
 		} else if sfaMode == 1 {
 
 			emailMessage := "Failed to request Bitwarden email token."
-			emailArgs := fmt.Sprintf("%s login %s %s --raw --method %d", conf.BwExec, email, password, sfaMode)
+			emailArgs := fmt.Sprintf("%s login %s --raw --method %d --passwordenv PASS", conf.BwExec, email, sfaMode)
 			emailReturn, err := runCmdWithContext(conf.EmailMaxWait, emailArgs, emailMessage)
 			if err != nil {
 				wf.FatalError(err)
@@ -531,46 +518,44 @@ func runLogin() {
 			wf.Fatal("No 2FA code returned.")
 		}
 
-		args = fmt.Sprintf("%s login %s %s --raw --method %d --code %s", conf.BwExec, email, password, sfaMode, sfaCode)
+		args = fmt.Sprintf("%s login %s --passwordenv PASS --raw --method %d --code %s", conf.BwExec, email, sfaMode, sfaCode)
 	}
 
 	message := "Login to Bitwarden failed."
 	tokenReturn, err := runCmd(args, message)
+	os.Unsetenv("PASS")
 	if err != nil {
 		wf.FatalError(err)
 	}
 
 	// If we use the api key no token is returned, we first need to run unlock
-
 	if conf.UseApikey {
 		fmt.Println("APIKEY.")
 		return
-	} else {
-		// set the token from the returned result
-		token := ""
-		if len(tokenReturn) > 0 {
-			token = tokenReturn[0]
-		} else {
-			wf.Fatal("No token returned after unlocking.")
-		}
-		err = alfred.SetToken(wf, token)
-		if err != nil {
-			log.Println(err)
-		}
-		if wf.Debug() {
-			log.Println("[ERROR] ==> first few chars of the token is ", token[0:2])
-		}
-
-		// Writing the sync-cache because data is synced for Yubikey and Authenticator login
-		// Just the APIKEY login needs a separate unlock and therefore sync
-		err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
-		if err != nil {
-			log.Println(err)
-		}
-
-		// Creating the items cache
-		runCache()
 	}
+
+	// set the token from the returned result
+	token := ""
+	if len(tokenReturn) > 0 {
+		token = tokenReturn[0]
+	} else {
+		wf.Fatal("No token returned after unlocking.")
+	}
+	err = alfred.SetToken(wf, token)
+	if err != nil {
+		log.Println(err)
+	}
+	debugLog(fmt.Sprintf("first few chars of the token is %s", token[0:2]))
+
+	// Writing the sync-cache because data is synced for Yubikey and Authenticator login
+	// Just the APIKEY login needs a separate unlock and therefore sync
+	err = wf.Cache.Store(SYNC_CACHE_NAME, []byte("sync-cache"))
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Creating the items cache
+	runCache()
 
 	searchAlfred(conf.BwKeyword)
 	fmt.Println("Logged In.")
