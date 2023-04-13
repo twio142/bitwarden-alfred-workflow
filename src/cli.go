@@ -150,11 +150,11 @@ func runConfig() {
 	}
 
 	// get current email
-	log.Println("Getting email from config.")
+	// log.Println("Getting email from config.")
 	email := conf.Email
 	server := conf.Server
 
-	log.Printf("filtering config %q ...", opts.Query)
+	// log.Printf("filtering config %q ...", opts.Query)
 
 	wf.NewItem("Enter your Bitwarden Email").
 		Subtitle("Configure your Bitwarden login email").
@@ -325,7 +325,7 @@ func runAuth() {
 		sfaMode = conf.SfaMode
 	}
 
-	log.Printf("filtering auth config %q ...", opts.Query)
+	// log.Printf("filtering auth config %q ...", opts.Query)
 
 	addLoginItem(email, sfaMode)
 
@@ -654,17 +654,17 @@ func runSearch(folderSearch bool, itemId string) {
 	}
 
 	if itemId != "" && !folderSearch {
-		log.Printf(`showing items for id "%s" ...`, itemId)
+		// log.Printf(`showing items for id "%s" ...`, itemId)
 		// Add item to workflow for itemId
 		for _, item := range items {
 			if item.Id == itemId {
 				addItemDetails(item, autoFetchCache)
 
 				if opts.Query != "" {
-					log.Printf(`searching for "%s" ...`, opts.Query)
+					// log.Printf(`searching for "%s" ...`, opts.Query)
 					res := wf.Filter(opts.Query)
 					for _, r := range res {
-						log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
+						// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
 					}
 				}
 				wf.SendFeedback()
@@ -674,7 +674,7 @@ func runSearch(folderSearch bool, itemId string) {
 	}
 
 	if itemId != "" && folderSearch {
-		log.Printf(`searching in folder with id "%s" ...`, itemId)
+		// log.Printf(`searching in folder with id "%s" ...`, itemId)
 		// Add item to search folders
 		wf.NewItem("Back to folder search.").
 			Subtitle("Go back.").Valid(true).
@@ -708,17 +708,17 @@ func runSearch(folderSearch bool, itemId string) {
 			Var("action", "-search").
 			Arg(conf.BwfKeyword)
 
-		log.Printf("Number of items %d", len(items))
+		// log.Printf("Number of items %d", len(items))
 		for _, item := range items {
 			addItemsToWorkflow(item, autoFetchCache)
 		}
 	}
 
 	if opts.Query != "" {
-		log.Printf(`searching for "%s" ...`, opts.Query)
+		// log.Printf(`searching for "%s" ...`, opts.Query)
 		res := wf.Filter(opts.Query)
 		for _, r := range res {
-			log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
+			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
 		}
 	}
 	wf.SendFeedback()
@@ -727,12 +727,12 @@ func runSearch(folderSearch bool, itemId string) {
 // Filter Bitwarden secrets in Alfred
 func runSearchFolder(items []Item, folders []Folder) {
 	if opts.Query != "" {
-		log.Printf(`searching for "%s" ...`, opts.Query)
+		// log.Printf(`searching for "%s" ...`, opts.Query)
 	}
 
 	addBackToNormalSearchItem()
 
-	log.Printf("Number of folders %d", len(folders))
+	// log.Printf("Number of folders %d", len(folders))
 	for _, folder := range folders {
 		itemCount := getItemsInFolderCount(folder.Id, items)
 		id := "null"
@@ -759,7 +759,7 @@ func runSearchFolder(items []Item, folders []Folder) {
 	if opts.Query != "" {
 		res := wf.Filter(opts.Query)
 		for _, r := range res {
-			log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
+			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
 		}
 	}
 

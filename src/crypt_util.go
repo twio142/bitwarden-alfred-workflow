@@ -178,7 +178,7 @@ func otpKey(key string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("Error generating totp code, %s", err)
 	}
-	log.Print("totp code: ", code)
+	// log.Print("totp code: ", code)
 	return code, nil
 }
 
@@ -189,14 +189,14 @@ func getTotpSecretFromString(key string) string {
 	matches := re.MatchString(key)
 	if matches {
 		res := re.FindAllStringSubmatch(key, 1)
-		log.Print(res[0][1])
+		// log.Print(res[0][1])
 		return res[0][1]
 	}
 	re = regexp.MustCompile("secret=(.*)")
 	matches = re.MatchString(key)
 	if matches {
 		res := re.FindAllStringSubmatch(key, 1)
-		log.Print(res[0][1])
+		// log.Print(res[0][1])
 		return res[0][1]
 	}
 	// no matches, return original key

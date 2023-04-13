@@ -73,7 +73,7 @@ func checkRunningProcesses(processName string) error {
 		// See if there is another bitwarden process hanging which is not our own
 		// ...and kill that stale process
 		if process.Executable() == processName && process.Pid() != myPid {
-			log.Printf("Found stale process %d\t%s\n", process.Pid(), process.Executable())
+			// log.Printf("Found stale process %d\t%s\n", process.Pid(), process.Executable())
 			err := killProcess(process.Pid())
 			if err != nil {
 				log.Println(err)
@@ -84,7 +84,7 @@ func checkRunningProcesses(processName string) error {
 }
 
 func killProcess(pid int) error {
-	log.Printf("PID: %d will be killed.\n", pid)
+	// log.Printf("PID: %d will be killed.\n", pid)
 	proc, err := os.FindProcess(pid)
 	if err != nil {
 		return err
@@ -159,10 +159,10 @@ func run() {
 	}
 	opts.Query = cli.Arg(0)
 
-	log.Printf("%#v", opts)
+	// log.Printf("%#v", opts)
 	if wf.Debug() {
-		log.Printf("args=%#v => %#v", wf.Args(), cli.Args())
-		log.Print(spew.Sdump(conf))
+		// log.Printf("args=%#v => %#v", wf.Args(), cli.Args())
+		// log.Print(spew.Sdump(conf))
 	}
 
 	exists := commandExists(conf.BwExec)
@@ -263,18 +263,18 @@ func run() {
 	}
 
 	if opts.Icons {
-		log.Println("Start getting icons")
+		// log.Println("Start getting icons")
 		runGetIcons("", "")
 		return
 	}
 
 	if opts.Search {
-		log.Print("Number of flags", cli.NArg())
+		// log.Print("Number of flags", cli.NArg())
 		var argString []string
 		for i := 0; i < cli.NArg(); i++ {
 			argString = append(argString, cli.Arg(i))
 		}
-		log.Printf("argstring is %q", strings.Join(argString, " "))
+		// log.Printf("argstring is %q", strings.Join(argString, " "))
 		searchAlfred(strings.Join(argString, " "))
 		return
 	}

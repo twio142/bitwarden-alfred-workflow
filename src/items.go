@@ -19,9 +19,9 @@ func checkIconExistance(item Item, autoFetchCache bool) *aw.Icon {
 	if len(item.Login.Uris) > 0 && conf.IconCacheEnabled {
 		iconPath := fmt.Sprintf("%s/%s/%s.png", wf.DataDir(), "urlicon", item.Id)
 		if _, err := os.Stat(iconPath); err != nil {
-			log.Println("Couldn't load the cached icon, error: ", err)
+			// log.Println("Couldn't load the cached icon, error: ", err)
 			if autoFetchCache {
-				log.Println("Getting icons.")
+				// log.Println("Getting icons.")
 				runGetIcons(item.Login.Uris[0].Uri, item.Id)
 			}
 		}
@@ -490,7 +490,7 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		debugLog(fmt.Sprintf("Item4:\n%+v", itemModSet["item4"]))
 		addNewItem(itemModSet["item4"], item.Name)
 	} else {
-		log.Printf("New item, needs to be implemented.")
+		// log.Printf("New item, needs to be implemented.")
 	}
 }
 

@@ -78,7 +78,7 @@ func ReloadIcon() *aw.Icon {
 		next = 0
 	}
 
-	log.Printf("progress: current=%d, next=%d", current, next)
+	// log.Printf("progress: current=%d, next=%d", current, next)
 
 	wf.Var("RELOAD_PROGRESS", fmt.Sprintf("%d", next))
 

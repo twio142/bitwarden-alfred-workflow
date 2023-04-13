@@ -36,11 +36,11 @@ func Encrypt(message []byte) (string, bool) {
 	}
 
 	if wf.Debug() {
-		log.Printf("%T \n", encrypted)
+		// log.Printf("%T \n", encrypted)
 	}
 	enHex := fmt.Sprintf("%x:%x", nonce[:], encrypted)
 	if wf.Debug() {
-		log.Println("ENCRYPTED:", enHex[0:5])
+		// log.Println("ENCRYPTED:", enHex[0:5])
 	}
 	err = wf.Cache.Store(CACHE_NAME, []byte(enHex))
 	if err != nil {
@@ -50,7 +50,7 @@ func Encrypt(message []byte) (string, bool) {
 }
 
 func Decrypt() ([]byte, error) {
-	log.Println("Decrypting data.")
+	// log.Println("Decrypting data.")
 	encryptedHex, err := wf.Cache.Load(CACHE_NAME)
 	if err != nil {
 		log.Println(err)
