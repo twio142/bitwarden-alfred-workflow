@@ -275,7 +275,7 @@ func getModifierEmoji(keys string) string {
 			emojiSlice = append(emojiSlice, "⇧")
 		}
 	}
-	emojiString := strings.Join(emojiSlice, "+")
+	emojiString := strings.Join(emojiSlice, "")
 
 	return emojiString
 }
@@ -321,14 +321,14 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	codeEmoji, err := getTypeEmoji("code")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	cardEmoji, err := getTypeEmoji("card")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// codeEmoji, err := getTypeEmoji("code")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
+	// cardEmoji, err := getTypeEmoji("card")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 	passEmoji, err := getTypeEmoji("password")
 	if err != nil {
 		log.Fatal(err.Error())
@@ -337,10 +337,10 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	webUiEmoji, err := getTypeEmoji("webui")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// webUiEmoji, err := getTypeEmoji("webui")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 	// urlEmoji, err := getTypeEmoji("url")
 	// if err != nil {
 	// 	log.Fatal(err.Error())
@@ -351,33 +351,31 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		action = strings.TrimSpace(action)
 		if itemType == "item1" {
 			title := item.Name
-			if conf.TitleWithUser {
-				title = fmt.Sprintf("%s - %s", item.Name, item.Login.Username)
+			if conf.TitleWithUser && item.Login.Username != "" {
+				title = fmt.Sprintf("%s ∙ %s", title, item.Login.Username)
 			}
 
 			var urlList string
 			for _, url := range item.Login.Uris {
-				urlList = fmt.Sprintf("%s - %s", urlList, url.Uri)
+				urlList = fmt.Sprintf("%s ∙ %s", urlList, url.Uri)
 			}
-			if conf.TitleWithUrls {
-				title = fmt.Sprintf("%s - %s", title, urlList)
+			if conf.TitleWithUrls && urlList != "" {
+				title = fmt.Sprintf("%s ∙ %s", title, urlList)
 			}
 
 			if action == "password" {
 				subtitle := "Copy password"
-				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("↩ or ⇥ copy Password, %s %s, %s %s %s Show more, %s open in WebUI", userEmoji, item.Login.Username, totp, url, moreEmoji, webUiEmoji)
-				}
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: fmt.Sprintf("Copy Password for user:\n%s", item.Login.Username),
+					Sound:        true,
 					Action:       "-getitem",
 					Action2:      fmt.Sprintf("-id %s", item.Id),
 					Action3:      " ",
 					Arg:          "login.password",
 					Icon:         icon,
 					ActionName:   action,
+					Notification: " ",
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
@@ -386,18 +384,18 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				subtitle := "Copy Username"
 				if modMode == "nomod" {
 					assignedIcon = icon
-					subtitle = fmt.Sprintf("↩ or ⇥ copy Username, %s Password, %s %s %s Show more, %s open in WebUI", passEmoji, totp, url, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: fmt.Sprintf("Copy Username:\n%s", item.Login.Username),
+					Sound:        true,
 					Action:       "output",
 					Action2:      " ",
 					Action3:      " ",
 					Arg:          item.Login.Username,
 					Icon:         assignedIcon,
 					ActionName:   action,
+					Notification: " ",
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
@@ -408,23 +406,23 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				assignedIcon := iconLink
 				subtitle := "Open URL"
 				loginUrlAction := "-open"
-				notification := " "
+				sound := false
 				if !conf.OpenLoginUrl {
 					subtitle = "Copy URL"
 					loginUrlAction = "output"
-					notification = fmt.Sprintf("Copy url for user:\n%s", item.Login.Username)
+					sound = true
 				}
 				if modMode == "nomod" {
 					assignedIcon = icon
-					subtitle = fmt.Sprintf("↩ or ⇥ copy URL, %s Password, %s Username %s %s Show more, %s open in WebUI", passEmoji, userEmoji, totp, moreEmoji, webUiEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: notification,
 					Action:       loginUrlAction,
 					Action2:      " ",
 					Action3:      " ",
+					Sound:        sound,
+					Notification:   " ",
 					Arg:          item.Login.Uris[0].Uri,
 					Icon:         assignedIcon,
 					ActionName:   action,
@@ -439,16 +437,16 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				subtitle := "Copy TOTP"
 				if modMode == "nomod" {
 					assignedIcon = icon
-					subtitle = fmt.Sprintf("↩ or ⇥ copy TOTP, %s Password, %s Username %s %s Show more", passEmoji, userEmoji, url, moreEmoji)
 				}
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: fmt.Sprintf("Copy TOTP for user:\n%s", item.Login.Username),
+					Sound:        true,
 					Action:       "-getitem",
 					Action2:      "-totp",
 					Action3:      fmt.Sprintf("-id %s", item.Id),
 					Arg:          " ",
+					Notification: " ",
 					Icon:         assignedIcon,
 					ActionName:   action,
 				}
@@ -458,12 +456,13 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		if itemType == "item2" {
 			modItem := modifierActionContent{
 				Title:        item.Name,
-				Subtitle:     fmt.Sprintf("↩ or ⇥ copy Note, %s show more", moreEmoji),
-				Notification: "Copy Note",
+				Subtitle:     fmt.Sprintf("Copy note, %s show more", moreEmoji),
+				Sound:        true,
 				Action:       "-getitem",
 				Action2:      fmt.Sprintf("-id %s", item.Id),
 				Action3:      " ",
 				Arg:          "notes",
+				Notification: " ",
 				Icon:         iconNote,
 				ActionName:   "",
 			}
@@ -472,40 +471,35 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		if itemType == "item3" {
 			title := item.Name
 			if conf.TitleWithUser {
-				title = fmt.Sprintf("%s - %s", item.Name, item.Card.Number)
+				title = fmt.Sprintf("%s ∙ %s", item.Name, item.Card.Number)
 			}
 
 			var urlList string
 			for _, url := range item.Login.Uris {
-				urlList = fmt.Sprintf("%s - %s", urlList, url.Uri)
+				urlList = fmt.Sprintf("%s ∙ %s", urlList, url.Uri)
 			}
 			if conf.TitleWithUrls {
-				title = fmt.Sprintf("%s - %s", title, urlList)
+				title = fmt.Sprintf("%s ∙ %s", title, urlList)
 			}
 
 			if action == "card" {
-				subtitle := "Copy Card Number"
-				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Card Number, %s copy Security Code, %s show more, %s open in WebUI", item.Card.Brand, item.Card.Number, codeEmoji, moreEmoji, webUiEmoji)
-				}
+				subtitle := "Copy card number"
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: fmt.Sprintf("Copied Card %s:\n%s", item.Card.Brand, item.Card.Number),
+					Sound:        true,
 					Action:       "-getitem",
 					Action2:      fmt.Sprintf("-id %s", item.Id),
 					Action3:      " ",
 					Arg:          "card.number",
+					Notification: " ",
 					Icon:         iconCreditCard,
 					ActionName:   action,
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
 			if action == "code" {
-				subtitle := "Copy card security code"
-				if modMode == "nomod" {
-					subtitle = fmt.Sprintf("%s, %s, ↩ or ⇥ copy Security Code, %s copy Card Number, %s show more, %s open in WebUI", item.Card.Brand, item.Card.Number, cardEmoji, moreEmoji, webUiEmoji)
-				}
+				subtitle := "Copy security code"
 				assignedIcon := iconPassword
 				if modMode == "nomod" {
 					assignedIcon = iconCreditCard
@@ -513,13 +507,30 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				modItem := modifierActionContent{
 					Title:        title,
 					Subtitle:     subtitle,
-					Notification: "Copied Card Security Code",
+					Sound:        true,
 					Action:       "-getitem",
 					Action2:      fmt.Sprintf("-id %s", item.Id),
 					Action3:      " ",
 					Arg:          "card.code",
+					Notification: " ",
 					Icon:         assignedIcon,
 					ActionName:   action,
+				}
+				setItemMod(itemConfig, modItem, itemType, modMode)
+			}
+			if action == "cardDate" {
+				subtitle := "Copy card expiration date"
+				modItem := modifierActionContent{
+					Title:        title,
+					Subtitle:     subtitle,
+					Sound:        true,
+					Action:       "output",
+					Action2:      " ",
+					Action3:      " ",
+					Notification: " ",
+					Arg:          fmt.Sprintf("%s%s", item.Card.ExpMonth, item.Card.ExpYear[2:]),
+					Icon:         iconCalDay,
+					ActionName:   "",
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
@@ -527,12 +538,13 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		if itemType == "item4" {
 			modItem := modifierActionContent{
 				Title:        item.Name,
-				Subtitle:     fmt.Sprintf("↩ or ⇥ copy name %s %s, %s show more", item.Identity.FirstName, item.Identity.LastName, moreEmoji),
-				Notification: fmt.Sprintf("Copied Identity Name:\n%s %s", item.Identity.FirstName, item.Identity.LastName),
+				Subtitle:     "Copy name",
+				Sound:        true,
 				Action:       "output",
 				Action2:      " ",
 				Action3:      " ",
-				Arg:          " ",
+				Notification: " ",
+				Arg:          fmt.Sprintf("%s %s", item.Identity.FirstName, item.Identity.LastName),
 				Icon:         iconIdBatch,
 				ActionName:   "",
 			}
@@ -541,8 +553,9 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		if action == "more" {
 			modItem := modifierActionContent{
 				Title:        item.Name,
-				Subtitle:     "Show item",
+				Subtitle:     "Show details",
 				Notification: " ",
+				Sound:        false,
 				Action:       fmt.Sprintf("-id %s", item.Id),
 				Action2:      " ",
 				Action3:      " ",
@@ -557,14 +570,15 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			if len(conf.WebUiURL) > 0 {
 				webUi = conf.WebUiURL
 			}
-			subtitle := "Open Bitwarden WebUI"
+			subtitle := "Open Bitwarden webUI"
 			if modMode == "nomod" {
-				subtitle = fmt.Sprintf("↩ or ⇥ open in Web UI, %s Password, %s Username %s %s Show more", passEmoji, userEmoji, totp, moreEmoji)
+				subtitle = fmt.Sprintf("Open in web UI, %s password, %s username %s %s show more", passEmoji, userEmoji, totp, moreEmoji)
 			}
 			modItem := modifierActionContent{
 				Title:        item.Name,
 				Subtitle:     subtitle,
 				Notification: " ",
+				Sound:        false,
 				Action:       "-open",
 				Action2:      " ",
 				Action3:      " ",

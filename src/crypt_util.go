@@ -11,7 +11,7 @@ import (
 	"github.com/pquerna/otp/totp"
 	"golang.org/x/crypto/hkdf"
 	"io"
-	"log"
+	// "log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -176,7 +176,7 @@ func otpKey(key string) (string, error) {
 	fetchSecret := getTotpSecretFromString(removedWhitespace)
 	code, err := totp.GenerateCode(fetchSecret, time.Now())
 	if err != nil {
-		return "", fmt.Errorf("Error generating totp code, %s", err)
+		return "", fmt.Errorf("error generating totp code, %s", err)
 	}
 	// log.Print("totp code: ", code)
 	return code, nil

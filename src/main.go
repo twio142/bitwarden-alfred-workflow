@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
+	// "github.com/davecgh/go-spew/spew"
 	aw "github.com/deanishe/awgo"
 	"github.com/deanishe/awgo/update"
 	ps "github.com/mitchellh/go-ps"
@@ -137,14 +137,14 @@ func pidfileContents(filename string) (int, error) {
 func checkIfJobRuns() {
 	if wf.IsRunning("sync") {
 		wf.Rerun(0.3)
-		wf.NewItem("Syncing Bitwarden secrets…").
+		wf.NewItem("Syncing Bitwarden Secrets…").
 			Icon(ReloadIcon())
 		wf.SendFeedback()
 		return
 	}
 	if wf.IsRunning("icons") {
 		wf.Rerun(0.3)
-		wf.NewItem("Refreshing Icon cache…").
+		wf.NewItem("Refreshing Icon Cache…").
 			Icon(ReloadIcon())
 	}
 }
@@ -160,27 +160,23 @@ func run() {
 	opts.Query = cli.Arg(0)
 
 	// log.Printf("%#v", opts)
-	if wf.Debug() {
+	// if wf.Debug() {
 		// log.Printf("args=%#v => %#v", wf.Args(), cli.Args())
 		// log.Print(spew.Sdump(conf))
-	}
+	// }
 
 	exists := commandExists(conf.BwExec)
 	if !exists && !opts.Open {
-		wf.NewItem(fmt.Sprintf("Error the Bitwarden command %q wasn't found.", conf.BwExec)).
-			Subtitle("Set \"BW_EXEC\" or \"PATH\" in the Workflow. Press ↩ or ⇥ for more info.").
-			Valid(true).
-			Arg("README.html").
-			Valid(true).
-			Icon(iconWarning).
-			Var("action", "-open")
+		wf.NewItem(fmt.Sprintf("Error: Command %q Not Found", conf.BwExec)).
+			Subtitle("Set \"BW_EXEC\" or \"PATH\" in the Workflow").
+			Valid(false).
+			Icon(iconWarning)
 		wf.SendFeedback()
 		return
 	}
 
 	if conf.Email == "" && !opts.SetConfigs {
-		wf.NewItem("Enter your Bitwarden Email").
-			Subtitle("Email not yet set. Configure your Bitwarden login email").
+		wf.NewItem("Enter Login Email").
 			UID("email").
 			Valid(true).
 			Icon(iconWarning).
@@ -283,7 +279,7 @@ func run() {
 		runGetItem()
 		return
 	}
-	runSearch(opts.Folder, opts.Id)
+	runSearch(opts.Folder, opts.Id, opts.Favorites)
 }
 
 func main() {

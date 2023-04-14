@@ -35,6 +35,7 @@ type options struct {
 	Lock         bool
 	Icons        bool
 	Folder       bool
+	Favorites    bool
 	Unlock       bool
 	Login        bool
 	Logout       bool
@@ -66,6 +67,7 @@ func init() {
 	cli.BoolVar(&opts.Unlock, "unlock", false, "unlock Bitwarden")
 	cli.BoolVar(&opts.Icons, "icons", false, "Get favicons")
 	cli.BoolVar(&opts.Folder, "folder", false, "Filter Bitwarden Folders")
+	cli.BoolVar(&opts.Favorites, "favorites", false, "Search Bitwarden Favorite Items")
 	cli.StringVar(&opts.Id, "id", "", "Get item by id")
 	cli.StringVar(&opts.Attachment, "attachment", "", "set attachment id")
 	cli.BoolVar(&opts.Login, "login", false, "login to Bitwarden")
@@ -87,6 +89,7 @@ Usage:
     bitwarden-alfred-workflow -auth [<query>]
     bitwarden-alfred-workflow -conf [<query>]
     bitwarden-alfred-workflow -folder [<query>]
+	bitwarden-alfred-workflow -favorites
     bitwarden-alfred-workflow -getitem -id <id> [-totp] [-attachment <id>] [<query>] (query is used as jsonpath)
     bitwarden-alfred-workflow -icons [-background]
     bitwarden-alfred-workflow -lock
@@ -156,8 +159,7 @@ func runConfig() {
 
 	// log.Printf("filtering config %q ...", opts.Query)
 
-	wf.NewItem("Enter your Bitwarden Email").
-		Subtitle("Configure your Bitwarden login email").
+	wf.NewItem("Enter Login Email").
 		UID("email").
 		Valid(true).
 		Icon(iconEmailAt).
@@ -169,7 +171,7 @@ func runConfig() {
 		Arg(opts.Query)
 
 	wf.NewItem("Set Server URL").
-		Subtitle("Configure your Bitwarden Server URL (Only for selfhosted Bitwarden needed)").
+		Subtitle("Only for self hosting users").
 		UID("server").
 		Valid(true).
 		Icon(iconServer).
@@ -181,7 +183,7 @@ func runConfig() {
 		Arg(opts.Query)
 
 	wf.NewItem("Set WebUI URL").
-		Subtitle("Configure your Bitwarden WebUI URL (Only for selfhosted Bitwarden needed)").
+		Subtitle("Only for self hosting users").
 		UID("webui").
 		Valid(true).
 		Icon(iconBw).
@@ -192,79 +194,7 @@ func runConfig() {
 		Var("subtitle", fmt.Sprintf("Currently set to: %q", conf.WebUiURL)).
 		Arg(opts.Query)
 
-	wf.NewItem("Enable or disable 2FA").
-		Subtitle("Configure Bitwarden to use or not use 2 Factor Authentication").
-		UID("sfa").
-		Valid(true).
-		Icon(iconUserClock).
-		Var("action", "-authconfig").
-		Var("action2", "-id on-off-sfa")
-
-	wf.NewItem("Enable or disable API Key login").
-		Subtitle("Configure Bitwarden to use API keys to login").
-		UID("apikeyauth").
-		Valid(true).
-		Icon(iconUserClock).
-		Var("action", "-authconfig").
-		Var("action2", "-id on-off-apikey")
-
-	wf.NewItem("Set the 2FA method").
-		Subtitle("Configure which 2 Factor Authentication Method you use").
-		UID("sfamode").
-		Valid(true).
-		Icon(iconUserClock).
-		Var("action", "-authconfig").
-		Var("action2", "-id Use")
-
-	if wf.UpdateAvailable() {
-		wf.NewItem("Workflow Update Available").
-			Subtitle("↩ or ⇥ to install update").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateAvailable)
-	} else {
-		wf.NewItem("Workflow Is Up To Date").
-			Subtitle("↩ or ⇥ to check for update now").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateOK)
-	}
-
-	wf.NewItem("Delete Workflow cache").
-		Subtitle("↩ or ⇥ to clean cached items and icons").
-		Valid(false).
-		UID("delcache").
-		Autocomplete("workflow:delcache").
-		Icon(aw.IconTrash)
-
-	wf.NewItem("View Help File").
-		Subtitle("Open workflow help in your browser").
-		Arg("README.html").
-		UID("help").
-		Valid(true).
-		Icon(iconHelp).
-		Var("action", "-open")
-
-	wf.NewItem("Report Issue").
-		Subtitle("Open workflow issue tracker in your browser").
-		Arg(issueTrackerURL).
-		UID("issue").
-		Valid(true).
-		Icon(iconIssue).
-		Var("action", "-open")
-
-	wf.NewItem("Visit Forum Thread").
-		Subtitle("Open workflow thread on alfredforum.com in your browser").
-		Arg(forumThreadURL).
-		UID("forum").
-		Valid(true).
-		Icon(iconLink).
-		Var("action", "-open")
-
 	wf.NewItem("Sync Bitwarden Secrets").
-		Subtitle("Sync Bitwarden secrets with server.").
 		Valid(true).
 		UID("sync").
 		Icon(iconReload).
@@ -273,8 +203,73 @@ func runConfig() {
 		Var("notification", "Syncing Bitwarden secrets").
 		Arg("-background")
 
-	wf.NewItem("Download/Update Favicon for URLs").
-		Subtitle("Downloads favicons for URLs").
+	wf.NewItem("Remove Workflow cache").
+		Valid(false).
+		UID("delcache").
+		Autocomplete("workflow:delcache").
+		Icon(aw.IconTrash)
+
+	wf.NewItem("Enable or Disable API Key login").
+		UID("apikeyauth").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-apikey")
+
+	wf.NewItem("Enable or Disable 2FA").
+		UID("sfa").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-sfa")
+
+	wf.NewItem("Set 2FA Method").
+		UID("sfamode").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id Use")
+
+	if wf.UpdateAvailable() {
+		wf.NewItem("Workflow Update Available").
+			Subtitle("Install update").
+			Valid(false).
+			UID("update").
+			Autocomplete("workflow:update").
+			Icon(iconUpdateAvailable)
+	} else {
+		wf.NewItem("Workflow Is Up to Date").
+			Subtitle("Check for update now").
+			Valid(false).
+			UID("update").
+			Autocomplete("workflow:update").
+			Icon(iconUpdateOK)
+	}
+
+	// wf.NewItem("View Help File").
+	// 	Subtitle("Open workflow help in your browser").
+	// 	Arg("README.html").
+	// 	UID("help").
+	// 	Valid(true).
+	// 	Icon(iconHelp).
+	// 	Var("action", "-open")
+
+	wf.NewItem("Report an Issue").
+		Arg(issueTrackerURL).
+		UID("issue").
+		Valid(true).
+		Icon(iconIssue).
+		Var("action", "-open")
+
+	// wf.NewItem("Visit Forum Thread").
+	// 	Subtitle("Open workflow thread on alfredforum.com in your browser").
+	// 	Arg(forumThreadURL).
+	// 	UID("forum").
+	// 	Valid(true).
+	// 	Icon(iconLink).
+	// 	Var("action", "-open")
+
+	wf.NewItem("Download/ Update Favicon for URLs").
 		Valid(true).
 		UID("icons").
 		Icon(iconReload).
@@ -282,14 +277,14 @@ func runConfig() {
 		Var("notification", "Downloading Favicons for URLs").
 		Arg("-background")
 
-	wf.NewItem("Get date of last Bitwarden secret sync").
-		Subtitle("Show the date when the last sync happened with the Bitwarden server.").
-		Valid(true).
-		UID("sync").
-		Icon(iconCalDay).
-		Var("action", "-sync").
-		Var("notification", "Getting last sync date.").
-		Arg("-last")
+	// wf.NewItem("Get date of last Bitwarden secret sync").
+	// 	Subtitle("Show the date when the last sync happened with the Bitwarden server.").
+	// 	Valid(true).
+	// 	UID("sync").
+	// 	Icon(iconCalDay).
+	// 	Var("action", "-sync").
+	// 	Var("notification", "Getting last sync date.").
+	// 	Arg("-last")
 
 	if opts.Query != "" {
 		wf.Filter(opts.Query)
@@ -327,23 +322,25 @@ func runAuth() {
 
 	// log.Printf("filtering auth config %q ...", opts.Query)
 
-	addLoginItem(email, sfaMode)
+	if bwData.UserId == "" {
+		addLoginItem(email, sfaMode)
+	} else {
+		wf.NewItem("Logout").
+			UID("logout").
+			Valid(true).
+			Icon(iconOff).
+			Var("action", "-logout")
+	}
 
-	wf.NewItem("Logout").
-		Subtitle("Logout from Bitwarden").
-		UID("logout").
-		Valid(true).
-		Icon(iconOff).
-		Var("action", "-logout")
-
-	addUnlockItem(email)
-
-	wf.NewItem("Lock").
-		Subtitle("Lock Bitwarden").
-		UID("lock").
-		Valid(true).
-		Icon(iconOff).
-		Var("action", "-lock")
+	if bwData.UserId != "" && bwData.ProtectedKey != "" {
+		addUnlockItem(email)
+	} else {
+		wf.NewItem("Lock").
+			UID("lock").
+			Valid(true).
+			Icon(iconOff).
+			Var("action", "-lock")
+	}
 
 	if opts.Query != "" {
 		wf.Filter(opts.Query)
@@ -355,7 +352,6 @@ func runAuth() {
 
 func addLoginItem(email string, sfaMode int) {
 	wf.NewItem("Login to Bitwarden").
-		Subtitle("↩ or ⇥ to login now").
 		Valid(true).
 		UID("login").
 		Icon(iconOn).
@@ -368,7 +364,6 @@ func addLoginItem(email string, sfaMode int) {
 
 func addUnlockItem(email string) {
 	wf.NewItem("Unlock").
-		Subtitle("Unlock Bitwarden").
 		UID("unlock").
 		Valid(true).
 		Icon(iconOn).
@@ -486,7 +481,7 @@ func runAuthConfig() {
 		}
 		for _, item := range factorMap {
 			wf.NewItem(item.title).
-				Subtitle(fmt.Sprintf("Currently set to: %q", map2faMode(conf.SfaMode))).
+				Subtitle(fmt.Sprintf("Currently set to: %s", map2faMode(conf.SfaMode))).
 				UID(item.uid).
 				Valid(true).
 				Icon(item.icon).
@@ -545,7 +540,7 @@ func runAuthConfig() {
 }
 
 // Filter Bitwarden secrets in Alfred
-func runSearch(folderSearch bool, itemId string) {
+func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 	email := conf.Email
 	sfaMode := -1
 	if conf.Sfa {
@@ -554,17 +549,17 @@ func runSearch(folderSearch bool, itemId string) {
 
 	wf.Configure(aw.SuppressUIDs(true))
 	if bwData.UserId == "" {
-		message := "Need to login first."
-		if wf.Cache.Exists(CACHE_NAME) && wf.Cache.Exists(FOLDER_CACHE_NAME) {
-			message = "Need to login first to get secrets, reading cached items without the secret."
-		}
-		wf.NewWarningItem("Not logged in to Bitwarden.", message)
+		// message := "Need to login first."
+		// if wf.Cache.Exists(CACHE_NAME) && wf.Cache.Exists(FOLDER_CACHE_NAME) {
+		// 	message = "Need to login first to get secrets, reading cached items without the secret."
+		// }
+		// wf.NewWarningItem("Not logged in to Bitwarden.", message)
 		addLoginItem(email, sfaMode)
 	}
 
 	if bwData.UserId != "" && bwData.ProtectedKey == "" {
-		message := "Need to unlock first to get secrets, reading cached items without the secrets."
-		wf.NewWarningItem("Bitwarden is locked.", message)
+		// message := "Need to unlock first to get secrets, reading cached items without the secrets."
+		// wf.NewWarningItem("Bitwarden is locked.", message)
 		addUnlockItem(email)
 	}
 
@@ -597,8 +592,8 @@ func runSearch(folderSearch bool, itemId string) {
 	// Check if the sync cache exists
 	if !wf.Cache.Exists(SYNC_CACHE_NAME) && !wf.Cache.Exists(CACHE_NAME) {
 		if !wf.IsRunning("sync") {
-			wf.NewItem("Cache expired/not existing. Need to run a sync.").
-				Subtitle("Sync Bitwarden secrets with server.").
+			wf.NewItem("Cache Expired or not Existed").
+				Subtitle("Sync now").
 				Valid(true).
 				UID("sync").
 				Icon(iconReload).
@@ -608,10 +603,10 @@ func runSearch(folderSearch bool, itemId string) {
 				Arg("-background")
 			wf.SendFeedback()
 			return
-		} else {
-			log.Printf("Sync job already running.")
+		// } else {
+		// 	log.Printf("Sync job already running.")
 		}
-		wf.NewItem("Refreshing Bitwarden cache…").
+		wf.NewItem("Refreshing Cache…").
 			Icon(ReloadIcon())
 		wf.SendFeedback()
 		return
@@ -620,8 +615,8 @@ func runSearch(folderSearch bool, itemId string) {
 	// If iconcache enabled and the cache is expired (or doesn't exist)
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
 		//getIcon(wf)
-		wf.NewItem("Cache expired/not existing. Need to download/update Favicon for URLs").
-			Subtitle("Downloads favicons for URLs").
+		wf.NewItem("Favicon Cache Expired or not Existed").
+			Subtitle("Download Favicons now").
 			Valid(true).
 			UID("icons").
 			Icon(iconReload).
@@ -660,13 +655,13 @@ func runSearch(folderSearch bool, itemId string) {
 			if item.Id == itemId {
 				addItemDetails(item, autoFetchCache)
 
-				if opts.Query != "" {
+				// if opts.Query != "" {
 					// log.Printf(`searching for "%s" ...`, opts.Query)
-					res := wf.Filter(opts.Query)
-					for _, r := range res {
+					// res := wf.Filter(opts.Query)
+					// for _, r := range res {
 						// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
-					}
-				}
+					// }
+				// }
 				wf.SendFeedback()
 				return
 			}
@@ -676,13 +671,6 @@ func runSearch(folderSearch bool, itemId string) {
 	if itemId != "" && folderSearch {
 		// log.Printf(`searching in folder with id "%s" ...`, itemId)
 		// Add item to search folders
-		wf.NewItem("Back to folder search.").
-			Subtitle("Go back.").Valid(true).
-			UID("").
-			Icon(iconFolder).
-			Var("action", "-search").
-			Arg(conf.BwfKeyword)
-		addBackToNormalSearchItem()
 		for _, item := range items {
 			if item.FolderId == itemId {
 				addItemsToWorkflow(item, autoFetchCache)
@@ -693,44 +681,64 @@ func runSearch(folderSearch bool, itemId string) {
 				}
 			}
 		}
-	}
-
-	if len(items) == 0 && len(folders) == 0 {
-		wf.NewItem("No Secrets Found").Subtitle("Try a different query or sync manually.").Icon(iconWarning).Valid(false)
-	}
-
-	if !folderSearch && itemId == "" {
-		// Add item to search folders
-		wf.NewItem("Search Folders").
-			Subtitle("Find folders and secrets in them.").Valid(true).
+		wf.NewItem("Go Back to Folder Search").
+			Valid(true).
 			UID("").
 			Icon(iconFolder).
 			Var("action", "-search").
-			Arg(conf.BwfKeyword)
+			Arg(conf.BwfKeyword).
+			Match(".")
+	}
 
+	if len(items) == 0 && len(folders) == 0 {
+		wf.NewItem("No Secrets Found").Subtitle("Try a different query or sync manually").Icon(iconWarning).Valid(false)
+	}
+
+	if !folderSearch && itemId == "" && !favoritesSearch {
 		// log.Printf("Number of items %d", len(items))
 		for _, item := range items {
 			addItemsToWorkflow(item, autoFetchCache)
 		}
 	}
 
-	if opts.Query != "" {
-		// log.Printf(`searching for "%s" ...`, opts.Query)
-		res := wf.Filter(opts.Query)
-		for _, r := range res {
-			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
+	if favoritesSearch {
+		// log.Printf("Number of items %d", len(items))
+		for _, item := range items {
+			if item.Favorite {
+				addItemsToWorkflow(item, autoFetchCache)
+			}
 		}
+		wf.NewItem("Go Back to Folder Search").
+			Valid(true).
+			UID("").
+			Icon(iconFolder).
+			Var("action", "-search").
+			Arg(conf.BwfKeyword).
+			Match(".")
 	}
+
+	// if opts.Query != "" {
+		// log.Printf(`searching for "%s" ...`, opts.Query)
+		// res := wf.Filter(opts.Query)
+		// for _, r := range res {
+			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
+		// }
+	// }
 	wf.SendFeedback()
 }
 
 // Filter Bitwarden secrets in Alfred
 func runSearchFolder(items []Item, folders []Folder) {
-	if opts.Query != "" {
+	// if opts.Query != "" {
 		// log.Printf(`searching for "%s" ...`, opts.Query)
-	}
+	// }
 
-	addBackToNormalSearchItem()
+	wf.NewItem("Favorites").
+		Subtitle(fmt.Sprintf("%d items", getFavoriteItemsCount(items))).
+		Valid(true).
+		UID("favorites").
+		Icon(iconStar).
+		Var("action", "-favorites")
 
 	// log.Printf("Number of folders %d", len(folders))
 	for _, folder := range folders {
@@ -741,14 +749,14 @@ func runSearchFolder(items []Item, folders []Folder) {
 		}
 		if opts.Query != "" {
 			wf.NewItem(folder.Name).
-				Subtitle(fmt.Sprintf("Number of items: %d", itemCount)).Valid(true).
+				Subtitle(fmt.Sprintf("%d items", itemCount)).Valid(true).
 				UID(id).
 				Icon(iconFolderOpen).
 				Var("action", "-folder").
 				Var("action2", fmt.Sprintf("-id %s ", id))
 		} else {
 			wf.NewItem(folder.Name).
-				Subtitle(fmt.Sprintf("Number of items: %d", itemCount)).Valid(true).
+				Subtitle(fmt.Sprintf("%d items", itemCount)).Valid(true).
 				UID(id).
 				Icon(iconFolderOpen).
 				Var("action", "-folder").
@@ -756,16 +764,18 @@ func runSearchFolder(items []Item, folders []Folder) {
 		}
 	}
 
-	if opts.Query != "" {
-		res := wf.Filter(opts.Query)
-		for _, r := range res {
+	// if opts.Query != "" {
+		// res := wf.Filter(opts.Query)
+		// for _, r := range res {
 			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
-		}
-	}
+		// }
+	// }
 
 	if len(items) == 0 && len(folders) == 0 {
-		wf.WarnEmpty("No Secrets Found", "Try a different query or sync manually.")
+		wf.WarnEmpty("No Secrets Found", "Try a different query or sync manually")
 	}
-	wf.WarnEmpty("No Folders Found", "Try a different query.")
+
+	addBackToNormalSearchItem()
+	wf.WarnEmpty("No Folders Found", "Try a different query")
 	wf.SendFeedback()
 }

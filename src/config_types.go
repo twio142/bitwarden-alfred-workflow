@@ -21,6 +21,7 @@ type modifierActionContent struct {
 	Arg          string
 	Icon         *aw.Icon
 	ActionName   string
+	Sound        bool
 }
 
 type modifierActionRelation struct {

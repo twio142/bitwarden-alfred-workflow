@@ -5,14 +5,14 @@ package main
 
 import (
 	"fmt"
-	"log"
+	// "log"
 
 	aw "github.com/deanishe/awgo"
 )
 
 // Workflow icons
 var (
-	iconHelp            = &aw.Icon{Value: "icons/help.png"}
+	// iconHelp            = &aw.Icon{Value: "icons/help.png"}
 	iconIssue           = &aw.Icon{Value: "icons/issue.png"}
 	iconLoading         = &aw.Icon{Value: "icons/loading.png"}
 	iconReload          = &aw.Icon{Value: "icons/reload.png"}
@@ -34,7 +34,7 @@ var (
 	iconFolder            = &aw.Icon{Value: "icons/folder-solid.png"}
 	iconFolderOpen        = &aw.Icon{Value: "icons/folder-open-solid.png"}
 	iconLevelUp           = &aw.Icon{Value: "icons/level-up-alt-solid.png"}
-	iconInfoCircle        = &aw.Icon{Value: "icons/info-circle-solid.png"}
+	// iconInfoCircle        = &aw.Icon{Value: "icons/info-circle-solid.png"}
 	iconOrg               = &aw.Icon{Value: "icons/warehouse-solid.png"}
 	iconHome              = &aw.Icon{Value: "icons/home-solid.png"}
 	iconCity              = &aw.Icon{Value: "icons/city-solid.png"}

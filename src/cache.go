@@ -47,8 +47,8 @@ func populateCacheItems(items []Item) {
 
 	debugLog(fmt.Sprintf("Total Items # %d", len(items)))
 
-	for k, item := range items {
-		debugLog(fmt.Sprintf("Item # %d item.Name %s\n", k, item.Name))
+	for _, item := range items {
+		// debugLog(fmt.Sprintf("Item # %d item.Name %s\n", k, item.Name))
 		if isItemIdFound(skipItems, item) {
 			return
 		}
@@ -147,7 +147,7 @@ func populateCacheItems(items []Item) {
 		}
 		tempItem.Fields = tempFields
 
-		// handling attchements slice here
+		// handling attachments slice here
 		var tempAttachments []Attachments
 		for _, att := range item.Attachments {
 			tempAttachments = append(tempAttachments, Attachments{
@@ -193,7 +193,7 @@ func getIcon(workflow *aw.Workflow) {
 		}
 		// log.Println("Started job icons: ", wf.IsRunning("icons"))
 		return
-	} else {
+	// } else {
 		// log.Printf("Download icons job already running.")
 	}
 }
@@ -245,7 +245,7 @@ func DownloadIcon(urlMap map[string]string, outputFolder string) {
 // DownloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory.
 func DownloadFile(filepath string, url string) error {
-	// log.Println("Dowloading url: ", url, " to file: ", filepath)
+	// log.Println("Downloading url: ", url, " to file: ", filepath)
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -275,7 +275,7 @@ func runGetIcons(url string, id string) {
 			if err := wf.RunInBackground("icons", cmd); err != nil {
 				wf.FatalError(err)
 			}
-		} else {
+		// } else {
 			// log.Printf("Download icons job already running.")
 		}
 		searchAlfred(conf.BwKeyword)

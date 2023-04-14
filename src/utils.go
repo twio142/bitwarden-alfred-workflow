@@ -21,12 +21,12 @@ func checkReturn(status cmd.Status, message string) ([]string, error) {
 		if wf.Debug() {
 			log.Printf("[ERROR] ==> Exit code 127. %q not found in path %q\n", conf.BwExec, os.Getenv("PATH"))
 		}
-		return []string{}, fmt.Errorf("%q not found in path %q\n", conf.BwExec, os.Getenv("PATH"))
+		return []string{}, fmt.Errorf("%q not found in path %q", conf.BwExec, os.Getenv("PATH"))
 	} else if exitCode == 126 {
 		if wf.Debug() {
 			log.Printf("[ERROR] ==> Exit code 126. %q has wrong permissions. Must be executable.\n", conf.BwExec)
 		}
-		return []string{}, fmt.Errorf("%q has wrong permissions. Must be executable.\n", conf.BwExec)
+		return []string{}, fmt.Errorf("%q has wrong permissions. Must be executable", conf.BwExec)
 	} else if exitCode == 1 {
 		if wf.Debug() {
 			log.Println("[ERROR] ==> ", status.Stderr)
@@ -36,7 +36,7 @@ func checkReturn(status cmd.Status, message string) ([]string, error) {
 				if wf.Debug() {
 					log.Println("[ERROR] ==> ", stderr)
 				}
-				return []string{}, fmt.Errorf("User cancelled.")
+				// return []string{}, fmt.Errorf("User cancelled.")
 			}
 		}
 		errorString := strings.Join(status.Stderr[:], "")
@@ -64,7 +64,7 @@ func checkReturn(status cmd.Status, message string) ([]string, error) {
 				return []string{"Two-step login code"}, nil
 			}
 		}
-		return []string{}, fmt.Errorf("Unexpected error. Exit code %d. Has the session key changed?\n[ERROR] %s", exitCode, errMessage)
+		return []string{}, fmt.Errorf("unexpected error. Exit code %d. Has the session key changed?\n[ERROR] %s", exitCode, errMessage)
 	}
 }
 
@@ -115,6 +115,16 @@ func getItemsInFolderCount(folderId string, items []Item) int {
 	return counter
 }
 
+func getFavoriteItemsCount(items []Item) int {
+	counter := 0
+	for _, item := range items {
+		if item.Favorite {
+			counter += 1
+		}
+	}
+	return counter
+}
+
 func commandExists(cmd string) bool {
 	_, err := exec.LookPath(cmd)
 	return err == nil
@@ -136,19 +146,19 @@ func map2faMode(mode int) string {
 	return " "
 }
 
-func typeName(typeInt int) string {
-	switch typeInt {
-	case 1:
-		return "Login"
-	case 2:
-		return "SecureNote"
-	case 3:
-		return "Card"
-	case 4:
-		return "Identity"
-	}
-	return "Type Name Not Found"
-}
+// func typeName(typeInt int) string {
+// 	switch typeInt {
+// 	case 1:
+// 		return "Login"
+// 	case 2:
+// 		return "SecureNote"
+// 	case 3:
+// 		return "Card"
+// 	case 4:
+// 		return "Identity"
+// 	}
+// 	return "Type Name Not Found"
+// }
 
 func clearCache() error {
 	// log.Println("Clearing items cache.")

@@ -35,13 +35,13 @@ func Encrypt(message []byte) (string, bool) {
 		log.Println(err)
 	}
 
-	if wf.Debug() {
+	// if wf.Debug() {
 		// log.Printf("%T \n", encrypted)
-	}
+	// }
 	enHex := fmt.Sprintf("%x:%x", nonce[:], encrypted)
-	if wf.Debug() {
+	// if wf.Debug() {
 		// log.Println("ENCRYPTED:", enHex[0:5])
-	}
+	// }
 	err = wf.Cache.Store(CACHE_NAME, []byte(enHex))
 	if err != nil {
 		log.Println(err)
@@ -66,14 +66,14 @@ func Decrypt() ([]byte, error) {
 	bs, err := hex.DecodeString(parts[0])
 	if err != nil || len(bs) != 24 {
 		log.Println("invalid nonce")
-		return nil, errors.New("Invalid nonce")
+		return nil, errors.New("invalid nonce")
 	}
 	copy(nonce2[:], bs)
 	// get message
 	bs, err = hex.DecodeString(parts[1])
 	if err != nil {
 		log.Println("invalid message")
-		return nil, errors.New("Invalid message")
+		return nil, errors.New("invalid message")
 	}
 	passwordBase64, err := wf.Keychain.Get("encryptPassword")
 	if err != nil {
