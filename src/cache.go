@@ -67,7 +67,7 @@ func populateCacheItems(items []Item) {
 		if item.Type == 2 {
 			noteValue := ""
 			if item.Notes != "" {
-				noteValue = "hidden"
+				noteValue = "✳︎✳︎✳︎✳︎✳︎"
 			}
 			tempItem.Notes = noteValue
 		} else {
@@ -77,7 +77,7 @@ func populateCacheItems(items []Item) {
 		if item.Card.Number != "" {
 			shortNumber = fmt.Sprintf("*%s", shortNumber[len(shortNumber)-4:])
 		}
-		codeValue := "hidden"
+		codeValue := "✳︎✳︎✳︎✳︎✳︎"
 		if item.Card.Code == "" {
 			codeValue = ""
 		}
@@ -90,11 +90,11 @@ func populateCacheItems(items []Item) {
 			Code:           codeValue,
 		}
 		tempItem.SecureNote = item.SecureNote
-		passwordValue := "hidden"
+		passwordValue := "✳︎✳︎✳︎✳︎✳︎"
 		if item.Login.Password == "" {
 			passwordValue = ""
 		}
-		totpValue := "hidden"
+		totpValue := "✳︎✳︎✳︎✳︎✳︎"
 		if item.Login.Totp == "" {
 			totpValue = ""
 		}
@@ -128,7 +128,7 @@ func populateCacheItems(items []Item) {
 		var tempFields []Field
 		for _, field := range item.Fields {
 			if field.Type == 1 {
-				valueContent := "hidden"
+				valueContent := "✳︎✳︎✳︎✳︎✳︎"
 				if field.Value == "" {
 					valueContent = ""
 				}

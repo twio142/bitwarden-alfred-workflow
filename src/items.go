@@ -76,7 +76,6 @@ func addItemDetails(item Item, autoFetchCache bool) {
 					Valid(true)
 			} else {
 				wf.NewItem(fmt.Sprintf("%s: %s", field.Name, field.Value)).
-					Subtitle(fmt.Sprintf("%q", field.Value)).
 					Arg(field.Value).
 					Icon(iconBars).
 					Var("sound", "true").
@@ -153,7 +152,7 @@ func addItemDetails(item Item, autoFetchCache bool) {
 		// 		Arg("login.password") // used as jsonpath
 		// }
 		// TOTP
-		if item.Login.Totp != "" || fmt.Sprintf(item.Login.Totp) != "hidden" {
+		if item.Login.Totp != "" {
 			wf.NewItem(fmt.Sprintf("TOTP: %s", item.Login.Totp)).
 				Valid(true).
 				Icon(iconUserClock).

@@ -317,10 +317,10 @@ func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, it
 
 func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType string, modMode string, actionString string, icon *aw.Icon, totp string, url string) {
 	// get emojis assigned to the modification key
-	moreEmoji, err := getTypeEmoji("more")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// moreEmoji, err := getTypeEmoji("more")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 	// codeEmoji, err := getTypeEmoji("code")
 	// if err != nil {
 	// 	log.Fatal(err.Error())
@@ -329,14 +329,14 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 	// if err != nil {
 	// 	log.Fatal(err.Error())
 	// }
-	passEmoji, err := getTypeEmoji("password")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	userEmoji, err := getTypeEmoji("username")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// passEmoji, err := getTypeEmoji("password")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
+	// userEmoji, err := getTypeEmoji("username")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 	// webUiEmoji, err := getTypeEmoji("webui")
 	// if err != nil {
 	// 	log.Fatal(err.Error())
@@ -456,7 +456,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 		if itemType == "item2" {
 			modItem := modifierActionContent{
 				Title:        item.Name,
-				Subtitle:     fmt.Sprintf("Copy note, %s show more", moreEmoji),
+				Subtitle:     "Copy note",
 				Sound:        true,
 				Action:       "-getitem",
 				Action2:      fmt.Sprintf("-id %s", item.Id),
@@ -572,7 +572,7 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			}
 			subtitle := "Open Bitwarden webUI"
 			if modMode == "nomod" {
-				subtitle = fmt.Sprintf("Open in web UI, %s password, %s username %s %s show more", passEmoji, userEmoji, totp, moreEmoji)
+				subtitle = "Open in web UI"
 			}
 			modItem := modifierActionContent{
 				Title:        item.Name,
