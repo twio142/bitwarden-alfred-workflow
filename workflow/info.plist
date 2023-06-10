@@ -2142,9 +2142,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<string>example@provider.com</string>
-				<key>placeholder</key>
 				<string></string>
+				<key>placeholder</key>
+				<string>example@provider.com</string>
 				<key>required</key>
 				<true/>
 				<key>trim</key>
