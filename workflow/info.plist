@@ -2146,12 +2146,12 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<key>placeholder</key>
 				<string>example@provider.com</string>
 				<key>required</key>
-				<true/>
+				<false/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>This is the email you use to log into Bitwarden</string>
+			<string>the email which to use for the login via the Bitwarden CLI, will be read from the data.json of the Bitwarden CLI if present</string>
 			<key>label</key>
 			<string>bitwarden login email</string>
 			<key>type</key>
@@ -2172,34 +2172,13 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>This is the keyword you use to trigger workflow</string>
+			<string>defines the keyword which opens the Bitwarden Alfred Workflow</string>
 			<key>label</key>
-			<string>Alfred Trigger Keyword</string>
+			<string>Search Keyword</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
 			<string>bw_keyword</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string>.bwauth</string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>This is the keyword to open authentication settings</string>
-			<key>label</key>
-			<string>Authentication Setup Menu Keyword</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>bwauth_keyword</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -2214,13 +2193,34 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Open your bitwarden vault in folder view</string>
+			<string>defines the keyword which opens the folder search of the Bitwarden Alfred Workflow</string>
 			<key>label</key>
-			<string>Folder View Keyword</string>
+			<string>Folder Search Keyword</string>
 			<key>type</key>
 			<string>textfield</string>
 			<key>variable</key>
 			<string>bwf_keyword</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>.bwauth</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>defines the keyword which opens the Bitwarden authentications of the Alfred Workflow</string>
+			<key>label</key>
+			<string>Authentication Setup Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>bwauth_keyword</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -2235,7 +2235,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>defines the keyword which opens the Bitwarden configuration/settings of the Alfred Workflow</string>
 			<key>label</key>
 			<string>Config Menu Keyword</string>
 			<key>type</key>
@@ -2256,7 +2256,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>defines the keyword which opens the Bitwarden background sync agent</string>
 			<key>label</key>
 			<string>Automatic Sync Service Keyword</string>
 			<key>type</key>
@@ -2277,7 +2277,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>defines the keyword which opens the Bitwarden background lock agent</string>
 			<key>label</key>
 			<string>Automatic Lock Service Keyword</string>
 			<key>type</key>
@@ -2298,7 +2298,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>The PATH env variable which is used to search for executables (like the Bitwarden CLI configured with BW_EXEC, security to get and set keychain objects)</string>
 			<key>label</key>
 			<string>Bitwarden CLI Path</string>
 			<key>type</key>
@@ -2310,54 +2310,16 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>config</key>
 			<dict>
 				<key>default</key>
-				<false/>
-				<key>required</key>
-				<false/>
-				<key>text</key>
-				<string></string>
-			</dict>
-			<key>description</key>
-			<string></string>
-			<key>label</key>
-			<string>Enable Debug Mode (for developers)</string>
-			<key>type</key>
-			<string>checkbox</string>
-			<key>variable</key>
-			<string>DEBUG</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<false/>
-				<key>required</key>
-				<false/>
-				<key>text</key>
-				<string></string>
-			</dict>
-			<key>description</key>
-			<string></string>
-			<key>label</key>
-			<string>use API key</string>
-			<key>type</key>
-			<string>checkbox</string>
-			<key>variable</key>
-			<string>USE_APIKEY</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
 				<string>1440</string>
 				<key>placeholder</key>
-				<string>int</string>
+				<string>integer</string>
 				<key>required</key>
 				<false/>
 				<key>trim</key>
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>Besides the lock on startup this additional timeout is set to define when Bitwarden should be locked in case of no usage.</string>
 			<key>label</key>
 			<string>auto lock timeout (s)</string>
 			<key>type</key>
@@ -2369,6 +2331,30 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>config</key>
 			<dict>
 				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string>Since version 2.4.1 the workflow supports login via the api key.
+Get/create an api key via the web ui. See more information here https://bitwarden.com/help/article/cli/#using-an-api-key
+To use the api key login flow in the workflow set the workflow variable USE_APIKEY to true.
+The workflow will then ask you for the client_id and client secret to login.
+Immediately afterwards it will also ask to unlock with the master password to get a session key.
+That is a separate step and required with the api key as login method.</string>
+			<key>label</key>
+			<string>use API key</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>USE_APIKEY</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
 				<string></string>
 				<key>placeholder</key>
 				<string></string>
@@ -2378,7 +2364,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>Set the server url if you host your own Bitwarden instance - you can also set separate domains for api,webvault etc e.g. --api http://localhost:4000 --identity http://localhost:33656</string>
 			<key>label</key>
 			<string>self host url (if you are using official bitwarden, ignore this)</string>
 			<key>type</key>
@@ -2399,7 +2385,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<true/>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>Set the Web UI vault url if you host your own Bitwarden instance - you can also set separate domains for api,webvault etc e.g. --api http://localhost:4000 --identity http://localhost:33656</string>
 			<key>label</key>
 			<string>web UI url</string>
 			<key>type</key>
@@ -2439,7 +2425,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				<string></string>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>enables or disables 2FA for login (can be set via .bwconfig )</string>
 			<key>label</key>
 			<string>Enable 2FA</string>
 			<key>type</key>
@@ -2477,13 +2463,32 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 				</array>
 			</dict>
 			<key>description</key>
-			<string>This option is only used when Enable 2FA is checked</string>
+			<string>sets the mode for the 2FA (this option is only used when Enable 2FA is checked, can also be set via .bwconfig )</string>
 			<key>label</key>
 			<string>2FA Mode</string>
 			<key>type</key>
 			<string>popupbutton</string>
 			<key>variable</key>
 			<string>2FA_MODE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+			</dict>
+			<key>description</key>
+			<string>If enabled print additional debug information, specially about for the decryption process</string>
+			<key>label</key>
+			<string>Enable Debug Mode (for developers)</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>DEBUG</string>
 		</dict>
 	</array>
 	<key>variables</key>
