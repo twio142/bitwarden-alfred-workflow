@@ -2452,19 +2452,36 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<dict>
 				<key>default</key>
 				<string>0</string>
-				<key>placeholder</key>
-				<string></string>
-				<key>required</key>
-				<false/>
-				<key>trim</key>
-				<true/>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Authenticator-app</string>
+						<string>0</string>
+					</array>
+					<array>
+						<string>Email</string>
+						<string>1</string>
+					</array>
+					<array>
+						<string>Duo</string>
+						<string>2</string>
+					</array>
+					<array>
+						<string>Yubikey</string>
+						<string>3</string>
+					</array>
+					<array>
+						<string>U2F</string>
+						<string>4</string>
+					</array>
+				</array>
 			</dict>
 			<key>description</key>
-			<string></string>
+			<string>This option is only used when Enable 2FA is checked</string>
 			<key>label</key>
 			<string>2FA Mode</string>
 			<key>type</key>
-			<string>textfield</string>
+			<string>popupbutton</string>
 			<key>variable</key>
 			<string>2FA_MODE</string>
 		</dict>
