@@ -36,7 +36,10 @@
 * many customizations possible
 
 
-> Requires Alfred 4.1 or newer; NOT tested with Alfred 3
+> This workflow requires Alfred 5.0+. 
+> This workflow is undergoing some changes in order to be listed on [Alfred Gallery](alfred.app)
+> If you are using Alfred 4, the latest supported version is 2.4.7. 
+> NOT tested with Alfred 3
 
 ![Bitwarden V2 - Alfred Workflow Demo](./assets/bitwarden-v2.gif)
 
