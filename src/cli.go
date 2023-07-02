@@ -263,7 +263,7 @@ func runConfig() {
 		UID("icons").
 		Icon(iconReload).
 		Var("action", "-icons").
-		Vas("notification", "Downloading Favicons for URLs").
+		Var("notification", "Downloading Favicons for URLs").
 		Arg("-background")
 
 	wf.NewItem("Get date of last Bitwarden secret sync").
