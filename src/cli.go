@@ -216,22 +216,6 @@ func runConfig() {
 		Var("action", "-authconfig").
 		Var("action2", "-id Use")
 
-	if wf.UpdateAvailable() {
-		wf.NewItem("Workflow Update Available").
-			Subtitle("↩ or ⇥ to install update").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateAvailable)
-	} else {
-		wf.NewItem("Workflow Is Up To Date").
-			Subtitle("↩ or ⇥ to check for update now").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateOK)
-	}
-
 	wf.NewItem("Delete Workflow cache").
 		Subtitle("↩ or ⇥ to clean cached items and icons").
 		Valid(false).

@@ -29,7 +29,7 @@
 * access to (almost) all object information via this workflow
 * download attachments via this workflow
 * show favicons of the websites
-* auto update
+* ~~auto update~~ (currently disabled. Alfred Gallery update support coming soon)
 * auto Bitwarden sync in the background
 * auto lock on startup and after customizable idle time
 * uses the [awgo](https://pkg.go.dev/github.com/deanishe/awgo?tab=doc) framework/library
@@ -64,7 +64,7 @@ Repeat the above steps for node, starting with `which node`.
 To use, activate Alfred and type `.bw` to trigger this workflow. From there:
 
 - type `.bwauth` for login/logout/unlock/lock
-- type `.bwconfig` for settings/sync/workflow update/help/issue reports
+- type `.bwconfig` for settings/sync/workflow help/issue reports
 - type any search term to search for secrets/notes/identities/cards
 - modifier keys and actions are presented in the subtitle, different actions are available depending on the object type
 
