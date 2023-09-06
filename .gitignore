@@ -21,7 +21,7 @@ coverage.txt
 .idea
 *.alfredworkflow
 workflow/assets
-workflow/pref.plist
+workflow/prefs.plist
 workflow/bitwarden-alfred-workflow
 workflow/bitwarden-alfred-workflow-amd64
 workflow/bitwarden-alfred-workflow-arm64
