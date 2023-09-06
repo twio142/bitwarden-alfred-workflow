@@ -12,13 +12,11 @@ import (
 
 // Workflow icons
 var (
-	// iconHelp            = &aw.Icon{Value: "icons/help.png"}
+	iconHelp            = &aw.Icon{Value: "icons/help.png"}
 	iconIssue           = &aw.Icon{Value: "icons/issue.png"}
 	iconLoading         = &aw.Icon{Value: "icons/loading.png"}
 	iconReload          = &aw.Icon{Value: "icons/reload.png"}
 	iconServer          = &aw.Icon{Value: "icons/server-solid.png"}
-	iconUpdateAvailable = &aw.Icon{Value: "icons/update-available.png"}
-	iconUpdateOK        = &aw.Icon{Value: "icons/update-ok.png"}
 	iconWarning         = &aw.Icon{Value: "icons/warning.png"}
 	iconOn              = &aw.Icon{Value: "icons/on.png"}
 	iconOff             = &aw.Icon{Value: "icons/off.png"}

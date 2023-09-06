@@ -29,14 +29,17 @@
 * access to (almost) all object information via this workflow
 * download attachments via this workflow
 * show favicons of the websites
-* auto update
+* ~~auto update~~ (currently disabled. Alfred Gallery update support coming soon)
 * auto Bitwarden sync in the background
 * auto lock on startup and after customizable idle time
 * uses the [awgo](https://pkg.go.dev/github.com/deanishe/awgo?tab=doc) framework/library
 * many customizations possible
 
 
-> Requires Alfred 4.1 or newer; NOT tested with Alfred 3
+> This workflow requires Alfred 5.0+. <br>
+> This workflow is undergoing some changes in order to be listed on [Alfred Gallery](alfred.app)<br>
+> If you are using Alfred 4, the latest supported version is 2.4.7. <br>
+> NOT tested with Alfred 3
 
 ![Bitwarden V2 - Alfred Workflow Demo](./assets/bitwarden-v2.gif)
 
@@ -61,7 +64,7 @@ Repeat the above steps for node, starting with `which node`.
 To use, activate Alfred and type `.bw` to trigger this workflow. From there:
 
 - type `.bwauth` for login/logout/unlock/lock
-- type `.bwconfig` for settings/sync/workflow update/help/issue reports
+- type `.bwconfig` for settings/sync/workflow help/issue reports
 - type any search term to search for secrets/notes/identities/cards
 - modifier keys and actions are presented in the subtitle, different actions are available depending on the object type
 
@@ -192,7 +195,7 @@ MODIFIER_3_ACTION=code,card (2 items listed but of the same *type*, therefore th
 # Develop locally
 
 1. Install alfred cli <br>
-`go get -u github.com/jason0x43/go-alfred/alfred`
+`go install github.com/jason0x43/go-alfred/alfred@latest`
 
 2. Clone [this repo](https://github.com/blacs30/bitwarden-alfred-workflow).
 

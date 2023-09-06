@@ -251,18 +251,19 @@ func runGetItem() {
 				isDecryptSecretFromJsonFailed = true
 			}
 			// replace starting bracket with dot as gsub uses a dot for the first group in an array
-			jsonPath = strings.Replace(jsonPath, "[", ".", -1)
-			jsonPath = strings.Replace(jsonPath, "]", "", -1)
+			gjsonPath := jsonPath
+			gjsonPath = strings.Replace(gjsonPath, "[", ".", -1)
+			gjsonPath = strings.Replace(gjsonPath, "]", "", -1)
 			if totp {
-				jsonPath = "login.totp"
+				gjsonPath = "login.totp"
 			}
 
 			var value gjson.Result
 			if bwData.ActiveUserId != "" {
 				// different location for version 1.21.1 and above
-				value = gjson.Get(string(data), fmt.Sprintf("%s.data.ciphers.encrypted.%s.%s", bwData.UserId, id, jsonPath))
+				value = gjson.Get(string(data), fmt.Sprintf("%s.data.ciphers.encrypted.%s.%s", bwData.UserId, id, gjsonPath))
 			} else {
-				value = gjson.Get(string(data), fmt.Sprintf("ciphers_%s.%s.%s", bwData.UserId, id, jsonPath))
+				value = gjson.Get(string(data), fmt.Sprintf("ciphers_%s.%s.%s", bwData.UserId, id, gjsonPath))
 			}
 			if value.Exists() {
 				encryptedSecret = value.String()
@@ -288,6 +289,8 @@ func runGetItem() {
 		receivedItem = decryptedString
 	}
 	if bwData.UserId == "" || isDecryptSecretFromJsonFailed || attachment != "" {
+		log.Println("Falling back to Bitwarden CLI to get item.")
+
 		// Run the Bitwarden CLI to get the secret
 		// Use it also for getting attachments
 		// if attachment != "" {
@@ -297,8 +300,10 @@ func runGetItem() {
 		message := "Failed to get Bitwarden item."
 		args := fmt.Sprintf("%s get item %s --pretty --session %s", conf.BwExec, id, token)
 		if totp {
+			log.Println("Trying to get totp  via Bitwarden cli")
 			args = fmt.Sprintf("%s get totp %s --session %s", conf.BwExec, id, token)
 		} else if attachment != "" {
+			log.Println("Trying to get attachment  via Bitwarden cli")
 			args = fmt.Sprintf("%s get attachment %s --itemid %s --output %s --session %s --raw", conf.BwExec, attachment, id, conf.OutputFolder, token)
 		}
 
@@ -314,15 +319,22 @@ func runGetItem() {
 			return
 		}
 
-		receivedItem = ""
-		if jsonPath != "" {
+		if totp {
+		} else {
+			receivedItem = ""
+		}
+
+		if jsonPath != "" && !totp {
+			log.Println("Received jsonPath for item is", jsonPath)
 			// jsonpath operation to get only required part of the item
 			singleString := strings.Join(result, " ")
+
 			var item interface{}
 			err = json.Unmarshal([]byte(singleString), &item)
 			if err != nil {
 				log.Println(err)
 			}
+
 			res, err := jsonpath.JsonPathLookup(item, fmt.Sprintf("$.%s", jsonPath))
 			if err != nil {
 				log.Println(err)

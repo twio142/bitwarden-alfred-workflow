@@ -74,7 +74,7 @@ jobs:
     needs: [lint, test]
     strategy:
       matrix:
-        os: [macos-10.15, macos-11, macos-12, ubuntu-20.04]
+        os: [macos-11, macos-12, macos-13, ubuntu-20.04]
     steps:
 # Not needed since it's a public repo    
 #      - name: Granting private modules access

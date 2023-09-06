@@ -194,6 +194,61 @@ func runConfig() {
 		Var("subtitle", fmt.Sprintf("Currently set to: %q", conf.WebUiURL)).
 		Arg(opts.Query)
 
+	wf.NewItem("Enable or disable 2FA").
+		Subtitle("Configure Bitwarden to use or not use 2 Factor Authentication").
+		UID("sfa").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-sfa")
+
+	wf.NewItem("Enable or disable API Key login").
+		Subtitle("Configure Bitwarden to use API keys to login").
+		UID("apikeyauth").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id on-off-apikey")
+
+	wf.NewItem("Set the 2FA method").
+		Subtitle("Configure which 2 Factor Authentication Method you use").
+		UID("sfamode").
+		Valid(true).
+		Icon(iconUserClock).
+		Var("action", "-authconfig").
+		Var("action2", "-id Use")
+
+	wf.NewItem("Delete Workflow cache").
+		Subtitle("↩ or ⇥ to clean cached items and icons").
+		Valid(false).
+		UID("delcache").
+		Autocomplete("workflow:delcache").
+		Icon(aw.IconTrash)
+
+	wf.NewItem("View Help File").
+		Subtitle("Open workflow help in your browser").
+		Arg("README.html").
+		UID("help").
+		Valid(true).
+		Icon(iconHelp).
+		Var("action", "-open")
+
+	wf.NewItem("Report Issue").
+		Subtitle("Open workflow issue tracker in your browser").
+		Arg(issueTrackerURL).
+		UID("issue").
+		Valid(true).
+		Icon(iconIssue).
+		Var("action", "-open")
+
+	wf.NewItem("Visit Forum Thread").
+		Subtitle("Open workflow thread on alfredforum.com in your browser").
+		Arg(forumThreadURL).
+		UID("forum").
+		Valid(true).
+		Icon(iconLink).
+		Var("action", "-open")
+
 	wf.NewItem("Sync Bitwarden Secrets").
 		Valid(true).
 		UID("sync").
@@ -230,21 +285,21 @@ func runConfig() {
 		Var("action", "-authconfig").
 		Var("action2", "-id Use")
 
-	if wf.UpdateAvailable() {
-		wf.NewItem("Workflow Update Available").
-			Subtitle("Install update").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateAvailable)
-	} else {
-		wf.NewItem("Workflow Is Up to Date").
-			Subtitle("Check for update now").
-			Valid(false).
-			UID("update").
-			Autocomplete("workflow:update").
-			Icon(iconUpdateOK)
-	}
+	// if wf.UpdateAvailable() {
+	// 	wf.NewItem("Workflow Update Available").
+	// 		Subtitle("Install update").
+	// 		Valid(false).
+	// 		UID("update").
+	// 		Autocomplete("workflow:update").
+	// 		Icon(iconUpdateAvailable)
+	// } else {
+	// 	wf.NewItem("Workflow Is Up to Date").
+	// 		Subtitle("Check for update now").
+	// 		Valid(false).
+	// 		UID("update").
+	// 		Autocomplete("workflow:update").
+	// 		Icon(iconUpdateOK)
+	// }
 
 	// wf.NewItem("View Help File").
 	// 	Subtitle("Open workflow help in your browser").
