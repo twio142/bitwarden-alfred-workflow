@@ -1480,7 +1480,7 @@
 				<key>fixedorder</key>
 				<true/>
 				<key>items</key>
-				<string>[{"imagefile":"9febae04e9b11418d8c716fa6a295abfcdf2c95b.png","title":"Install","arg":"--install","subtitle":"Install automatic sync service (hour: {var:AUTO_HOUR} min: {var:AUTO_MIN})"},{"imagefile":"21dcb3fb3a76f001daa8d67a857cfb9573060b9a.png","title":"Remove","arg":"--remove","subtitle":"Remove automatic sync service"},{"imagefile":"adde5abb26a131f20cc3417c4206bd81e5341c81.png","title":"Create symlink","arg":"--link","subtitle":"Create symlink to make it easier to trigger a manual sync ({var:AUTOSYNC_SCRIPT_DIR})"}]</string>
+				<string>[{"imagefile":"9febae04e9b11418d8c716fa6a295abfcdf2c95b.png","title":"Install","arg":"--install","subtitle":"Install automatic sync service ({var:AUTOSYNC_TIMES})"},{"imagefile":"21dcb3fb3a76f001daa8d67a857cfb9573060b9a.png","title":"Remove","arg":"--remove","subtitle":"Remove automatic sync service"},{"imagefile":"adde5abb26a131f20cc3417c4206bd81e5341c81.png","title":"Create symlink","arg":"--link","subtitle":"Create symlink to make it easier to trigger a manual sync ({var:AUTOSYNC_SCRIPT_DIR})"}]</string>
 				<key>keyword</key>
 				<string>{var:bwauto_keyword}</string>
 				<key>matchmode</key>
