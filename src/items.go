@@ -140,17 +140,6 @@ func addItemDetails(item Item, autoFetchCache bool) {
 					Var("action", "-open").Valid(true)
 			}
 		}
-		// item.Login.Password
-		// if conf.EmptyDetailResults || item.Login.Password != "" {
-		// 	wf.NewItem("Password").
-		// 		Subtitle(fmt.Sprintf("%q", item.Login.Password)).
-		// 		Valid(true).
-		// 		Icon(iconPassword).
-		// 		Var("notification", fmt.Sprintf("Copy Password for user:\n%s", item.Login.Username)).
-		// 		Var("action", "-getitem").
-		// 		Var("action2", fmt.Sprintf("-id %s", item.Id)).
-		// 		Arg("login.password") // used as jsonpath
-		// }
 		// TOTP
 		if item.Login.Totp != "" {
 			wf.NewItem(fmt.Sprintf("TOTP: %s", item.Login.Totp)).
@@ -412,22 +401,16 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		}
 
 		getModifierActionRelations(itemModSet, item, "item1", icon, totp, url)
-		// debugLog(fmt.Sprintf("Item1:\n%+v", itemModSet["item1"]))
 		addNewItem(itemModSet["item1"], item.Name)
 	} else if item.Type == 2 {
 		getModifierActionRelations(itemModSet, item, "item2", nil, "", "")
-		// debugLog(fmt.Sprintf("Item2:\n%+v", itemModSet["item2"]))
 		addNewItem(itemModSet["item2"], item.Name)
 	} else if item.Type == 3 {
 		getModifierActionRelations(itemModSet, item, "item3", nil, "", "")
-		// debugLog(fmt.Sprintf("Item3:\n%+v", itemModSet["item3"]))
 		addNewItem(itemModSet["item3"], item.Name)
 	} else if item.Type == 4 {
 		getModifierActionRelations(itemModSet, item, "item4", nil, "", "")
-		// debugLog(fmt.Sprintf("Item4:\n%+v", itemModSet["item4"]))
 		addNewItem(itemModSet["item4"], item.Name)
-	// } else {
-		// log.Printf("New item, needs to be implemented.")
 	}
 }
 
@@ -440,7 +423,6 @@ func addNewItem(item map[string]modifierActionRelation, name string) *aw.Item {
 		Subtitle(item["nomod"].Content.Subtitle).Valid(true).
 		Arg(item["nomod"].Content.Arg).
 		UID(name).
-		Var("notification", item["nomod"].Content.Notification).
 		Var("action", item["nomod"].Content.Action).
 		Var("action2", item["nomod"].Content.Action2).
 		Var("action3", item["nomod"].Content.Action3).
@@ -473,7 +455,6 @@ func addNewModifierItem(item *aw.Item, modifier modifierActionRelation) {
 	item.NewModifier(modifier.Keys[0:]...).
 		Subtitle(modifier.Content.Subtitle).
 		Arg(modifier.Content.Arg).
-		Var("notification", modifier.Content.Notification).
 		Var("action", modifier.Content.Action).
 		Var("action2", modifier.Content.Action2).
 		Var("action3", modifier.Content.Action3).

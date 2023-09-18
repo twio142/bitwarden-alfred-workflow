@@ -44,6 +44,8 @@
 				<false/>
 			</dict>
 		</array>
+		<key>23F9E010-1243-4E69-8339-CFE6D8E60FCD</key>
+		<array/>
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
 		<array>
 			<dict>
@@ -54,7 +56,7 @@
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
-				<false/>
+				<true/>
 			</dict>
 		</array>
 		<key>29368892-614B-4A2B-92F3-FC433F748404</key>
@@ -80,7 +82,7 @@
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
-				<false/>
+				<true/>
 			</dict>
 		</array>
 		<key>2B3376F5-F01D-4684-B705-A4779542318F</key>
@@ -97,7 +99,18 @@
 			</dict>
 		</array>
 		<key>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>3D8E65EE-BD6E-4D7D-B22E-109157394D40</key>
 		<array>
 			<dict>
@@ -121,18 +134,6 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>5477D4DC-FD95-4D84-9415-6A725C1483E1</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>053F2C93-355C-4049-B3F8-210AED1B222B</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -197,7 +198,7 @@
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
-				<false/>
+				<true/>
 			</dict>
 		</array>
 		<key>52000E80-E577-4C80-A905-75701E24D746</key>
@@ -321,6 +322,18 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>031D762C-EF9F-4DE8-B1FC-764C1DAE4842</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>9AAEA968-23C5-4356-BE4F-BA2BC6426CB4</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>E16A1D44-5D3B-423E-AB99-1D189318EEE1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -328,6 +341,40 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>4E4C7A57-042A-44B7-A80B-33DF169691CC</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>053F2C93-355C-4049-B3F8-210AED1B222B</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>4E4C7A57-042A-44B7-A80B-33DF169691CC</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -360,18 +407,6 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>031D762C-EF9F-4DE8-B1FC-764C1DAE4842</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>9AAEA968-23C5-4356-BE4F-BA2BC6426CB4</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -445,18 +480,6 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -464,6 +487,18 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>053F2C93-355C-4049-B3F8-210AED1B222B</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -481,6 +516,40 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>CE770335-3F74-4E59-9FBA-065D2A875A61</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -505,7 +574,19 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>C47F5274-3432-464F-AE3C-667513154747</string>
+				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -522,18 +603,6 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>C7AE31D9-0033-44A4-889F-1030672647C0</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -556,19 +625,6 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
-		<key>C47F5274-3432-464F-AE3C-667513154747</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -613,7 +669,7 @@
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>vitoclose</key>
-				<false/>
+				<true/>
 			</dict>
 		</array>
 		<key>D9165B59-BF7D-44B4-8602-431F41C8CFD5</key>
@@ -665,424 +721,6 @@
 	<string>Bitwarden v2</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<false/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:bwauth_keyword}</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Loading auth configs…</string>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -auth -- "$1"</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Login Unlock and set authentication configs for Bitwarden</string>
-				<key>title</key>
-				<string>Bitwarden Authentication Settings</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>D24237CD-F51F-441E-B3DF-DD3AF9D4EB77</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<true/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string></string>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
-				<key>title</key>
-				<string>{var:title}</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
-				<false/>
-				<key>transient</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>E16A1D44-5D3B-423E-AB99-1D189318EEE1</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>autopaste</key>
-				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
-				<false/>
-				<key>transient</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
-			<key>uid</key>
-			<string>D9165B59-BF7D-44B4-8602-431F41C8CFD5</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>conditions</key>
-				<array>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>(-authconfig|-folder|-id)</string>
-						<key>outputlabel</key>
-						<string>script filter</string>
-						<key>uid</key>
-						<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>(-cache|-sync|-icons)</string>
-						<key>outputlabel</key>
-						<string>run script</string>
-						<key>uid</key>
-						<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>0</integer>
-						<key>matchstring</key>
-						<string>output</string>
-						<key>outputlabel</key>
-						<string>output insecure</string>
-						<key>uid</key>
-						<string>053F2C93-355C-4049-B3F8-210AED1B222B</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>(secure|-getitem)</string>
-						<key>outputlabel</key>
-						<string>secure output</string>
-						<key>uid</key>
-						<string>CE770335-3F74-4E59-9FBA-065D2A875A61</string>
-					</dict>
-					<dict>
-						<key>inputstring</key>
-						<string>{var:action}{var:action2}</string>
-						<key>matchcasesensitive</key>
-						<false/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>-setconfigs.*(email|server|webui)</string>
-						<key>outputlabel</key>
-						<string>server and mail to keyword</string>
-						<key>uid</key>
-						<string>C7AE31D9-0033-44A4-889F-1030672647C0</string>
-					</dict>
-				</array>
-				<key>elselabel</key>
-				<string>other action ie. open help</string>
-				<key>hideelse</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.conditional</string>
-			<key>uid</key>
-			<string>BB87567B-757A-4DE2-8022-DA48FD22663D</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:bw_keyword}</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Finding secrets…</string>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Search and Get Secrets from Bitwarden</string>
-				<key>title</key>
-				<string>Search Bitwarden</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>270A6CCE-F927-4E8F-9520-8F787573B1E3</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>0</integer>
-				<key>hotmod</key>
-				<integer>0</integer>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>E7B34A5D-981E-45C7-ABF5-45EF761FD350</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string>{var:notification}</string>
-				<key>passthroughargument</key>
-				<false/>
-				<key>variables</key>
-				<dict/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:bwf_keyword}</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<false/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Finding secrets in folders…</string>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow --folder $action $action2 $action3 $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Search and Get Secrets from Bitwarden Folders</string>
-				<key>title</key>
-				<string>Search Bitwarden Folders</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>D78812B0-AEB1-4A2C-BBC3-77ED891B40F4</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<true/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>Bitwarden v2</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.hidealfred</string>
-			<key>uid</key>
-			<string>C47F5274-3432-464F-AE3C-667513154747</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -1146,46 +784,68 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>autopaste</key>
 				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.output.clipboard</string>
 			<key>uid</key>
-			<string>BE7A9FBE-78EE-4864-BF0B-F746A183164D</string>
+			<string>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>Login Successful. Unlocking now</string>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
 				<key>title</key>
-				<string>Bitwarden v2</string>
+				<string>{var:title}</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</string>
+			<string>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1203,7 +863,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>{var:bwconf_keyword}</string>
+				<string>{var:bwauth_keyword}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -1213,17 +873,17 @@
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Reading settings…</string>
+				<string></string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -conf "$1"</string>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -auth -- "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>View and edit workflow settings</string>
+				<string></string>
 				<key>title</key>
-				<string>Settings for Bitwarden</string>
+				<string>Bitwarden Authentication Settings</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -1232,83 +892,9 @@
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>4BC115D2-2F84-4652-892B-3250887C4597</string>
+			<string>D24237CD-F51F-441E-B3DF-DD3AF9D4EB77</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>subtext</key>
-				<string>{var:subtitle}</string>
-				<key>text</key>
-				<string>{var:title}</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>B083B37D-7F08-4B68-B087-100C361FAAD9</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>conditions</key>
-				<array>
-					<dict>
-						<key>inputstring</key>
-						<string>{query}</string>
-						<key>matchcasesensitive</key>
-						<true/>
-						<key>matchmode</key>
-						<integer>4</integer>
-						<key>matchstring</key>
-						<string>APIKEY</string>
-						<key>outputlabel</key>
-						<string>Unlock</string>
-						<key>uid</key>
-						<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
-					</dict>
-				</array>
-				<key>elselabel</key>
-				<string>finalize</string>
-				<key>hideelse</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.conditional</string>
-			<key>uid</key>
-			<string>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1406,6 +992,476 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>E16A1D44-5D3B-423E-AB99-1D189318EEE1</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>D9165B59-BF7D-44B4-8602-431F41C8CFD5</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:bw_keyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching…</string>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search Bitwarden</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>270A6CCE-F927-4E8F-9520-8F787573B1E3</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>0</integer>
+				<key>hotmod</key>
+				<integer>0</integer>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>E7B34A5D-981E-45C7-ABF5-45EF761FD350</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>(-favorites|-authconfig|-folder|-id)</string>
+						<key>outputlabel</key>
+						<string>script filter</string>
+						<key>uid</key>
+						<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>(-cache|-sync|-icons)</string>
+						<key>outputlabel</key>
+						<string>run script</string>
+						<key>uid</key>
+						<string>B6C3CF0F-F812-4197-9154-93D7431CABAF</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>output</string>
+						<key>outputlabel</key>
+						<string>output insecure</string>
+						<key>uid</key>
+						<string>053F2C93-355C-4049-B3F8-210AED1B222B</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>(secure|-getitem)</string>
+						<key>outputlabel</key>
+						<string>secure output</string>
+						<key>uid</key>
+						<string>CE770335-3F74-4E59-9FBA-065D2A875A61</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:action}{var:action2}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>-setconfigs.*(email|server|webui)</string>
+						<key>outputlabel</key>
+						<string>server and mail to keyword</string>
+						<key>uid</key>
+						<string>C7AE31D9-0033-44A4-889F-1030672647C0</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>other action ie. open help</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>BB87567B-757A-4DE2-8022-DA48FD22663D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.hidealfred</string>
+			<key>uid</key>
+			<string>23F9E010-1243-4E69-8339-CFE6D8E60FCD</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{var:notification}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:bwf_keyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching…</string>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow --folder $action $action2 $action3 $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Search Bitwarden Folders</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>D78812B0-AEB1-4A2C-BBC3-77ED891B40F4</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Bitwarden v2</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Login Successful. Unlocking now</string>
+				<key>title</key>
+				<string>Bitwarden v2</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>BE7A9FBE-78EE-4864-BF0B-F746A183164D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:bwconf_keyword}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -conf "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Bitwarden Settings</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>4BC115D2-2F84-4652-892B-3250887C4597</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>subtext</key>
+				<string>{var:subtitle}</string>
+				<key>text</key>
+				<string>{var:title}</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>B083B37D-7F08-4B68-B087-100C361FAAD9</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<true/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>APIKEY</string>
+						<key>outputlabel</key>
+						<string>Unlock</string>
+						<key>uid</key>
+						<string>8E5A499C-454E-472B-84F6-137DA58C3029</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>finalize</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -1490,7 +1546,7 @@
 				<key>subtext</key>
 				<string>Install or remove service, create symlink</string>
 				<key>title</key>
-				<string>Bitwarden Workflow Autosync Configuration</string>
+				<string>Workflow Autosync Configuration</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -1628,7 +1684,7 @@
 				<key>subtext</key>
 				<string>Install or remove service to auto lock Bitwarden</string>
 				<key>title</key>
-				<string>Bitwarden Workflow Autolock Configuration</string>
+				<string>Workflow Autolock Configuration</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -1831,16 +1887,16 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Gets the item detail view from within the folder view</string>
 			<key>xpos</key>
-			<real>505</real>
+			<real>895</real>
 			<key>ypos</key>
-			<real>515</real>
+			<real>40</real>
 		</dict>
 		<key>0564378D-5C22-4CBD-9C16-BFE0023CDA6E</key>
 		<dict>
 			<key>xpos</key>
-			<real>1300</real>
+			<real>1400</real>
 			<key>ypos</key>
-			<real>500</real>
+			<real>385</real>
 		</dict>
 		<key>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</key>
 		<dict>
@@ -1849,12 +1905,21 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>ypos</key>
 			<real>250</real>
 		</dict>
+		<key>23F9E010-1243-4E69-8339-CFE6D8E60FCD</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>7</integer>
+			<key>xpos</key>
+			<real>865</real>
+			<key>ypos</key>
+			<real>230</real>
+		</dict>
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
 		<dict>
 			<key>xpos</key>
 			<real>175</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>135</real>
 		</dict>
 		<key>29368892-614B-4A2B-92F3-FC433F748404</key>
 		<dict>
@@ -1868,9 +1933,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>2B07EDA7-EF15-46A4-8644-073ACAE7FD02</key>
 		<dict>
 			<key>xpos</key>
-			<real>575</real>
+			<real>535</real>
 			<key>ypos</key>
-			<real>20</real>
+			<real>25</real>
 		</dict>
 		<key>2B3376F5-F01D-4684-B705-A4779542318F</key>
 		<dict>
@@ -1888,16 +1953,16 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Copies Username and other insecure items to the Clipboard</string>
 			<key>xpos</key>
-			<real>915</real>
+			<real>1435</real>
 			<key>ypos</key>
-			<real>20</real>
+			<real>15</real>
 		</dict>
 		<key>3D8E65EE-BD6E-4D7D-B22E-109157394D40</key>
 		<dict>
 			<key>xpos</key>
-			<real>800</real>
+			<real>1020</real>
 			<key>ypos</key>
-			<real>515</real>
+			<real>45</real>
 		</dict>
 		<key>3FBE8D58-EE54-45E1-B8BF-DF69480FC771</key>
 		<dict>
@@ -1922,7 +1987,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>xpos</key>
 			<real>175</real>
 			<key>ypos</key>
-			<real>350</real>
+			<real>355</real>
 		</dict>
 		<key>52000E80-E577-4C80-A905-75701E24D746</key>
 		<dict>
@@ -2008,9 +2073,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>9820C2CA-1F87-4023-917E-BF7E6E98E47D</key>
 		<dict>
 			<key>xpos</key>
-			<real>690</real>
+			<real>660</real>
 			<key>ypos</key>
-			<real>280</real>
+			<real>15</real>
 		</dict>
 		<key>A182FE34-37FE-4986-BF02-DE53693940AE</key>
 		<dict>
@@ -2033,9 +2098,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>AC82B7BC-8959-42C6-A4A6-CA7DD2B8F0F0</key>
 		<dict>
 			<key>xpos</key>
-			<real>1360</real>
+			<real>1525</real>
 			<key>ypos</key>
-			<real>325</real>
+			<real>350</real>
 		</dict>
 		<key>AE9B3682-A2BD-466F-88A9-E31CC5F2299F</key>
 		<dict>
@@ -2049,62 +2114,51 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>B083B37D-7F08-4B68-B087-100C361FAAD9</key>
 		<dict>
 			<key>xpos</key>
-			<real>490</real>
+			<real>535</real>
 			<key>ypos</key>
-			<real>365</real>
+			<real>385</real>
 		</dict>
 		<key>BB87567B-757A-4DE2-8022-DA48FD22663D</key>
 		<dict>
 			<key>xpos</key>
-			<real>335</real>
+			<real>345</real>
 			<key>ypos</key>
-			<real>90</real>
+			<real>205</real>
 		</dict>
 		<key>BE7A9FBE-78EE-4864-BF0B-F746A183164D</key>
 		<dict>
 			<key>xpos</key>
-			<real>1555</real>
+			<real>1650</real>
 			<key>ypos</key>
-			<real>285</real>
+			<real>350</real>
 		</dict>
 		<key>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</key>
 		<dict>
 			<key>xpos</key>
-			<real>1360</real>
+			<real>1730</real>
 			<key>ypos</key>
-			<real>215</real>
-		</dict>
-		<key>C47F5274-3432-464F-AE3C-667513154747</key>
-		<dict>
-			<key>colorindex</key>
-			<integer>7</integer>
-			<key>note</key>
-			<string>This hides Alfred and opens files and urls.</string>
-			<key>xpos</key>
-			<real>580</real>
-			<key>ypos</key>
-			<real>250</real>
+			<real>235</real>
 		</dict>
 		<key>D24237CD-F51F-441E-B3DF-DD3AF9D4EB77</key>
 		<dict>
 			<key>xpos</key>
-			<real>170</real>
+			<real>175</real>
 			<key>ypos</key>
-			<real>15</real>
+			<real>25</real>
 		</dict>
 		<key>D65172E3-F69B-4607-95C1-A247FF400E84</key>
 		<dict>
 			<key>xpos</key>
-			<real>1115</real>
+			<real>1275</real>
 			<key>ypos</key>
-			<real>470</real>
+			<real>365</real>
 		</dict>
 		<key>D78812B0-AEB1-4A2C-BBC3-77ED891B40F4</key>
 		<dict>
 			<key>xpos</key>
 			<real>175</real>
 			<key>ypos</key>
-			<real>240</real>
+			<real>245</real>
 		</dict>
 		<key>D9165B59-BF7D-44B4-8602-431F41C8CFD5</key>
 		<dict>
@@ -2113,9 +2167,9 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Outputs passwords etc to the Clipboard in a transient mode.</string>
 			<key>xpos</key>
-			<real>1295</real>
+			<real>1560</real>
 			<key>ypos</key>
-			<real>30</real>
+			<real>120</real>
 		</dict>
 		<key>E16A1D44-5D3B-423E-AB99-1D189318EEE1</key>
 		<dict>
@@ -2124,16 +2178,16 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>note</key>
 			<string>Receives queries to get passwords etc.</string>
 			<key>xpos</key>
-			<real>1110</real>
+			<real>1435</real>
 			<key>ypos</key>
-			<real>25</real>
+			<real>120</real>
 		</dict>
 		<key>E7B34A5D-981E-45C7-ABF5-45EF761FD350</key>
 		<dict>
 			<key>xpos</key>
 			<real>30</real>
 			<key>ypos</key>
-			<real>125</real>
+			<real>135</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -2525,11 +2579,11 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>MODIFIER_3_ACTION</key>
 		<string>totp</string>
 		<key>MODIFIER_4</key>
-		<string>cmd,opt</string>
+		<string>cmd</string>
 		<key>MODIFIER_4_ACTION</key>
 		<string>more</string>
 		<key>MODIFIER_5</key>
-		<string>cmd,shift</string>
+		<string>cmd,opt</string>
 		<key>MODIFIER_5_ACTION</key>
 		<string>webui</string>
 		<key>NO_MODIFIER_ACTION</key>

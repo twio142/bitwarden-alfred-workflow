@@ -322,35 +322,6 @@ func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, it
 }
 
 func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType string, modMode string, actionString string, icon *aw.Icon, totp string, url string) {
-	// get emojis assigned to the modification key
-	// moreEmoji, err := getTypeEmoji("more")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// codeEmoji, err := getTypeEmoji("code")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// cardEmoji, err := getTypeEmoji("card")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// passEmoji, err := getTypeEmoji("password")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// userEmoji, err := getTypeEmoji("username")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// webUiEmoji, err := getTypeEmoji("webui")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-	// urlEmoji, err := getTypeEmoji("url")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
 
 	splitActions := strings.Split(actionString, ",")
 	for _, action := range splitActions {
@@ -381,7 +352,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Arg:          "login.password",
 					Icon:         icon,
 					ActionName:   action,
-					Notification: " ",
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
@@ -401,7 +371,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Arg:          item.Login.Username,
 					Icon:         assignedIcon,
 					ActionName:   action,
-					Notification: " ",
 				}
 				setItemMod(itemConfig, modItem, itemType, modMode)
 			}
@@ -428,7 +397,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Action2:      " ",
 					Action3:      " ",
 					Sound:        sound,
-					Notification:   " ",
 					Arg:          item.Login.Uris[0].Uri,
 					Icon:         assignedIcon,
 					ActionName:   action,
@@ -452,7 +420,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Action2:      "-totp",
 					Action3:      fmt.Sprintf("-id %s", item.Id),
 					Arg:          " ",
-					Notification: " ",
 					Icon:         assignedIcon,
 					ActionName:   action,
 				}
@@ -468,7 +435,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				Action2:      fmt.Sprintf("-id %s", item.Id),
 				Action3:      " ",
 				Arg:          "notes",
-				Notification: " ",
 				Icon:         iconNote,
 				ActionName:   "",
 			}
@@ -498,7 +464,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Action2:      fmt.Sprintf("-id %s", item.Id),
 					Action3:      " ",
 					Arg:          "card.number",
-					Notification: " ",
 					Icon:         iconCreditCard,
 					ActionName:   action,
 				}
@@ -518,7 +483,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Action2:      fmt.Sprintf("-id %s", item.Id),
 					Action3:      " ",
 					Arg:          "card.code",
-					Notification: " ",
 					Icon:         assignedIcon,
 					ActionName:   action,
 				}
@@ -533,7 +497,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Action:       "output",
 					Action2:      " ",
 					Action3:      " ",
-					Notification: " ",
 					Arg:          fmt.Sprintf("%s%s", item.Card.ExpMonth, item.Card.ExpYear[2:]),
 					Icon:         iconCalDay,
 					ActionName:   "",
@@ -549,7 +512,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 				Action:       "output",
 				Action2:      " ",
 				Action3:      " ",
-				Notification: " ",
 				Arg:          fmt.Sprintf("%s %s", item.Identity.FirstName, item.Identity.LastName),
 				Icon:         iconIdBatch,
 				ActionName:   "",
@@ -560,7 +522,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			modItem := modifierActionContent{
 				Title:        item.Name,
 				Subtitle:     "Show details",
-				Notification: " ",
 				Sound:        false,
 				Action:       fmt.Sprintf("-id %s", item.Id),
 				Action2:      " ",
@@ -583,7 +544,6 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 			modItem := modifierActionContent{
 				Title:        item.Name,
 				Subtitle:     subtitle,
-				Notification: " ",
 				Sound:        false,
 				Action:       "-open",
 				Action2:      " ",

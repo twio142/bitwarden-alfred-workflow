@@ -48,7 +48,6 @@ func populateCacheItems(items []Item) {
 	debugLog(fmt.Sprintf("Total Items # %d", len(items)))
 
 	for _, item := range items {
-		// debugLog(fmt.Sprintf("Item # %d item.Name %s\n", k, item.Name))
 		if isItemIdFound(skipItems, item) {
 			return
 		}
@@ -186,15 +185,11 @@ func getIcon(workflow *aw.Workflow) {
 	if !wf.IsRunning("icons") {
 		// start job
 		cmd := exec.Command(os.Args[0], "-icons")
-		// log.Println("geticon cmd: ", cmd)
 		if err := wf.RunInBackground("icons", cmd); err != nil {
 			log.Println(err)
 			wf.FatalError(err)
 		}
-		// log.Println("Started job icons: ", wf.IsRunning("icons"))
 		return
-	// } else {
-		// log.Printf("Download icons job already running.")
 	}
 }
 
@@ -231,9 +226,7 @@ func DownloadIcon(urlMap map[string]string, outputFolder string) {
 			url = fmt.Sprintf("https://icons.duckduckgo.com/ip3/%s.ico", url)
 		}
 		filePath := fmt.Sprintf("%s/%s.png", outputFolder, id)
-		if _, err := os.Stat(filePath); err == nil {
-			// log.Print("Skip downloading icon for url, most likely exists already: ", url)
-		} else {
+		if _, err := os.Stat(filePath); err != nil {
 			err = DownloadFile(filePath, url)
 			if err != nil {
 				log.Print("Download icon error: ", err)
@@ -245,8 +238,6 @@ func DownloadIcon(urlMap map[string]string, outputFolder string) {
 // DownloadFile will download a url to a local file. It's efficient because it will
 // write as it downloads and not load the whole file into memory.
 func DownloadFile(filepath string, url string) error {
-	// log.Println("Downloading url: ", url, " to file: ", filepath)
-
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
@@ -267,16 +258,12 @@ func DownloadFile(filepath string, url string) error {
 }
 
 func runGetIcons(url string, id string) {
-	// log.Println("Background?", opts.Background)
 	if opts.Background {
 		if !wf.IsRunning("icons") {
 			cmd := exec.Command(os.Args[0], "-icons")
-			// log.Println("Download Icon cmd: ", cmd)
 			if err := wf.RunInBackground("icons", cmd); err != nil {
 				wf.FatalError(err)
 			}
-		// } else {
-			// log.Printf("Download icons job already running.")
 		}
 		searchAlfred(conf.BwKeyword)
 		return
@@ -324,5 +311,4 @@ func runGetIcons(url string, id string) {
 	if err != nil {
 		log.Println(err)
 	}
-	// log.Println("Finished downloading icons.")
 }

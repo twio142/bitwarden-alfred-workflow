@@ -153,11 +153,8 @@ func runConfig() {
 	}
 
 	// get current email
-	// log.Println("Getting email from config.")
 	email := conf.Email
 	server := conf.Server
-
-	// log.Printf("filtering config %q ...", opts.Query)
 
 	wf.NewItem("Enter Login Email").
 		UID("email").
@@ -301,28 +298,12 @@ func runConfig() {
 	// 		Icon(iconUpdateOK)
 	// }
 
-	// wf.NewItem("View Help File").
-	// 	Subtitle("Open workflow help in your browser").
-	// 	Arg("README.html").
-	// 	UID("help").
-	// 	Valid(true).
-	// 	Icon(iconHelp).
-	// 	Var("action", "-open")
-
 	wf.NewItem("Report an Issue").
 		Arg(issueTrackerURL).
 		UID("issue").
 		Valid(true).
 		Icon(iconIssue).
 		Var("action", "-open")
-
-	// wf.NewItem("Visit Forum Thread").
-	// 	Subtitle("Open workflow thread on alfredforum.com in your browser").
-	// 	Arg(forumThreadURL).
-	// 	UID("forum").
-	// 	Valid(true).
-	// 	Icon(iconLink).
-	// 	Var("action", "-open")
 
 	wf.NewItem("Download/ Update Favicon for URLs").
 		Valid(true).
@@ -374,8 +355,6 @@ func runAuth() {
 	if conf.Sfa {
 		sfaMode = conf.SfaMode
 	}
-
-	// log.Printf("filtering auth config %q ...", opts.Query)
 
 	if bwData.UserId == "" {
 		addLoginItem(email, sfaMode)
@@ -658,8 +637,6 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 				Arg("-background")
 			wf.SendFeedback()
 			return
-		// } else {
-		// 	log.Printf("Sync job already running.")
 		}
 		wf.NewItem("Refreshing Cache…").
 			Icon(ReloadIcon())
@@ -669,7 +646,7 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 
 	// If iconcache enabled and the cache is expired (or doesn't exist)
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
-		//getIcon(wf)
+		// getIcon(wf)
 		wf.NewItem("Favicon Cache Expired or not Existed").
 			Subtitle("Download Favicons now").
 			Valid(true).
@@ -704,19 +681,10 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 	}
 
 	if itemId != "" && !folderSearch {
-		// log.Printf(`showing items for id "%s" ...`, itemId)
 		// Add item to workflow for itemId
 		for _, item := range items {
 			if item.Id == itemId {
 				addItemDetails(item, autoFetchCache)
-
-				// if opts.Query != "" {
-					// log.Printf(`searching for "%s" ...`, opts.Query)
-					// res := wf.Filter(opts.Query)
-					// for _, r := range res {
-						// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
-					// }
-				// }
 				wf.SendFeedback()
 				return
 			}
@@ -724,7 +692,6 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 	}
 
 	if itemId != "" && folderSearch {
-		// log.Printf(`searching in folder with id "%s" ...`, itemId)
 		// Add item to search folders
 		for _, item := range items {
 			if item.FolderId == itemId {
@@ -750,14 +717,12 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 	}
 
 	if !folderSearch && itemId == "" && !favoritesSearch {
-		// log.Printf("Number of items %d", len(items))
 		for _, item := range items {
 			addItemsToWorkflow(item, autoFetchCache)
 		}
 	}
 
 	if favoritesSearch {
-		// log.Printf("Number of items %d", len(items))
 		for _, item := range items {
 			if item.Favorite {
 				addItemsToWorkflow(item, autoFetchCache)
@@ -772,22 +737,11 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 			Match(".")
 	}
 
-	// if opts.Query != "" {
-		// log.Printf(`searching for "%s" ...`, opts.Query)
-		// res := wf.Filter(opts.Query)
-		// for _, r := range res {
-			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
-		// }
-	// }
 	wf.SendFeedback()
 }
 
 // Filter Bitwarden secrets in Alfred
 func runSearchFolder(items []Item, folders []Folder) {
-	// if opts.Query != "" {
-		// log.Printf(`searching for "%s" ...`, opts.Query)
-	// }
-
 	wf.NewItem("Favorites").
 		Subtitle(fmt.Sprintf("%d items", getFavoriteItemsCount(items))).
 		Valid(true).
@@ -795,7 +749,6 @@ func runSearchFolder(items []Item, folders []Folder) {
 		Icon(iconStar).
 		Var("action", "-favorites")
 
-	// log.Printf("Number of folders %d", len(folders))
 	for _, folder := range folders {
 		itemCount := getItemsInFolderCount(folder.Id, items)
 		id := "null"
@@ -818,13 +771,6 @@ func runSearchFolder(items []Item, folders []Folder) {
 				Var("action2", fmt.Sprintf("-id %s ", id))
 		}
 	}
-
-	// if opts.Query != "" {
-		// res := wf.Filter(opts.Query)
-		// for _, r := range res {
-			// log.Printf("[search] %0.2f %#v", r.Score, r.SortKey)
-		// }
-	// }
 
 	if len(items) == 0 && len(folders) == 0 {
 		wf.WarnEmpty("No Secrets Found", "Try a different query or sync manually")

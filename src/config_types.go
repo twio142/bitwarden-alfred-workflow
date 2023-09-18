@@ -14,7 +14,6 @@ import (
 type modifierActionContent struct {
 	Title        string
 	Subtitle     string
-	Notification string
 	Action       string
 	Action2      string
 	Action3      string

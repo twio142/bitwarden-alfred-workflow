@@ -46,16 +46,11 @@ func runSync(force bool, last bool) {
 	}
 
 	if opts.Background {
-		// log.Println("Running sync in background")
 		if !wf.IsRunning("sync") {
-			// log.Printf("Starting sync job.")
 			cmd := exec.Command(os.Args[0], "-sync", "-force")
-			// log.Println("Sync cmd: ", cmd)
 			if err := wf.RunInBackground("sync", cmd); err != nil {
 				wf.FatalError(err)
 			}
-		// } else {
-			// log.Printf("Sync job already running.")
 		}
 		searchAlfred(conf.BwKeyword)
 		return
@@ -127,7 +122,6 @@ func runLock() {
 	}
 
 	message := "Locking Bitwarden failed."
-	// log.Println("Clearing items cache.")
 	err = clearCache()
 	if err != nil {
 		log.Println(err)
@@ -160,7 +154,6 @@ func getItems() {
 func runGetItems(token string) []Item {
 	message := "Failed to get Bitwarden items."
 	args := fmt.Sprintf("%s list items --pretty --session %s", conf.BwExec, token)
-	// log.Println("Read latest items...")
 
 	result, err := runCmd(args, message)
 	if err != nil {
@@ -169,7 +162,6 @@ func runGetItems(token string) []Item {
 	}
 	// block here and return if no items (secrets) are found
 	if len(result) < 1 {
-		// log.Println("No items found.")
 		return nil
 	}
 	// unmarshall json
@@ -179,11 +171,7 @@ func runGetItems(token string) []Item {
 	if err != nil {
 		log.Printf("Failed to unmarshall body. Err: %s\n", err)
 	}
-	// debugLog(fmt.Sprintf("Bitwarden number of lines of returned data are: %d\n", len(result)))
 	debugLog(fmt.Sprintf("Found %d items.", len(items)))
-	// for _, item := range items {
-	// 	debugLog(fmt.Sprintf("Name: %s Id: %s", item.Name, item.Id))
-	// }
 	return items
 }
 
@@ -236,7 +224,6 @@ func runGetItem() {
 	// handle attachments later, via Bitwarden CLI
 	// this decrypts the secrets in the data.json
 	if bwData.UserId != "" && (attachment == "") {
-		// log.Printf("Getting item for id %s", id)
 		sourceKey, err := MakeDecryptKeyFromSession(bwData.ProtectedKey, token)
 		if err != nil {
 			log.Printf("Error making source key is:\n%s", err)
@@ -267,7 +254,6 @@ func runGetItem() {
 			}
 			if value.Exists() {
 				encryptedSecret = value.String()
-				// debugLog(fmt.Sprintf("encryptedSecret value is: %v [truncated]", encryptedSecret[:5]))
 			} else {
 				log.Print("Error, value for gjson not found.")
 				isDecryptSecretFromJsonFailed = true
@@ -293,9 +279,6 @@ func runGetItem() {
 
 		// Run the Bitwarden CLI to get the secret
 		// Use it also for getting attachments
-		// if attachment != "" {
-			// log.Printf("Getting attachment %s for id %s", attachment, id)
-		// }
 
 		message := "Failed to get Bitwarden item."
 		args := fmt.Sprintf("%s get item %s --pretty --session %s", conf.BwExec, id, token)
@@ -315,7 +298,6 @@ func runGetItem() {
 		}
 		// block here and return if no items (secrets) are found
 		if len(result) <= 0 {
-			// log.Println("No items found.")
 			return
 		}
 
@@ -341,9 +323,6 @@ func runGetItem() {
 				return
 			}
 			receivedItem = fmt.Sprintf("%v", res)
-			// if wf.Debug() {
-				// log.Printf("Received key is: %s*", receivedItem[0:2])
-			// }
 		} else {
 			receivedItem = strings.Join(result, " ")
 		}
@@ -352,9 +331,8 @@ func runGetItem() {
 }
 
 func runGetFolders(token string) []Folder {
-	message := "Failed to get Bitwarden Folders."
+	message := "Failed to get Bitwarden folders."
 	args := fmt.Sprintf("%s list folders --pretty --session %s", conf.BwExec, token)
-	// log.Println("Read latest folders...")
 
 	result, err := runCmd(args, message)
 	if err != nil {
@@ -363,7 +341,6 @@ func runGetFolders(token string) []Folder {
 	}
 	// block here and return if no items (secrets) are found
 	if len(result) <= 0 {
-		// log.Println("No folders found.")
 		return nil
 	}
 	// unmarshall json
@@ -373,13 +350,6 @@ func runGetFolders(token string) []Folder {
 	if err != nil {
 		log.Printf("Failed to unmarshall body. Err: %s", err)
 	}
-	// if wf.Debug() {
-		// log.Printf("Bitwarden number of lines of returned data are: %d\n", len(result))
-		// log.Println("Found ", len(folders), " items.")
-		// for _, item := range folders {
-			// log.Println("Name: ", item.Name, ", Id: ", item.Id)
-		// }
-	// }
 	return folders
 }
 
@@ -424,7 +394,6 @@ func runUnlock() {
 	if err != nil {
 		log.Println(err)
 	}
-	// debugLog(fmt.Sprintf("first few chars of the token is %s", token[0:2]))
 
 	if conf.UseApikey {
 		// Writing the sync-cache because we have unlocked the vault in apikey mode
@@ -471,7 +440,6 @@ func runLogin() {
 	debugLog(fmt.Sprintf("bw login command is %s", args))
 
 	if conf.UseApikey {
-		// log.Println("Use apikey", conf.UseApikey)
 		client_id, _ := zenity.Entry("Enter API Key client_id:",
 			zenity.Title(fmt.Sprintf("Login account %s", email)))
 		if len(client_id) < 1 {
@@ -557,7 +525,6 @@ func runLogin() {
 	if err != nil {
 		log.Println(err)
 	}
-	// debugLog(fmt.Sprintf("first few chars of the token is %s", token[0:2]))
 
 	// Writing the sync-cache because data is synced for Yubikey and Authenticator login
 	// Just the APIKEY login needs a separate unlock and therefore sync
@@ -584,7 +551,6 @@ func runLogout() {
 
 	args := fmt.Sprintf("%s logout", conf.BwExec)
 
-	// log.Println("Clearing items cache.")
 	err = wf.ClearCache()
 	if err != nil {
 		log.Println(err)
@@ -610,6 +576,5 @@ func runCache() {
 		wf.Fatal("No email configured.")
 	}
 
-	// log.Println("Running cache")
 	getItems()
 }

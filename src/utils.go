@@ -97,7 +97,6 @@ func runCmdWithContext(emailMaxWait int, args string, message string) ([]string,
 
 func searchAlfred(search string) {
 	// Open Alfred
-	// log.Println("Search called with argument ", search)
 	a := aw.NewAlfred()
 	err := a.Search(search)
 	if err != nil {
@@ -146,22 +145,7 @@ func map2faMode(mode int) string {
 	return " "
 }
 
-// func typeName(typeInt int) string {
-// 	switch typeInt {
-// 	case 1:
-// 		return "Login"
-// 	case 2:
-// 		return "SecureNote"
-// 	case 3:
-// 		return "Card"
-// 	case 4:
-// 		return "Identity"
-// 	}
-// 	return "Type Name Not Found"
-// }
-
 func clearCache() error {
-	// log.Println("Clearing items cache.")
 	err := wf.Cache.StoreJSON(CACHE_NAME, nil)
 	if err != nil {
 		return err
