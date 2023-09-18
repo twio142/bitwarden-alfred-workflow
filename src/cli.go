@@ -282,22 +282,6 @@ func runConfig() {
 		Var("action", "-authconfig").
 		Var("action2", "-id Use")
 
-	// if wf.UpdateAvailable() {
-	// 	wf.NewItem("Workflow Update Available").
-	// 		Subtitle("Install update").
-	// 		Valid(false).
-	// 		UID("update").
-	// 		Autocomplete("workflow:update").
-	// 		Icon(iconUpdateAvailable)
-	// } else {
-	// 	wf.NewItem("Workflow Is Up to Date").
-	// 		Subtitle("Check for update now").
-	// 		Valid(false).
-	// 		UID("update").
-	// 		Autocomplete("workflow:update").
-	// 		Icon(iconUpdateOK)
-	// }
-
 	wf.NewItem("Report an Issue").
 		Arg(issueTrackerURL).
 		UID("issue").
@@ -312,15 +296,6 @@ func runConfig() {
 		Var("action", "-icons").
 		Var("notification", "Downloading Favicons for URLs").
 		Arg("-background")
-
-	// wf.NewItem("Get date of last Bitwarden secret sync").
-	// 	Subtitle("Show the date when the last sync happened with the Bitwarden server.").
-	// 	Valid(true).
-	// 	UID("sync").
-	// 	Icon(iconCalDay).
-	// 	Var("action", "-sync").
-	// 	Var("notification", "Getting last sync date.").
-	// 	Arg("-last")
 
 	if opts.Query != "" {
 		wf.Filter(opts.Query)

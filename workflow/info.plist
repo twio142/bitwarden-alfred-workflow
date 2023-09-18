@@ -770,7 +770,7 @@
 					</dict>
 				</array>
 				<key>elselabel</key>
-				<string>other action ie. open help</string>
+				<string>else</string>
 				<key>hideelse</key>
 				<false/>
 			</dict>
@@ -978,7 +978,7 @@
 					</dict>
 				</array>
 				<key>elselabel</key>
-				<string>other actions ie. open help, urls</string>
+				<string>else</string>
 				<key>hideelse</key>
 				<false/>
 			</dict>
@@ -1180,13 +1180,13 @@
 						<key>matchstring</key>
 						<string>-setconfigs.*(email|server|webui)</string>
 						<key>outputlabel</key>
-						<string>server and mail to keyword</string>
+						<string>set configs</string>
 						<key>uid</key>
 						<string>C7AE31D9-0033-44A4-889F-1030672647C0</string>
 					</dict>
 				</array>
 				<key>elselabel</key>
-				<string>other action ie. open help</string>
+				<string>else</string>
 				<key>hideelse</key>
 				<false/>
 			</dict>

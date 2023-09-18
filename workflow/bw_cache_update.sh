@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# this version is targeted at Alfred 5.1.2 and BitwardenV2 3.0.2 or higher
+
 _usage() {
 cat <<EOF
 usage: ${0##*/} [-irlv]
@@ -159,20 +161,19 @@ _setEnvVars() {
   infoplist=$(/usr/bin/find -L "${wf_basedir}" -name info.plist -depth 2 -exec /usr/bin/grep -H "<string>${alfred_workflow_bundleid}</string>" {} \; | /usr/bin/awk -F: '{ print $1 }')
   [ -e "${infoplist}" ] || _end 1 "can't find Bitwarden v2 workflow"
   wf_dir=${infoplist%/*}
+  prefsplist="${wf_dir}/prefs.plist"
   wf_bin="${wf_dir}/bitwarden-alfred-workflow"
   alfred_workflow_version=$(_get_var_from_plist "${infoplist}" version)
   [ -n "${alfred_workflow_version}" ] || _end 1 "can't determine workflow version"
   echo "found workflow v${alfred_workflow_version} at ${wf_dir}" 1>&2
-  WF_PATH=$(_get_var_from_plist "${infoplist}" variables.PATH)
-  [ -n "${WF_PATH}" ] || _end 1 "PATH variable not set in workflow"
+  WF_PATH=$(_get_var_from_plist "${prefsplist}" PATH)
+  [ -n "${WF_PATH}" ] || _end 1 "Bitwarden CLI Path not set in workflow configuration"
   BW_EXEC=$(_get_var_from_plist "${infoplist}" variables.BW_EXEC)
-  bwauth_keyword=$(_get_var_from_plist "${infoplist}" variables.bwauth_keyword)
 
   export alfred_workflow_bundleid
   export alfred_workflow_cache
   export alfred_workflow_data
   export alfred_workflow_version
-  export bwauth_keyword
   export PATH=${WF_PATH}
   export BW_EXEC
   export DEBUG
@@ -202,7 +203,7 @@ case $1 in
     exit
     ;;
   -v|--setenv)
-    if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    if [[ ${BASH_SOURCE[0]} == "${0}" ]]; then
       echo "You must source the script when using this option: \`. ${0##*/} -v\`"
       exit 1
     fi
