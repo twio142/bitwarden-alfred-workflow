@@ -4,6 +4,8 @@
 <dict>
 	<key>bundleid</key>
 	<string>com.lisowski-development.alfred.bitwarden</string>
+	<key>category</key>
+	<string>Security</string>
 	<key>connections</key>
 	<dict>
 		<key>031D762C-EF9F-4DE8-B1FC-764C1DAE4842</key>
@@ -100,6 +102,16 @@
 		</array>
 		<key>2C599764-4F41-40F8-B6D9-2CD0A5FAAD77</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>BEA5F04E-F7FB-4986-9C6B-FB1B47387533</string>
@@ -673,7 +685,18 @@
 			</dict>
 		</array>
 		<key>D9165B59-BF7D-44B4-8602-431F41C8CFD5</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>E16A1D44-5D3B-423E-AB99-1D189318EEE1</key>
 		<array>
 			<dict>
@@ -718,7 +741,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Bitwarden v2</string>
+	<string>Bitwarden</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -778,6 +801,21 @@
 			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
 			<string>9820C2CA-1F87-4023-917E-BF7E6E98E47D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>soundname</key>
+				<string>Purr</string>
+				<key>systemsound</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.playsound</string>
+			<key>uid</key>
+			<string>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -1283,7 +1321,7 @@
 				<key>text</key>
 				<string>{query}</string>
 				<key>title</key>
-				<string>Bitwarden v2</string>
+				<string>Bitwarden</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -1304,7 +1342,7 @@
 				<key>text</key>
 				<string>Login Successful. Unlocking now</string>
 				<key>title</key>
-				<string>Bitwarden v2</string>
+				<string>Bitwarde</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -1904,6 +1942,13 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<real>1835</real>
 			<key>ypos</key>
 			<real>250</real>
+		</dict>
+		<key>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</key>
+		<dict>
+			<key>xpos</key>
+			<real>1730</real>
+			<key>ypos</key>
+			<real>15</real>
 		</dict>
 		<key>23F9E010-1243-4E69-8339-CFE6D8E60FCD</key>
 		<dict>

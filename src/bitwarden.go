@@ -268,7 +268,7 @@ func runGetItem() {
 		if totp {
 			decryptedString, err = otpKey(decryptedString)
 			if err != nil {
-				log.Print("Error getting topt key, ", err)
+				log.Print("Error getting totp key, ", err)
 				isDecryptSecretFromJsonFailed = true
 			}
 		}

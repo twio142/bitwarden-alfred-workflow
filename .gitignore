@@ -26,3 +26,9 @@ workflow/bitwarden-alfred-workflow
 workflow/bitwarden-alfred-workflow-amd64
 workflow/bitwarden-alfred-workflow-arm64
 workflow/README.html
+
+.DS_Store
+workflow/icon.png
+workflow/icons/*.png
+
+fix_flags_sentinel

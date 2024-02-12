@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"strconv"
 	"time"
+	"sort"
 
 	"github.com/blacs30/bitwarden-alfred-workflow/alfred"
 	aw "github.com/deanishe/awgo"
@@ -692,6 +693,9 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 	}
 
 	if !folderSearch && itemId == "" && !favoritesSearch {
+		sort.Slice(items, func(i, j int) bool {
+			return items[i].Favorite && !items[j].Favorite
+		})
 		for _, item := range items {
 			addItemsToWorkflow(item, autoFetchCache)
 		}
