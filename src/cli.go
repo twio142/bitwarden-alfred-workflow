@@ -43,6 +43,7 @@ type options struct {
 	Sync         bool
 	Open         bool
 	GetItem      bool
+	GetTotp      bool
 
 	// Options
 	Force      bool
@@ -78,6 +79,7 @@ func init() {
 	cli.BoolVar(&opts.Last, "last", false, "last sync")
 	cli.BoolVar(&opts.Force, "force", false, "force full sync")
 	cli.BoolVar(&opts.Totp, "totp", false, "get totp for item id")
+	cli.BoolVar(&opts.GetTotp, "gettotp", false, "get totp the other way")
 	cli.BoolVar(&opts.GetItem, "getitem", false, "get item and an object of it")
 
 	cli.Usage = func() {

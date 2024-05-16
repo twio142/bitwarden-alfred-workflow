@@ -67,13 +67,23 @@ func addItemDetails(item Item, autoFetchCache bool) {
 			// counter := k + 1
 			// it's a secret type so we need to fetch the secret from Bitwarden
 			if field.Type == 1 {
-				wf.NewItem(fmt.Sprintf("%s: %s", field.Name, field.Value)).
-					Icon(iconBars).
-					Var("sound", "true").
-					Var("action", "-getitem").
-					Var("action2", fmt.Sprintf("-id %s", item.Id)).
-					Arg(fmt.Sprintf("fields[%d].value", k)). // used as jsonpath
-					Valid(true)
+				if field.Name == "TOTP" {
+					wf.NewItem("TOTP: ✳✳✳✳✳︎︎︎︎︎").
+						Icon(iconUserClock).
+						Var("sound", "true").
+						Var("action", "-gettotp").
+						Var("action2", fmt.Sprintf("-id %s", item.Id)).
+						Arg(fmt.Sprintf("fields[%d].value", k)).
+						Valid(true)
+				} else {
+					wf.NewItem(fmt.Sprintf("%s: %s", field.Name, field.Value)).
+						Icon(iconBars).
+						Var("sound", "true").
+						Var("action", "-getitem").
+						Var("action2", fmt.Sprintf("-id %s", item.Id)).
+						Arg(fmt.Sprintf("fields[%d].value", k)). // used as jsonpath
+						Valid(true)
+				}
 			} else {
 				wf.NewItem(fmt.Sprintf("%s: %s", field.Name, field.Value)).
 					Arg(field.Value).
@@ -141,7 +151,7 @@ func addItemDetails(item Item, autoFetchCache bool) {
 			}
 		}
 		// TOTP
-		if item.Login.Totp != "" {
+ 		/* if item.Login.Totp != "" {
 			wf.NewItem(fmt.Sprintf("TOTP: %s", item.Login.Totp)).
 				Valid(true).
 				Icon(iconUserClock).
@@ -149,7 +159,7 @@ func addItemDetails(item Item, autoFetchCache bool) {
 				Var("action", "-getitem").
 				Var("action2", "-totp").
 				Var("action3", fmt.Sprintf("-id %s", item.Id))
-		}
+		} */
 		// Password Revision Date
 		// check if the set value matches the initial value of time, then we know the passwordRevisionDate hasn't been set by Bitwarden
 		d1 := time.Date(0001, 01, 01, 00, 00, 00, 00, time.UTC)
@@ -391,25 +401,17 @@ func addItemsToWorkflow(item Item, autoFetchCache bool) {
 		if len(item.Login.Totp) == 0 {
 			totp = ""
 		}
-		urlEmoji, err := getTypeEmoji("url")
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		url := fmt.Sprintf("%s URL, ", urlEmoji)
-		if len(item.Login.Uris) < 1 {
-			url = ""
-		}
 
-		getModifierActionRelations(itemModSet, item, "item1", icon, totp, url)
+		getModifierActionRelations(itemModSet, item, "item1", icon, totp)
 		addNewItem(itemModSet["item1"], item.Name)
 	} else if item.Type == 2 {
-		getModifierActionRelations(itemModSet, item, "item2", nil, "", "")
+		getModifierActionRelations(itemModSet, item, "item2", nil, "")
 		addNewItem(itemModSet["item2"], item.Name)
 	} else if item.Type == 3 {
-		getModifierActionRelations(itemModSet, item, "item3", nil, "", "")
+		getModifierActionRelations(itemModSet, item, "item3", nil, "")
 		addNewItem(itemModSet["item3"], item.Name)
 	} else if item.Type == 4 {
-		getModifierActionRelations(itemModSet, item, "item4", nil, "", "")
+		getModifierActionRelations(itemModSet, item, "item4", nil, "")
 		addNewItem(itemModSet["item4"], item.Name)
 	}
 }

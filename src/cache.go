@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	aw "github.com/deanishe/awgo"
 	"github.com/jpillora/go-tld"
 	"github.com/jychri/tilde"
 )
@@ -173,7 +172,7 @@ func populateCacheItems(items []Item) {
 	Encrypt(data)
 
 	if conf.IconCacheEnabled && (wf.Data.Expired(ICON_CACHE_NAME, conf.IconMaxCacheAge) || !wf.Data.Exists(ICON_CACHE_NAME)) {
-		getIcon(wf)
+		getIcon()
 	}
 
 	// calculate to duration
@@ -181,7 +180,7 @@ func populateCacheItems(items []Item) {
 	debugLog(fmt.Sprintf("Function exec time took %s", elapsed))
 }
 
-func getIcon(workflow *aw.Workflow) {
+func getIcon() {
 	if !wf.IsRunning("icons") {
 		// start job
 		cmd := exec.Command(os.Args[0], "-icons")

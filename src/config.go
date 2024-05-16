@@ -307,7 +307,7 @@ func getTypeEmoji(itemType string) (string, error) {
 	return "", fmt.Errorf("no matching key found for type: %s", itemType)
 }
 
-func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, item Item, itemType string, icon *aw.Icon, totp string, url string) {
+func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, item Item, itemType string, icon *aw.Icon, totp string) {
 	modModes := map[string]string{
 		"nomod": conf.NoModAction,
 		"mod1":  conf.Mod1Action,
@@ -317,11 +317,11 @@ func getModifierActionRelations(itemModConfig itemsModifierActionRelationMap, it
 		"mod5":  conf.Mod5Action,
 	}
 	for modMode, action := range modModes {
-		setModAction(itemModConfig, item, itemType, modMode, action, icon, totp, url)
+		setModAction(itemModConfig, item, itemType, modMode, action, icon, totp)
 	}
 }
 
-func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType string, modMode string, actionString string, icon *aw.Icon, totp string, url string) {
+func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType string, modMode string, actionString string, icon *aw.Icon, totp string) {
 
 	splitActions := strings.Split(actionString, ",")
 	for _, action := range splitActions {
@@ -416,9 +416,9 @@ func setModAction(itemConfig itemsModifierActionRelationMap, item Item, itemType
 					Title:        title,
 					Subtitle:     subtitle,
 					Sound:        true,
-					Action:       "-getitem",
-					Action2:      "-totp",
-					Action3:      fmt.Sprintf("-id %s", item.Id),
+					Action:       "-gettotp", // edited
+					Action2:      fmt.Sprintf("-id %s", item.Id),
+					Action3:      " ",
 					Arg:          " ",
 					Icon:         assignedIcon,
 					ActionName:   action,

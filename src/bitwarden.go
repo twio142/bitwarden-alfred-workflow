@@ -178,13 +178,13 @@ func runGetItems(token string) []Item {
 // runGetItem gets a particular item from Bitwarden.
 // It first tries to read it directly from the data.json
 // if that fails it will use the Bitwarden CLI
-func runGetItem() {
+func runGetItem(quiet ...bool) string {
 	wf.Configure(aw.TextErrors(true))
 
 	// checking if -id was sent together with -getitem
 	if opts.Id == "" {
 		wf.Fatal("No id sent.")
-		return
+		return ""
 	}
 	id := opts.Id
 
@@ -200,14 +200,14 @@ func runGetItem() {
 	if bwData.UserId == "" {
 		searchAlfred(fmt.Sprintf("%s login", conf.BwauthKeyword))
 		wf.Fatal(NOT_LOGGED_IN_MSG)
-		return
+		return ""
 	}
 
 	// this assumes that the data.json was read successfully at loadBitwardenJSON()
 	if bwData.UserId != "" && bwData.ProtectedKey == "" {
 		searchAlfred(fmt.Sprintf("%s unlock", conf.BwauthKeyword))
 		wf.Fatal(NOT_UNLOCKED_MSG)
-		return
+		return ""
 	}
 
 	// get the token from keychain
@@ -215,7 +215,7 @@ func runGetItem() {
 	token, err := alfred.GetToken(wf)
 	if err != nil {
 		wf.Fatal("Get Token error")
-		return
+		return ""
 	}
 
 	receivedItem := ""
@@ -294,15 +294,14 @@ func runGetItem() {
 		if err != nil {
 			log.Printf("Error is:\n%s", err)
 			wf.FatalError(err)
-			return
+			return ""
 		}
 		// block here and return if no items (secrets) are found
 		if len(result) <= 0 {
-			return
+			return ""
 		}
 
-		if totp {
-		} else {
+		if !totp {
 			receivedItem = ""
 		}
 
@@ -320,14 +319,108 @@ func runGetItem() {
 			res, err := jsonpath.JsonPathLookup(item, fmt.Sprintf("$.%s", jsonPath))
 			if err != nil {
 				log.Println(err)
-				return
+				return ""
 			}
 			receivedItem = fmt.Sprintf("%v", res)
 		} else {
 			receivedItem = strings.Join(result, " ")
 		}
 	}
-	fmt.Print(receivedItem)
+	if len(quiet) == 0 {
+		fmt.Print(receivedItem)
+	}
+	return receivedItem
+}
+
+func runGetTotp() {
+	secret := ""
+	if opts.Query == "" {
+		wf.Configure(aw.TextErrors(true))
+
+		id := opts.Id
+
+		if bwData.UserId == "" {
+			searchAlfred(fmt.Sprintf("%s login", conf.BwauthKeyword))
+			wf.Fatal(NOT_LOGGED_IN_MSG)
+			return
+		}
+
+		if bwData.UserId != "" && bwData.ProtectedKey == "" {
+			searchAlfred(fmt.Sprintf("%s unlock", conf.BwauthKeyword))
+			wf.Fatal(NOT_UNLOCKED_MSG)
+			return
+		}
+
+		wf.Configure(aw.TextErrors(true))
+		token, err := alfred.GetToken(wf)
+		if err != nil {
+			wf.Fatal("Get Token error")
+			return
+		}
+
+		args := fmt.Sprintf("%s get item %s --pretty --session %s", conf.BwExec, id, token)
+
+		result, err := runCmd(args, "")
+		if err != nil {
+			log.Printf("Error is:\n%s", err)
+			wf.FatalError(err)
+			return
+		}
+		if len(result) <= 0 {
+			return
+		}
+		singleString := strings.Join(result, " ")
+
+		var item interface{}
+		err = json.Unmarshal([]byte(singleString), &item)
+		if err != nil {
+			log.Println(err)
+		}
+		fieldsInterface, err := jsonpath.JsonPathLookup(item, "$.fields")
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		fields, ok := fieldsInterface.([]interface{})
+		if !ok {
+			log.Println("fields is not an array")
+			return
+		}
+
+		for _, fieldInterface := range fields {
+			field, ok := fieldInterface.(map[string]interface{})
+			if !ok {
+				continue
+			}
+
+			if field["name"] == "TOTP" {
+				secret = field["value"].(string)
+			}
+		}
+		if secret == "" {
+			log.Println("TOTP secret not found")
+			args = fmt.Sprintf("%s get totp %s --session %s", conf.BwExec, id, token)
+			log.Println("Get totp via Bitwarden cli")
+			result, err := runCmd(args, "Get totp via Bitwarden cli")
+			if err != nil {
+				log.Printf("Error is:\n%s", err)
+				wf.FatalError(err)
+				return
+			}
+			if len(result) > 0 {
+				fmt.Print(strings.TrimSpace(strings.Join(result, " ")))
+			}
+			return
+		}
+	} else {
+		secret = runGetItem(true)
+	}
+	if totp, err := otpKey(secret); err != nil {
+		log.Print("Error getting totp key, ", err)
+	} else {
+		fmt.Print(totp)
+	}
 }
 
 func runGetFolders(token string) []Folder {

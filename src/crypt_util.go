@@ -174,11 +174,10 @@ func unpad(src []byte) []byte {
 func otpKey(key string) (string, error) {
 	removedWhitespace := strings.ReplaceAll(key, " ", "")
 	fetchSecret := getTotpSecretFromString(removedWhitespace)
-	code, err := totp.GenerateCode(fetchSecret, time.Now())
+	code, err := totp.GenerateCode(fetchSecret, time.Now().Add(5 * time.Second))
 	if err != nil {
 		return "", fmt.Errorf("error generating totp code, %s", err)
 	}
-	// log.Print("totp code: ", code)
 	return code, nil
 }
 

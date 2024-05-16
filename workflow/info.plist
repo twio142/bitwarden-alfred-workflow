@@ -46,6 +46,21 @@
 				<false/>
 			</dict>
 		</array>
+		<key>05A40244-7C4C-446E-A798-9CCEF39A002A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>1A1A7140-4A0D-48EA-A7CE-ECAC9B51AD90</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>23F9E010-1243-4E69-8339-CFE6D8E60FCD</key>
 		<array/>
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
@@ -688,7 +703,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>1FF89754-DCD8-4FFA-9F36-8E1BAA458141</string>
+				<string>05A40244-7C4C-446E-A798-9CCEF39A002A</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -771,7 +786,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>(-getitem|-totp)</string>
+						<string>(-getitem|-gettotp|-totp)</string>
 						<key>outputlabel</key>
 						<string>secure output</string>
 						<key>uid</key>
@@ -1008,7 +1023,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>(-getitem|-totp)</string>
+						<string>(-getitem|-gettotp|-totp)</string>
 						<key>outputlabel</key>
 						<string>secure output</string>
 						<key>uid</key>
@@ -1154,6 +1169,38 @@
 				<array>
 					<dict>
 						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>1</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>1A1A7140-4A0D-48EA-A7CE-ECAC9B51AD90</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>05A40244-7C4C-446E-A798-9CCEF39A002A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
 						<string>{var:action}</string>
 						<key>matchcasesensitive</key>
 						<false/>
@@ -1202,7 +1249,7 @@
 						<key>matchmode</key>
 						<integer>4</integer>
 						<key>matchstring</key>
-						<string>(secure|-getitem)</string>
+						<string>(secure|-getitem|-gettotp)</string>
 						<key>outputlabel</key>
 						<string>secure output</string>
 						<key>uid</key>
@@ -1236,6 +1283,11 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>config</key>
+			<dict>
+				<key>unstackview</key>
+				<false/>
+			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.hidealfred</string>
 			<key>uid</key>
@@ -1935,6 +1987,13 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<real>1400</real>
 			<key>ypos</key>
 			<real>385</real>
+		</dict>
+		<key>05A40244-7C4C-446E-A798-9CCEF39A002A</key>
+		<dict>
+			<key>xpos</key>
+			<real>1685</real>
+			<key>ypos</key>
+			<real>150</real>
 		</dict>
 		<key>0D28342D-0F9E-4BDE-8DAC-83C6819A8312</key>
 		<dict>

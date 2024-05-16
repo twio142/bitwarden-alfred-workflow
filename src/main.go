@@ -267,6 +267,9 @@ func run() {
 	if opts.GetItem {
 		runGetItem()
 		return
+	} else if opts.GetTotp {
+		runGetTotp()
+		return
 	}
 	runSearch(opts.Folder, opts.Id, opts.Favorites)
 }

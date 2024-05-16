@@ -24,7 +24,7 @@ test-coverage: ## Run tests with coverage
 
 build: dep ## Build the binary file
 	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o workflow/$(PROJECT_NAME)-amd64 ./src
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME)-arm64 ./src
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME) ./src
 
 universal-binary:
 	@lipo -create -output workflow/bitwarden-alfred-workflow workflow/bitwarden-alfred-workflow-amd64 workflow/bitwarden-alfred-workflow-arm64
