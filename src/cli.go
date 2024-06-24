@@ -561,18 +561,15 @@ func runSearch(folderSearch bool, itemId string, favoritesSearch bool) {
 
 	wf.Configure(aw.SuppressUIDs(true))
 	if bwData.UserId == "" {
-		// message := "Need to login first."
-		// if wf.Cache.Exists(CACHE_NAME) && wf.Cache.Exists(FOLDER_CACHE_NAME) {
-		// 	message = "Need to login first to get secrets, reading cached items without the secret."
-		// }
-		// wf.NewWarningItem("Not logged in to Bitwarden.", message)
 		addLoginItem(email, sfaMode)
+		wf.SendFeedback()
+		return
 	}
 
 	if bwData.UserId != "" && bwData.ProtectedKey == "" {
-		// message := "Need to unlock first to get secrets, reading cached items without the secrets."
-		// wf.NewWarningItem("Bitwarden is locked.", message)
 		addUnlockItem(email)
+		wf.SendFeedback()
+		return
 	}
 
 	if conf.ReorderingDisabled {

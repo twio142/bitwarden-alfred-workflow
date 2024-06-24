@@ -215,5 +215,4 @@ if ! hash "${BW_EXEC}" 2>/dev/null; then
   _end 1 "bw command not found, check PATH and BW_EXEC env variables"
 fi
 
-"${wf_dir}/fix_flags.sh"
 "$wf_bin" -sync -force

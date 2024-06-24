@@ -735,19 +735,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>E7B34A5D-981E-45C7-ABF5-45EF761FD350</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>270A6CCE-F927-4E8F-9520-8F787573B1E3</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Claas Lisowski</string>
@@ -879,7 +866,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<string>./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -928,7 +915,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -auth -- "$1"</string>
+				<string>./bitwarden-alfred-workflow -auth -- "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -975,7 +962,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<string>./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1050,7 +1037,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<string>./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1112,7 +1099,10 @@
 				<key>runningsubtext</key>
 				<string>Searching…</string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $1</string>
+				<string>xattr -d com.apple.quarantine bitwarden-alfred-workflow 2&gt;/dev/null
+chmod +x bw_auto_lock.sh bw_cache_update.sh 2&gt;/dev/null
+
+./bitwarden-alfred-workflow $1</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1126,41 +1116,17 @@
 				<key>withspace</key>
 				<true/>
 			</dict>
+			<key>inboundconfig</key>
+			<dict>
+				<key>externalid</key>
+				<string>bitwarden</string>
+			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>270A6CCE-F927-4E8F-9520-8F787573B1E3</string>
 			<key>version</key>
 			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>0</integer>
-				<key>hotmod</key>
-				<integer>0</integer>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>E7B34A5D-981E-45C7-ABF5-45EF761FD350</string>
-			<key>version</key>
-			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -1340,7 +1306,7 @@
 				<key>runningsubtext</key>
 				<string>Searching…</string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow --folder $action $action2 $action3 $1</string>
+				<string>./bitwarden-alfred-workflow --folder $action $action2 $action3 $1</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1411,7 +1377,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -unlock</string>
+				<string>./bitwarden-alfred-workflow -unlock</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1454,7 +1420,7 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow -conf "$1"</string>
+				<string>./bitwarden-alfred-workflow -conf "$1"</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -1478,29 +1444,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>./fix_flags.sh; ./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>argumenttype</key>
 				<integer>1</integer>
 				<key>subtext</key>
@@ -1516,6 +1459,29 @@
 			<string>B083B37D-7F08-4B68-B087-100C361FAAD9</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./bitwarden-alfred-workflow $action $action2 $action3 $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>D65172E3-F69B-4607-95C1-A247FF400E84</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -2021,7 +1987,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>270A6CCE-F927-4E8F-9520-8F787573B1E3</key>
 		<dict>
 			<key>xpos</key>
-			<real>175</real>
+			<real>200</real>
 			<key>ypos</key>
 			<real>135</real>
 		</dict>
@@ -2089,7 +2055,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>4BC115D2-2F84-4652-892B-3250887C4597</key>
 		<dict>
 			<key>xpos</key>
-			<real>175</real>
+			<real>200</real>
 			<key>ypos</key>
 			<real>355</real>
 		</dict>
@@ -2220,12 +2186,12 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<key>xpos</key>
 			<real>535</real>
 			<key>ypos</key>
-			<real>385</real>
+			<real>365</real>
 		</dict>
 		<key>BB87567B-757A-4DE2-8022-DA48FD22663D</key>
 		<dict>
 			<key>xpos</key>
-			<real>345</real>
+			<real>380</real>
 			<key>ypos</key>
 			<real>205</real>
 		</dict>
@@ -2246,7 +2212,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>D24237CD-F51F-441E-B3DF-DD3AF9D4EB77</key>
 		<dict>
 			<key>xpos</key>
-			<real>175</real>
+			<real>200</real>
 			<key>ypos</key>
 			<real>25</real>
 		</dict>
@@ -2260,7 +2226,7 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 		<key>D78812B0-AEB1-4A2C-BBC3-77ED891B40F4</key>
 		<dict>
 			<key>xpos</key>
-			<real>175</real>
+			<real>200</real>
 			<key>ypos</key>
 			<real>245</real>
 		</dict>
@@ -2285,13 +2251,6 @@ Caching of the secret/item names (not the secret values itself) are cached so th
 			<real>1435</real>
 			<key>ypos</key>
 			<real>120</real>
-		</dict>
-		<key>E7B34A5D-981E-45C7-ABF5-45EF761FD350</key>
-		<dict>
-			<key>xpos</key>
-			<real>30</real>
-			<key>ypos</key>
-			<real>135</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>

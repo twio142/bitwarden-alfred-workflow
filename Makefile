@@ -23,8 +23,13 @@ test-coverage: ## Run tests with coverage
 	@cat cover.out >> coverage.txt
 
 build: dep ## Build the binary file
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o workflow/$(PROJECT_NAME)-amd64 ./src
-	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -o workflow/$(PROJECT_NAME) ./src
+	@if [ "$(shell go env GOOS)" = "darwin" ]; then \
+		GOARCH=$(shell go env GOARCH); \
+		CGO_ENABLED=0 GOOS=darwin GOARCH=$${GOARCH} go build -o workflow/$(PROJECT_NAME) ./src; \
+	else \
+		echo "This Makefile is configured to build for darwin only."; \
+		exit 1; \
+	fi
 
 universal-binary:
 	@lipo -create -output workflow/bitwarden-alfred-workflow workflow/bitwarden-alfred-workflow-amd64 workflow/bitwarden-alfred-workflow-arm64

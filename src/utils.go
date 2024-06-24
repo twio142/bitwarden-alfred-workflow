@@ -72,6 +72,7 @@ func runCmd(args string, message string) ([]string, error) {
 	// Start a long-running process, capture stdout and stderr
 	argSet := strings.Fields(args)
 	runCmd := cmd.NewCmd(argSet[0], argSet[1:]...)
+	runCmd.Env = append(os.Environ(), "NODE_NO_WARNINGS=1")
 	status := <-runCmd.Start()
 
 	return checkReturn(status, message)
@@ -84,6 +85,7 @@ func runCmdWithContext(emailMaxWait int, args string, message string) ([]string,
 
 	argSet := strings.Fields(args)
 	runCmd := cmd.NewCmd(argSet[0], argSet[1:]...)
+	runCmd.Env = append(os.Environ(), "NODE_NO_WARNINGS=1")
 
 	select {
 	case status := <-runCmd.Start():
